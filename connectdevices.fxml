@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.geometry.*?>
@@ -8,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #428cf4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #428cf4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <effect>
       <Bloom threshold="0.8">
          <input>
@@ -17,12 +19,13 @@
       </Bloom>
    </effect>
    <children>
-      <TitledPane animated="false" layoutY="-21.0" prefHeight="26.0" prefWidth="600.0" text="SoundClout" />
-      <GridPane layoutX="43.0" layoutY="5.0">
+      <TitledPane animated="false" layoutY="-21.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="26.0" prefWidth="600.0" text="SoundClout" />
+      <GridPane layoutX="36.0" layoutY="5.0" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT">
         <columnConstraints>
+          <ColumnConstraints />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="0.0" prefWidth="0.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -32,29 +35,58 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="29.0" minHeight="10.0" prefHeight="29.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="44.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="39.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="39.0" minHeight="0.0" prefHeight="24.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="60.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="0.0" prefHeight="29.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="146.0" text="Button" textFill="#431414" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="52.0" prefWidth="154.0" text="Button" GridPane.rowIndex="3" />
-            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="105.0" text="Button" GridPane.rowIndex="5" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="121.0" text="Button" GridPane.rowIndex="7" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="105.0" text="Button" GridPane.rowIndex="9" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f7f8f8" height="306.0" stroke="BLACK" strokeType="INSIDE" width="170.0" GridPane.rowIndex="6" />
+            <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="130.0" style="-fx-background-color: #808080;" text="Start" GridPane.rowIndex="1">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="18.0" top="30.0" />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="130.0" style="-fx-background-color: #808080;" text="Device Tester" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="18.0" />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="130.0" style="-fx-background-color: #808080;" text="Connect Devices" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="18.0" />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="15.0" prefWidth="130.0" style="-fx-background-color: #808080;" text="Edit Device Groups" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="18.0" />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="130.0" style="-fx-background-color: #808080;" text="Edit Group Behavior" GridPane.rowIndex="9">
+               <GridPane.margin>
+                  <Insets left="17.0" />
+               </GridPane.margin>
+            </Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="                         Connected Devices" wrappingWidth="167.810546875" GridPane.columnIndex="2">
+               <font>
+                  <Font size="19.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="30.0" left="30.0" />
+               </GridPane.margin>
+            </Text>
          </children>
       </GridPane>
       <Accordion />
-      <ListView editable="true" layoutX="285.0" layoutY="22.0" prefHeight="254.0" prefWidth="276.0" />
+      <ListView editable="true" layoutX="285.0" layoutY="42.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="306.0" prefWidth="276.0" />
    </children>
    <cursor>
-      <Cursor fx:constant="NW_RESIZE" />
+      <Cursor fx:constant="DEFAULT" />
    </cursor>
 </Pane>
