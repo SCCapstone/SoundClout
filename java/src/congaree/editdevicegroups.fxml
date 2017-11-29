@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" prefHeight="768.0" prefWidth="1024.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Pane prefHeight="768.0" prefWidth="1024.0">
+            <children>
+                <AnchorPane maxWidth="1024" prefHeight="44.0" prefWidth="1024" style="-fx-background-color: cornflowerblue;">
+                    <children>
+                        <Button fx:id="home_button" layoutY="7.0" mnemonicParsing="false" text="Home" />
+                        <Text fx:id="header" layoutX="475.0" layoutY="28.0" text="Edit Device Groups" textAlignment="CENTER" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutY="724.0" prefHeight="44.0" prefWidth="1024.0" style="-fx-background-color: cornflowerblue;" />
+                <BorderPane layoutX="62.0" layoutY="94.0" prefHeight="580.0" prefWidth="900.0">
+                    <right>
+                        <DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="579.0" prefWidth="441.0" style="-fx-background-color: cornflowerblue;" BorderPane.alignment="CENTER">
+                            <header>
+                                <Text text="Device Information" textAlignment="CENTER" wrappingWidth="440.01318359375">
+                                    <font>
+                                        <Font size="40.0" />
+                                    </font></Text>
+                            </header>
+                            <content>
+                                <VBox prefHeight="200.0" prefWidth="100.0" />
+                            </content>
+                        </DialogPane>
+                    </right>
+               <left>
+                   <DialogPane prefHeight="584.0" prefWidth="424.0" BorderPane.alignment="CENTER">
+                       <header>
+                           <Text text="Devices" textAlignment="CENTER" wrappingWidth="397.01318359375">
+                               <font>
+                                   <Font size="40.0" />
+                               </font></Text>
+                       </header>
+                       <content>
+                           <Pane prefHeight="37.0" prefWidth="424.0">
+                           <children>
+                              <Button layoutY="320.0" mnemonicParsing="false" prefWidth="150.0" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Add to Group" />
+                              <ScrollPane prefHeight="300.0" prefWidth="424.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="424.0" />
+                                </content>
+                              </ScrollPane>
+                              <ChoiceBox layoutX="200.0" layoutY="320.0" prefWidth="200.0" />
+                              <Button prefWidth="300" layoutX="70.0" layoutY="400.0" mnemonicParsing="false" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Remove From Current Group" />
+                           </children></Pane>
+                       </content>
+                   </DialogPane>
+               </left></BorderPane>
+            </children></Pane>
+    </children>
+</GridPane>
