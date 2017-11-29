@@ -14,7 +14,6 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="33.0" stroke="BLACK" strokeType="INSIDE" width="1024.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="66.0" layoutX="46.0" layoutY="83.0" stroke="BLACK" strokeType="INSIDE" width="493.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="590.0" layoutX="596.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
-      <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="33.0" prefWidth="60.0" text="Home" />
       <AnchorPane prefHeight="33.0" prefWidth="1024.0">
          <children>
             <Text fill="#fff8f8" layoutX="432.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Devices">
@@ -24,6 +23,7 @@
             </Text>
          </children>
       </AnchorPane>
+      <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="33.0" prefWidth="60.0" text="Home" />
       <Button layoutX="60.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="201.0" text="Scan">
          <font>
             <Font size="20.0" />
