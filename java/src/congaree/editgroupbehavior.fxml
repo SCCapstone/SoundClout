@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" prefHeight="768.0" prefWidth="1024.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Pane prefHeight="768.0" prefWidth="1024.0">
+            <children>
+                <AnchorPane maxWidth="1024" prefHeight="44.0" prefWidth="1024" style="-fx-background-color: cornflowerblue;">
+                    <children>
+                        <Button fx:id="home_button" layoutY="7.0" mnemonicParsing="false" text="Home" />
+                        <Text fx:id="header" layoutX="475.0" layoutY="28.0" text="Edit Device Groups" textAlignment="CENTER" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutY="724.0" prefHeight="44.0" prefWidth="1024.0" style="-fx-background-color: cornflowerblue;" />
+                <BorderPane layoutX="62.0" layoutY="94.0" prefHeight="580.0" prefWidth="900.0">
+               <center>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" layoutX="300.0" layoutY="50" mnemonicParsing="false" prefHeight="30" prefWidth="100" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Select Group" textAlignment="CENTER" />
+                        <ChoiceBox layoutX="450.0" layoutY="50.0" prefWidth="150.0" />
+                        <GridPane layoutX="300.0" layoutY="100.0" prefWidth="300">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="300.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                            <children>
+                                <Label alignment="CENTER" prefHeight="30" prefWidth="150" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Overall Time Length">
+                                 <GridPane.margin>
+                                    <Insets bottom="100.0" left="75.0" />
+                                 </GridPane.margin></Label>
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range">
+                                 <GridPane.margin>
+                                    <Insets bottom="40.0" left="120.0" />
+                                 </GridPane.margin></RadioButton>
+                                <TextField maxWidth="50">
+                                 <GridPane.margin>
+                                    <Insets left="75.0" top="50.0" />
+                                 </GridPane.margin></TextField>
+                                <TextField maxWidth="50">
+                                    <GridPane.margin>
+                                        <Insets left="175.0" top="50.0" />
+                                    </GridPane.margin></TextField>
+                                <Text text="Between">
+                                 <GridPane.margin>
+                                    <Insets left="5.0" top="50.0" />
+                                 </GridPane.margin></Text>
+                                <Text text="And">
+                                 <GridPane.margin>
+                                    <Insets left="140" top="50.0" />
+                                 </GridPane.margin></Text>
+                                <Text text="Minutes">
+                                 <GridPane.margin>
+                                    <Insets left="235" top="50.0" />
+                                 </GridPane.margin></Text>
+
+                                <Label alignment="CENTER" prefHeight="30" prefWidth="150" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Event Time Length" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets bottom="100.0" left="75.0" />
+                                    </GridPane.margin></Label>
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets bottom="40.0" left="120.0" />
+                                    </GridPane.margin></RadioButton>
+                                <TextField maxWidth="50" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets left="75.0" top="50.0" />
+                                    </GridPane.margin></TextField>
+                                <TextField maxWidth="50" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets left="175.0" top="50.0" />
+                                    </GridPane.margin></TextField>
+                                <Text text="Between" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets left="5.0" top="50.0" />
+                                    </GridPane.margin></Text>
+                                <Text text="And" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets left="140" top="50.0" />
+                                    </GridPane.margin></Text>
+                                <Text text="Minutes" GridPane.rowIndex="1">
+                                    <GridPane.margin>
+                                        <Insets left="235" top="50.0" />
+                                    </GridPane.margin></Text>
+
+                                <Label alignment="CENTER" prefHeight="30" prefWidth="150" style="-fx-background-color: cornflowerblue; -fx-text-fill: white;" text="Amount of Events" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets bottom="100.0" left="75.0" />
+                                    </GridPane.margin></Label>
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets bottom="40.0" left="120.0" />
+                                    </GridPane.margin></RadioButton>
+                                <TextField maxWidth="50" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets left="75.0" top="50.0" />
+                                    </GridPane.margin></TextField>
+                                <TextField maxWidth="50" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets left="175.0" top="50.0" />
+                                    </GridPane.margin></TextField>
+                                <Text text="Between" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets left="5.0" top="50.0" />
+                                    </GridPane.margin></Text>
+                                <Text text="And" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets left="140" top="50.0" />
+                                    </GridPane.margin></Text>
+
+                            </children>
+                        </GridPane>
+                     </children></Pane>
+               </center></BorderPane>
+            </children></Pane>
+    </children>
+</GridPane>
