@@ -16,7 +16,7 @@ public class Controller {
            Parent root1 = FXMLLoader.load(getClass().getResource("devicetester.fxml"));
            Node source = (Node) event.getSource();
            Stage stage = (Stage) source.getScene().getWindow();
-           stage.setTitle("Testing123");
+           stage.setTitle("Test Devices");
            stage.setScene(new Scene(root1));
            stage.show();
        }
@@ -32,7 +32,7 @@ public class Controller {
             Parent root1 = FXMLLoader.load(getClass().getResource("connectdevices.fxml"));
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
-            stage.setTitle("Testing123");
+            stage.setTitle("Connect Devices");
             stage.setScene(new Scene(root1));
             stage.show();
         }
@@ -48,7 +48,7 @@ public class Controller {
             Parent root1 = FXMLLoader.load(getClass().getResource("editdevicegroups.fxml"));
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
-            stage.setTitle("Testing123");
+            stage.setTitle("Edit Device Groups");
             stage.setScene(new Scene(root1));
             stage.show();
         }
@@ -64,7 +64,7 @@ public class Controller {
             Parent root1 = FXMLLoader.load(getClass().getResource("editgroupbehavior.fxml"));
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
-            stage.setTitle("Testing123");
+            stage.setTitle("Edit Group Behavior");
             stage.setScene(new Scene(root1));
             stage.show();
         }
@@ -80,7 +80,7 @@ public class Controller {
             Parent root1 = FXMLLoader.load(getClass().getResource("home.fxml"));
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
-            stage.setTitle("Testing123");
+            stage.setTitle("Home");
             stage.setScene(new Scene(root1));
             stage.show();
         }

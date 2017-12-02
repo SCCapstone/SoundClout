@@ -26,7 +26,7 @@
             <children>
                 <AnchorPane maxWidth="1024" prefHeight="44.0" prefWidth="1024" style="-fx-background-color: cornflowerblue;">
                     <children>
-                        <Button fx:id="home_button" layoutY="7.0" mnemonicParsing="false" onAction="#backToHome" text="Home" />
+                        <Button fx:id="home_button" layoutY="-6.0" mnemonicParsing="false" onAction="#backToHome" prefHeight="51.0" prefWidth="61.0" text="Home" />
                         <Text fx:id="header" layoutX="475.0" layoutY="28.0" text="Edit Device Groups" textAlignment="CENTER" />
                     </children>
                 </AnchorPane>

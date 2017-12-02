@@ -28,7 +28,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" style="-fx-background-color: ;" text="Connect">
+      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" text="Connect">
          <font>
             <Font size="20.0" />
          </font>
