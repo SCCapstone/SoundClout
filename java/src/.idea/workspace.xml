@@ -14,13 +14,10 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/congaree/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="136">
               <caret line="12" column="61" lean-forward="false" selection-start-line="12" selection-start-column="61" selection-end-line="12" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1511932851603" expanded="true" signature="268:484" ph="{...}" />
-                <marker date="1511932851603" expanded="false" signature="529:540" ph=" { " />
-                <marker date="1511932851603" expanded="false" signature="553:559" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -29,7 +26,7 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/congaree/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="606">
+            <state relative-caret-position="1258">
               <caret line="80" column="51" lean-forward="false" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -41,20 +38,37 @@
       <file leaf-file-name="connectdevices.fxml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/congaree/connectdevices.fxml">
           <provider editor-type-id="text-editor">
+            <state relative-caret-position="108">
+              <caret line="35" column="15" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
+              <folding>
+                <marker date="1512417541637" expanded="true" signature="3161:3190" ph="..." />
+              </folding>
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devicetester.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/congaree/devicetester.fxml">
+          <provider editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <marker date="1511933740515" expanded="true" signature="1897:3190" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="1897:3198" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2107:2187" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2123:2173" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2422:2504" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2438:2488" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2620:3015" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2640:3001" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2750:2854" ph="..." />
-                <marker date="1511933740515" expanded="true" signature="2772:2834" ph="..." />
-              </folding>
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="editgroupbehavior.fxml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/congaree/editgroupbehavior.fxml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
           <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
@@ -76,6 +90,11 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>ListView</find>
+    </findStrings>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -122,8 +141,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -140,8 +160,7 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -290,12 +309,14 @@
       <option name="presentableId" value="Default" />
       <updated>1511930072481</updated>
       <workItem from="1511930073602" duration="2101000" />
-      <workItem from="1511933244205" duration="513000" />
+      <workItem from="1511933244205" duration="553000" />
+      <workItem from="1511969950574" duration="1215000" />
+      <workItem from="1512416685137" duration="893000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2614000" />
+    <option name="totallyTimeSpent" value="4762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -343,13 +364,98 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/congaree/Main.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="61" lean-forward="false" selection-start-line="12" selection-start-column="61" selection-end-line="12" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="80" column="51" lean-forward="false" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/editdevicegroups.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="179" lean-forward="false" selection-start-line="16" selection-start-column="179" selection-end-line="16" selection-end-column="179" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/connectdevices.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1512417541637" expanded="true" signature="3161:3190" ph="..." />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="61" lean-forward="false" selection-start-line="12" selection-start-column="61" selection-end-line="12" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="80" column="51" lean-forward="false" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/editdevicegroups.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="179" lean-forward="false" selection-start-line="16" selection-start-column="179" selection-end-line="16" selection-end-column="179" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/connectdevices.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1512417541637" expanded="true" signature="3161:3190" ph="..." />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1511932851603" expanded="true" signature="268:484" ph="{...}" />
-            <marker date="1511932851603" expanded="false" signature="529:540" ph=" { " />
-            <marker date="1511932851603" expanded="false" signature="553:559" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -384,18 +490,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/congaree/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="136">
           <caret line="12" column="61" lean-forward="false" selection-start-line="12" selection-start-column="61" selection-end-line="12" selection-end-column="61" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1511932851603" expanded="true" signature="268:484" ph="{...}" />
-            <marker date="1511932851603" expanded="false" signature="529:540" ph=" { " />
-            <marker date="1511932851603" expanded="false" signature="553:559" ph=" }" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/congaree/devicetester.fxml" />
+    <entry file="file://$PROJECT_DIR$/congaree/home.fxml" />
+    <entry file="file://$PROJECT_DIR$/congaree/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="80" column="51" lean-forward="false" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/devicetester.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/congaree/editgroupbehavior.fxml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/congaree/editdevicegroups.fxml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -407,33 +542,12 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/congaree/editgroupbehavior.fxml" />
-    <entry file="file://$PROJECT_DIR$/congaree/home.fxml" />
-    <entry file="file://$PROJECT_DIR$/congaree/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="606">
-          <caret line="80" column="51" lean-forward="false" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/congaree/connectdevices.fxml">
       <provider editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="108">
+          <caret line="35" column="15" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="15" />
           <folding>
-            <marker date="1511933740515" expanded="true" signature="1897:3190" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="1897:3198" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2107:2187" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2123:2173" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2422:2504" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2438:2488" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2620:3015" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2640:3001" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2750:2854" ph="..." />
-            <marker date="1511933740515" expanded="true" signature="2772:2834" ph="..." />
+            <marker date="1512417541637" expanded="true" signature="3161:3190" ph="..." />
           </folding>
         </state>
       </provider>
