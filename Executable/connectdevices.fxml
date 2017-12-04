@@ -28,11 +28,12 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" text="Connect">
+      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" style="-fx-background-color: ;" text="Connect">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
+      <ListView layoutX="612.0" layoutY="168.0" prefHeight="426.0" prefWidth="372.0" />
       <Text fill="WHITE" layoutX="689.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Devices">
          <font>
             <Font size="28.0" />
@@ -55,6 +56,5 @@
          </children>
       </Pane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="35.0" layoutX="75.0" layoutY="637.0" stroke="BLACK" strokeType="INSIDE" width="422.0" />
-      <ListView layoutX="605.0" layoutY="172.0" prefHeight="418.0" prefWidth="383.0" />
    </children>
 </Pane>
