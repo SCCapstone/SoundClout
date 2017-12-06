@@ -23,12 +23,12 @@
          </children>
       </AnchorPane>
       <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="33.0" prefWidth="60.0" text="Home" />
-      <Button layoutX="91.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" text="Scan">
+      <Button layoutX="91.0" layoutY="92.0" mnemonicParsing="false" onAction="#scanDevices" prefHeight="49.0" prefWidth="199.0" text="Scan">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="199.0" text="Connect">
+      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" onAction="#connectDevice" prefHeight="49.0" prefWidth="199.0" text="Connect">
          <font>
             <Font size="20.0" />
          </font>

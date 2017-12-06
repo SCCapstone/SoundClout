@@ -24,6 +24,19 @@ public class Controller {
 
        }
     }
+    
+    @FXML
+    private void testDevice(ActionEvent event)
+    {
+      try
+      {
+        Runtime.getRuntime().exec("sudo python testdevice.py");
+      
+      }
+      catch(Exception e)
+      {
+      }
+    }
 
     @FXML
     private void homeToConnectDevices(ActionEvent event) {
@@ -41,6 +54,29 @@ public class Controller {
         }
     }
 
+    @FXML
+    private void scanDevices(ActionEvent event)
+    {
+      try
+      {
+        Runtime.getRuntime().exec("sudo python btscan.py > devices.txt"); 
+      }
+      catch(Exception e)
+      {
+      }
+    }
+    
+    @FXML
+    private void connectDevice(ActionEvent event)
+    {
+      try
+      {
+        Runtime.getRuntime().exec("sudo python connect.py >> connecteddevices.txt");
+      }
+      catch(Exception e)
+      {
+      }
+    }
     @FXML
     private void homeToEditDeviceGroups(ActionEvent event) {
         // Button was clicked, do something...

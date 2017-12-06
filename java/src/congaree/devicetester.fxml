@@ -67,7 +67,7 @@
                   <RowConstraints maxHeight="441.0" minHeight="10.0" prefHeight="441.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="330.0" text="Test Device" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <Button mnemonicParsing="false" onAction="#testDevice" prefHeight="70.0" prefWidth="330.0" text="Test Device" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <font>
                         <Font size="27.0" />
                      </font>
