@@ -8,12 +8,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="33.0" stroke="BLACK" strokeType="INSIDE" width="1024.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="66.0" layoutX="73.0" layoutY="84.0" stroke="BLACK" strokeType="INSIDE" width="428.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="590.0" layoutX="596.0" layoutY="86.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
-      <AnchorPane prefHeight="33.0" prefWidth="1024.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="44.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1024.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="84.0" layoutX="73.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" width="428.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="588.0" layoutX="554.0" layoutY="85.0" stroke="TRANSPARENT" strokeType="INSIDE" width="400.0" />
+      <AnchorPane prefHeight="44.0" prefWidth="412.0">
          <children>
             <Text fill="#fff8f8" layoutX="432.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect Devices">
                <font>
@@ -22,39 +22,42 @@
             </Text>
          </children>
       </AnchorPane>
-      <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="33.0" prefWidth="60.0" text="Home" />
-      <Button layoutX="91.0" layoutY="92.0" mnemonicParsing="false" onAction="#scanDevices" prefHeight="49.0" prefWidth="199.0" text="Scan">
+      <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="44.0" prefWidth="60.0" text="Home">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="82.0" layoutY="94.0" mnemonicParsing="false" onAction="#scanDevices" prefHeight="58.0" prefWidth="200.0" text="Scan">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="296.0" layoutY="92.0" mnemonicParsing="false" onAction="#connectDevice" prefHeight="49.0" prefWidth="199.0" text="Connect">
+      <Button layoutX="295.0" layoutY="94.0" mnemonicParsing="false" onAction="#connectDevice" prefHeight="58.0" prefWidth="200.0" text="Connect">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Text fill="WHITE" layoutX="689.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Devices">
+      <Text fill="WHITE" layoutX="639.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Devices">
          <font>
             <Font size="28.0" />
          </font>
       </Text>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="25.0" layoutY="743.0" stroke="BLACK" strokeType="INSIDE" width="1024.0" />
-      <Button onAction="#testDevice" layoutX="754.0" layoutY="604.0" mnemonicParsing="false" text="Test Device">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="37.0" layoutY="731.0" stroke="#ffffff00" strokeType="INSIDE" width="1024.0" />
+      <Button layoutX="563.0" layoutY="603.0" mnemonicParsing="false" onAction="#testDevice" prefHeight="58.0" prefWidth="383.0" text="Test Device">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Pane layoutX="75.0" layoutY="161.0" prefHeight="471.0" prefWidth="422.0" style="-fx-border-color: #428cf4;">
+      <Pane layoutX="75.0" layoutY="175.0" prefHeight="457.0" prefWidth="428.0" style="-fx-border-color: #428cf4; -fx-background-color: cornflowerblue;">
          <children>
-            <Text layoutX="136.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Devices Found">
+            <Text fill="WHITE" layoutX="136.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Devices Found">
                <font>
-                  <Font size="26.0" />
+                  <Font size="28.0" />
                </font>
             </Text>
-            <ListView fx:id="deviceList" layoutX="1.0" layoutY="58.0" prefHeight="418.0" prefWidth="422.0" style="-fx-border-color: #428cf4;" />
+            <ListView fx:id="deviceList" layoutY="54.0" prefHeight="389.0" prefWidth="428.0" style="-fx-border-color: #428cf4;" />
          </children>
       </Pane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="35.0" layoutX="75.0" layoutY="637.0" stroke="BLACK" strokeType="INSIDE" width="422.0" />
-      <ListView fx:id="connectedDeviceList" layoutX="605.0" layoutY="172.0" prefHeight="418.0" prefWidth="383.0" />
+      <ListView fx:id="connectedDeviceList" layoutX="563.0" layoutY="176.0" prefHeight="418.0" prefWidth="383.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="80.0" layoutX="75.0" layoutY="593.0" stroke="TRANSPARENT" strokeType="INSIDE" width="428.0" />
    </children>
 </Pane>
