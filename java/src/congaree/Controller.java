@@ -22,30 +22,13 @@ public class Controller {
 
     @FXML
     ListView deviceList = new ListView();
+    ListView connectedDeviceList = new ListView();
 
     @FXML
     public void readFile(ActionEvent event) throws IOException
     {
-        try {
-            File description = new File("congaree/test.txt");
-            FileReader fileReader = new FileReader(description);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            StringBuffer stringBuffer = new StringBuffer();
-            String line;
-            ObservableList<String> devices = FXCollections.observableArrayList();
-            while ((line = bufferedReader.readLine()) != null) {
-                devices.add(line);
-            }
-
-            deviceList.setItems(devices);
-            fileReader.close();
-            bufferedReader.close();
-
-        }
-        catch (Exception e)
-        {
-            System.out.println(" Something aint work");
-        }
+      
+        
     }
 
     @FXML
@@ -69,7 +52,9 @@ public class Controller {
     {
       try
       {
+        System.out.println("Trying to Execute python script");
         Runtime.getRuntime().exec("sudo python testdevice.py");
+        System.out.println("Executed Script");
       
       }
       catch(Exception e)
@@ -96,25 +81,82 @@ public class Controller {
     @FXML
     private void scanDevices(ActionEvent event)
     {
+      System.out.println("Scanning for devices...");
       try
       {
-        Runtime.getRuntime().exec("sudo python btscan.py > devices.txt"); 
+        
+        Process ps = Runtime.getRuntime().exec("./scan.sh"); 
+        ps.waitFor();
+        ps.destroy();
       }
       catch(Exception e)
       {
       }
+      try 
+      {
+        File description = new File("devices.txt");
+        FileReader fileReader = new FileReader(description);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        StringBuffer stringBuffer = new StringBuffer();
+        String line;
+        ObservableList<String> devices = FXCollections.observableArrayList();
+         while ((line = bufferedReader.readLine()) != null)
+         {  
+           line = line + " - " +  bufferedReader.readLine();
+           devices.add(line);
+         }
+
+         deviceList.setItems(devices);
+         fileReader.close();
+          bufferedReader.close();
+
+      }
+      catch (Exception e)
+      {
+        System.out.println(" Something aint work");
+      }
+     
     }
     
     @FXML
     private void connectDevice(ActionEvent event)
     {
+      System.out.println("Connecting Device...");
       try
       {
-        Runtime.getRuntime().exec("sudo python connect.py >> connecteddevices.txt");
+        
+        Process ps = Runtime.getRuntime().exec("./connect.sh"); 
+        ps.waitFor();
+        ps.destroy();
       }
       catch(Exception e)
       {
       }
+      System.out.println("Device Connection Confirmation Sent");
+      try 
+      {
+        File description = new File("connectedDevices.txt");
+        FileReader fileReader = new FileReader(description);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        StringBuffer stringBuffer = new StringBuffer();
+        String line;
+        ObservableList<String> devices = FXCollections.observableArrayList();
+         while ((line = bufferedReader.readLine()) != null)
+         {  
+           line = line + " - " +  bufferedReader.readLine();
+           devices.add(line);
+         }
+
+         connectedDeviceList.setItems(devices);
+         fileReader.close();
+          bufferedReader.close();
+
+      }
+      catch (Exception e)
+      {
+        System.out.println(" Something aint work");
+      }
+     
     }
     @FXML
     private void homeToEditDeviceGroups(ActionEvent event) {
