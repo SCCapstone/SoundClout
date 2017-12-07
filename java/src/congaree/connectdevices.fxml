@@ -23,7 +23,7 @@
          </children>
       </AnchorPane>
       <Button mnemonicParsing="false" onAction="#backToHome" prefHeight="33.0" prefWidth="60.0" text="Home" />
-      <Button layoutX="91.0" layoutY="92.0" mnemonicParsing="false" onAction="#scanDevices" prefHeight="49.0" prefWidth="199.0" text="Scan">
+      <Button layoutX="91.0" layoutY="92.0" mnemonicParsing="false" onAction="#readFile" prefHeight="49.0" prefWidth="199.0" text="Scan">
          <font>
             <Font size="20.0" />
          </font>
@@ -51,7 +51,7 @@
                   <Font size="26.0" />
                </font>
             </Text>
-            <ListView layoutX="1.0" layoutY="58.0" prefHeight="418.0" prefWidth="422.0" style="-fx-border-color: #428cf4;" />
+            <ListView fx:id="deviceList" layoutX="1.0" layoutY="58.0" prefHeight="418.0" prefWidth="422.0" style="-fx-border-color: #428cf4;" />
          </children>
       </Pane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="35.0" layoutX="75.0" layoutY="637.0" stroke="BLACK" strokeType="INSIDE" width="422.0" />
