@@ -1,4 +1,6 @@
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,7 +9,44 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javafx.scene.control.ListView;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Controller {
+
+
+
+    @FXML
+    ListView deviceList = new ListView();
+
+    @FXML
+    public void readFile(ActionEvent event) throws IOException
+    {
+        try {
+            File description = new File("congaree/test.txt");
+            FileReader fileReader = new FileReader(description);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            StringBuffer stringBuffer = new StringBuffer();
+            String line;
+            ObservableList<String> devices = FXCollections.observableArrayList();
+            while ((line = bufferedReader.readLine()) != null) {
+                devices.add(line);
+            }
+
+            deviceList.setItems(devices);
+            fileReader.close();
+            bufferedReader.close();
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(" Something aint work");
+        }
+    }
 
     @FXML
     private void homeToDeviceTester(ActionEvent event) {
