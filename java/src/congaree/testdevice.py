@@ -1,6 +1,6 @@
 # file: connect.py
 # auth: Foster Williams
-# desc: simple rfcomm connection test reads address from text file.
+# desc: Sends basic data to a Raspberry pi to run a motor breifly 
 from bluetooth import *
 import sys
 
@@ -8,7 +8,7 @@ if sys.version < '3':
     input = raw_input
 
 addr = None
-filedata = open("connecteddevices.txt", "r")
+filedata = open("connectedDevices.txt", "r")
 
 
 deviceinfo = filedata.readlines()

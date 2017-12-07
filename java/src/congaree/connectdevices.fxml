@@ -39,7 +39,7 @@
          </font>
       </Text>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#428cf4" height="25.0" layoutY="743.0" stroke="BLACK" strokeType="INSIDE" width="1024.0" />
-      <Button layoutX="754.0" layoutY="604.0" mnemonicParsing="false" text="Disconnect">
+      <Button onAction="#testDevice" layoutX="754.0" layoutY="604.0" mnemonicParsing="false" text="Test Device">
          <font>
             <Font size="20.0" />
          </font>

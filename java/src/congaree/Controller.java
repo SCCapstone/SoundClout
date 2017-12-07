@@ -22,7 +22,12 @@ public class Controller {
 
     @FXML
     ListView deviceList = new ListView();
+    @FXML
     ListView connectedDeviceList = new ListView();
+    @FXML
+    ListView connectedTestList = new ListView();
+    @FXML
+    ListView connectedHomeList = new ListView();
 
     @FXML
     public void readFile(ActionEvent event) throws IOException
@@ -45,21 +50,46 @@ public class Controller {
        catch (Exception e){
 
        }
+       try 
+      {
+        File description = new File("connectedDevices.txt");
+        FileReader fileReader = new FileReader(description);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        StringBuffer stringBuffer = new StringBuffer();
+        String line;
+        ObservableList<String> devices = FXCollections.observableArrayList();
+         while ((line = bufferedReader.readLine()) != null)
+         {  
+           line = line + " - " +  bufferedReader.readLine();
+           devices.add(line);
+         }
+
+         connectedTestList.setItems(devices);
+         fileReader.close();
+          bufferedReader.close();
+
+      }
+      catch (Exception e)
+      {
+        System.out.println(" Something aint work");
+      }
     }
     
     @FXML
     private void testDevice(ActionEvent event)
     {
+      System.out.println("Testing Device...");
       try
       {
-        System.out.println("Trying to Execute python script");
-        Runtime.getRuntime().exec("sudo python testdevice.py");
-        System.out.println("Executed Script");
-      
+        
+        Process ps = Runtime.getRuntime().exec("./td.sh"); 
+        ps.waitFor();
+        ps.destroy();
       }
       catch(Exception e)
       {
       }
+      System.out.println("Success!");
     }
 
     @FXML
@@ -76,6 +106,29 @@ public class Controller {
         catch (Exception e){
 
         }
+        try 
+        {
+        File description = new File("connectedDevices.txt");
+        FileReader fileReader = new FileReader(description);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        StringBuffer stringBuffer = new StringBuffer();
+        String line;
+        ObservableList<String> devices = FXCollections.observableArrayList();
+         while ((line = bufferedReader.readLine()) != null)
+         {  
+           line = line + " - " +  bufferedReader.readLine();
+           devices.add(line);
+         }
+
+         connectedTestList.setItems(devices);
+         fileReader.close();
+          bufferedReader.close();
+
+      }
+      catch (Exception e)
+      {
+        System.out.println(" Something aint work");
+      }
     }
 
     @FXML
