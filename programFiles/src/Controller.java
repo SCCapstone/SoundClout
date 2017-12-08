@@ -122,6 +122,7 @@ public class Controller {
       catch(Exception e)
       {
       }
+      System.out.println("Scanning complete!");
       try 
       {
         File description = new File("devices.txt");
