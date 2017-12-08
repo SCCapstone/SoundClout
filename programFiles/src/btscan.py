@@ -19,8 +19,13 @@ for svc in services:
 
 for svc in services:
     testString2 = "" + ("Service Name: %s" % svc["name"])
+    testString3 = "" + ("%s" % svc["service-id"])
     if "musicPi" in testString2:
-      print ""
+      testString2 = testString2
+    elif "None" in testString2:
+      testString2 = testString2
+    elif "None" in testString3:
+      testString2 = testString2
     else: 
       print("%s" % svc["name"])
       print("%s" % svc["service-id"])
