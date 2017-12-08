@@ -54,7 +54,7 @@
       </Button>
       <Pane layoutX="75.0" layoutY="175.0" prefHeight="457.0" prefWidth="428.0" style="-fx-border-color: #428cf4; -fx-background-color: cornflowerblue;">
          <children>
-            <Text fill="WHITE" layoutX="136.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Devices Found">
+            <Text fill="WHITE" layoutX="124.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Devices Found">
                <font>
                   <Font size="28.0" />
                </font>
