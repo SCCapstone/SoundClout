@@ -30,9 +30,9 @@ public class Controller {
     ListView connectedHomeList = new ListView();
 
     @FXML
-    public void readFile(ActionEvent event) throws IOException
+    public void disconnect(ActionEvent event) throws IOException
     {
-      
+      connectedDeviceList.getItems().clear();
         
     }
 
