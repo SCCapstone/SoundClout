@@ -41,15 +41,10 @@
             <Font size="28.0" />
          </font>
       </Text>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="60.0" layoutY="731.0" stroke="#ffffff00" strokeType="INSIDE" width="1024.0" />
-      <Button layoutX="563.0" layoutY="600.0" mnemonicParsing="false" onAction="#testDevice" prefHeight="10.0" prefWidth="383.0" text="Test Device">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="CORNFLOWERBLUE" height="37.0" layoutY="731.0" stroke="#ffffff00" strokeType="INSIDE" width="1024.0" />
+      <Button layoutX="563.0" layoutY="603.0" mnemonicParsing="false" onAction="#testDevice" prefHeight="58.0" prefWidth="383.0" text="Test Device">
          <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-      <Button layoutX="563.0" layoutY="633.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="10.0" prefWidth="383.0" text="Disconnect">
-         <font>
-            <Font size="15.0" />
+            <Font size="20.0" />
          </font>
       </Button>
       <Pane layoutX="75.0" layoutY="175.0" prefHeight="457.0" prefWidth="428.0" style="-fx-border-color: #428cf4; -fx-background-color: cornflowerblue;">
