@@ -106,29 +106,6 @@ public class Controller {
         catch (Exception e){
 
         }
-        try 
-        {
-        File description = new File("connectedDevices.txt");
-        FileReader fileReader = new FileReader(description);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        StringBuffer stringBuffer = new StringBuffer();
-        String line;
-        ObservableList<String> devices = FXCollections.observableArrayList();
-         while ((line = bufferedReader.readLine()) != null)
-         {  
-           line = line + " - " +  bufferedReader.readLine();
-           devices.add(line);
-         }
-
-         connectedTestList.setItems(devices);
-         fileReader.close();
-          bufferedReader.close();
-
-      }
-      catch (Exception e)
-      {
-        System.out.println(" Something aint work");
-      }
     }
 
     @FXML
