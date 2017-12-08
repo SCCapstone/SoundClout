@@ -16,3 +16,7 @@ for svc in services:
     if "musicPi" in testString: 
       print("%s" % svc["name"])
       print("%s" % svc["service-id"])
+
+for svc in services:
+  print("%s" % svc["name"])
+  print("%s" % svc["service-id"])
