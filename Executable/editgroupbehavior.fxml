@@ -27,13 +27,10 @@
             <children>
                 <AnchorPane maxWidth="1024" prefHeight="44.0" prefWidth="1024" style="-fx-background-color: cornflowerblue;">
                     <children>
-                        <Button fx:id="home_button" mnemonicParsing="false" onAction="#backToHome" prefHeight="46.0" prefWidth="61.0" text="Home">
+                        <Button fx:id="home_button" layoutY="-6.0" mnemonicParsing="false" onAction="#backToHome" prefHeight="51.0" prefWidth="61.0" text="Home" />
+                        <Text fx:id="header" fill="WHITE" layoutX="412.0" layoutY="29.0" text="Edit Group Behaviour" textAlignment="CENTER">
                      <font>
-                        <Font size="14.0" />
-                     </font></Button>
-                        <Text fx:id="header" fill="WHITE" layoutX="395.0" layoutY="33.0" text="Edit Device Groups" textAlignment="CENTER">
-                     <font>
-                        <Font size="28.0" />
+                        <Font size="24.0" />
                      </font></Text>
                     </children>
                 </AnchorPane>
@@ -58,7 +55,7 @@
                                  <GridPane.margin>
                                     <Insets bottom="100.0" left="75.0" />
                                  </GridPane.margin></Label>
-                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range">
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="100" text="Set Value">
                                  <GridPane.margin>
                                     <Insets bottom="40.0" left="120.0" />
                                  </GridPane.margin></RadioButton>
@@ -87,7 +84,7 @@
                                     <GridPane.margin>
                                         <Insets bottom="100.0" left="75.0" />
                                     </GridPane.margin></Label>
-                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range" GridPane.rowIndex="1">
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="100" text="Set Value" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets bottom="40.0" left="120.0" />
                                     </GridPane.margin></RadioButton>
@@ -116,7 +113,7 @@
                                     <GridPane.margin>
                                         <Insets bottom="100.0" left="75.0" />
                                     </GridPane.margin></Label>
-                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="69" text="Range" GridPane.rowIndex="2">
+                                <RadioButton maxHeight="-Infinity" mnemonicParsing="false" prefHeight="10" prefWidth="100" text="Set Value" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets bottom="40.0" left="120.0" />
                                     </GridPane.margin></RadioButton>
@@ -135,6 +132,10 @@
                                 <Text text="And" GridPane.rowIndex="2">
                                     <GridPane.margin>
                                         <Insets left="140" top="50.0" />
+                                    </GridPane.margin></Text>
+                                <Text text="Events" GridPane.rowIndex="2">
+                                    <GridPane.margin>
+                                        <Insets left="235" top="50.0" />
                                     </GridPane.margin></Text>
 
                             </children>

@@ -40,7 +40,7 @@
                   <RowConstraints maxHeight="529.0" minHeight="10.0" prefHeight="520.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ListView editable="true" prefHeight="401.0" prefWidth="330.0" GridPane.rowIndex="1">
+                  <ListView  prefHeight="401.0" prefWidth="330.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </GridPane.margin>
@@ -67,7 +67,7 @@
                   <RowConstraints maxHeight="441.0" minHeight="10.0" prefHeight="441.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="330.0" text="Test Device" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <Button mnemonicParsing="false" onAction="#testDevice" prefHeight="70.0" prefWidth="330.0" text="Test Device" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -75,7 +75,7 @@
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Button>
-                  <ListView editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                  <ListView fx:id="connectedTestList" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
                      </GridPane.margin>

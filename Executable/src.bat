@@ -1,2 +1,0 @@
-javac .\Main.java .\Controller.java
-jar cfm source.jar Manifest.txt .\Main.class .\Main.class .\Controller.class .\connectdevices.fxml  .\devicetester.fxml .\editdevicegroups.fxml .\editgroupbehavior.fxml .\home.fxml
