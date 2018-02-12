@@ -12,3 +12,4 @@ The code within requires proper configuration of bluetooth on both the Pi, and t
 The code will NOT WORK without proper configuration
 
 The testing for this application was done with Junit and can be found in ProgramFiles/src/testing.
+Use the command java -cp .:/usr/share/java/junit.jar org.junit.runner.JUnitCore [test class name].
