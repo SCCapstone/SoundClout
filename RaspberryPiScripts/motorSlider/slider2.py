@@ -17,7 +17,7 @@ p = GPIO.PWM(16, 50)
 starter = 0
 p.start(0)
 p.ChangeDutyCycle(100)
-window.title("Motor Controller")
+window.title("Motor SoundClout.Controller")
 window.geometry("500x200")
 
 def exiter():

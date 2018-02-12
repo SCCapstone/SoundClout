@@ -1,2 +1,2 @@
-javac .\Main.java .\Controller.java
-jar cfm SoundClout.jar Manifest.txt .\Main.class .\Main.class .\Controller.class .\connectdevices.fxml  .\devicetester.fxml .\editdevicegroups.fxml .\editgroupbehavior.fxml .\home.fxml
+javac .\Main.java .\SoundClout.Controller.java
+jar cfm SoundClout.jar Manifest.txt .\Main.class .\Main.class .\SoundClout.Controller.class .\connectdevices.fxml  .\devicetester.fxml .\editdevicegroups.fxml .\editgroupbehavior.fxml .\home.fxml

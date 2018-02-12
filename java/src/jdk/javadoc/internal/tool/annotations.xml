@@ -1,0 +1,5 @@
+<root>
+    <item name='jdk.javadoc.internal.tool.Main'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
