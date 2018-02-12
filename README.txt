@@ -10,3 +10,5 @@ PLEASE NOTE
 The code within requires proper configuration of bluetooth on both the Pi, and the client computer. 
 
 The code will NOT WORK without proper configuration
+
+The testing for this application was done with Junit and can be found in ProgramFiles/src/testing.
