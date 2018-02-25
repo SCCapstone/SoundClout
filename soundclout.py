@@ -19,7 +19,7 @@ class Soundclout(tk.Tk):    # this class is the controller for our overall app
         container.grid_columnconfigure(0, weight=1)     # components can resize
 
         self.frames = {}
-        for F in (Home, DeviceTester, EditGroupBehavior):    # be sure to list all the classes here
+        for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior):    # be sure to list all the classes here
             page_name = F.__name__
             frame = F(parent=container, controller=self)    # soundclout class controls everything
             self.frames[page_name] = frame                  # so all app-wide variables go in here
@@ -130,7 +130,7 @@ class ConnectDevices(tk.Frame):
         # scan button
         button1 = tk.Button(self, text="Scan", bg="lightblue", width=6)
         button1.grid(row=3, column=1, pady=5, padx=20, columnspan=2)
-        # scam button
+        # connect button
         button2 = tk.Button(self, text="Connect", bg="lightblue", width=6)
         button2.grid(row=3, column=3, pady=10, padx=0, columnspan=2)
 
@@ -160,33 +160,38 @@ class EditDeviceGroups(tk.Frame):
 
         # name the screen
         label = tk.Label(self, text="Edit Device Groups")
-        label.grid(column=3, row=0, sticky="ew", columnspan=3)
+        label.grid(column=2, row=0, sticky="ew", columnspan=3)
 
         # setting up the home button
         homebutton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("Home"), bg="lightblue")
         homebutton.grid(row=0, column=0, sticky="nw")
 
-        # the test devices window
-        button1 = tk.Button(self, text="Test Device", bg="lightblue", width=20)
-        button1.grid(row=3, column=2, pady=5, padx=20, columnspan=2)
         # need to make a scrollbar
-        scrollbar = tk.Scrollbar(self)
-        scrollbar.grid(sticky="e", column=3)
-        connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
+        connecteddevs = tk.Listbox(self)
         connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
-        scrollbar.config(command=connecteddevs.yview)
         # This is how you populate the connected devices list
         for item in ["one", "two", "three", "four"]:
             connecteddevs.insert("end", item)
+
+        # add to group button
+        button1 = tk.Button(self, text="Add to Group", bg="lightblue", width=15)
+        button1.grid(row=5, column=1, pady=5, padx=20, columnspan=2)
+        # remove from current group button
+        button2 = tk.Button(self, text="Remove From Current Group", bg="lightblue", width=24)
+        button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
+    
         # We should populate it with a list of connected device names
         # each time this page is loaded we all need to clear the old list with
         # delete(0, END)
         # You can refer to the active, or selected, item with the keyword "active"
 
         # the device information window
-        infolabel = tk.Label(self, text="Device Information")
-        infolabel.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+        infolabel = tk.Label(self, text="Device")
+        infolabel.grid(row=3, column=2, padx=20, pady=10, columnspan=2)
+
+        infolabe2 = tk.Label(self, text="Device Information")
+        infolabe2.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
 
 class EditGroupBehavior(tk.Frame):
 
