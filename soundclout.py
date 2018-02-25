@@ -50,8 +50,10 @@ class Home(tk.Frame):       # home screen of our app
         button1 = tk.Button(self, text="Start", fg="blue", bg="green", width=20)
         button2 = tk.Button(self, text="Device Tester",
                             command=lambda: controller.show_frame("DeviceTester"), width=20, bg="lightblue")
-        button3 = tk.Button(self, text="Connect Devices", width=20, bg="lightblue")
-        button4 = tk.Button(self, text="Edit Device Groups", width=20, bg="lightblue")
+        button3 = tk.Button(self, text="Connect Devices",
+                            command=lambda: controller.show_frame("ConnectDevices"), width=20, bg="lightblue")
+        button4 = tk.Button(self, text="Edit Device Groups",
+                            command=lambda: controller.show_frame("EditDeviceGroups"), width=20, bg="lightblue")
         button5 = tk.Button(self, text="Edit Group Behavior",
                             command=lambda: controller.show_frame("EditGroupBehavior"), width=20, bg="lightblue")
         button1.grid(row=3, column=2, pady=5, padx=20, columnspan=2)
@@ -82,6 +84,82 @@ class DeviceTester(tk.Frame):
 
         # name the screen
         label = tk.Label(self, text="Device Tester")
+        label.grid(column=3, row=0, sticky="ew", columnspan=3)
+
+        # setting up the home button
+        homebutton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("Home"), bg="lightblue")
+        homebutton.grid(row=0, column=0, sticky="nw")
+
+        # the test devices window
+        button1 = tk.Button(self, text="Test Device", bg="lightblue", width=20)
+        button1.grid(row=3, column=2, pady=5, padx=20, columnspan=2)
+        # need to make a scrollbar
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.grid(sticky="e", column=3)
+        connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
+        connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
+        scrollbar.config(command=connecteddevs.yview)
+        # This is how you populate the connected devices list
+        for item in ["one", "two", "three", "four"]:
+            connecteddevs.insert("end", item)
+        # We should populate it with a list of connected device names
+        # each time this page is loaded we all need to clear the old list with
+        # delete(0, END)
+        # You can refer to the active, or selected, item with the keyword "active"
+
+        # the device information window
+        infolabel = tk.Label(self, text="Device Information")
+        infolabel.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+
+class ConnectDevices(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # name the screen
+        label = tk.Label(self, text="Connect Devices")
+        label.grid(column=3, row=0, sticky="ew", columnspan=3)
+
+        # setting up the home button
+        homebutton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("Home"), bg="lightblue")
+        homebutton.grid(row=0, column=0, sticky="nw")
+
+        # scan button
+        button1 = tk.Button(self, text="Scan", bg="lightblue", width=6)
+        button1.grid(row=3, column=1, pady=5, padx=20, columnspan=2)
+        # scam button
+        button2 = tk.Button(self, text="Connect", bg="lightblue", width=6)
+        button2.grid(row=3, column=3, pady=10, padx=0, columnspan=2)
+
+        # need to make a scrollbar
+        scrollbar = tk.Scrollbar(self)
+        scrollbar.grid(sticky="e", column=3)
+        connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
+        connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
+        scrollbar.config(command=connecteddevs.yview)
+        # This is how you populate the connected devices list
+        for item in ["one", "two", "three", "four"]:
+            connecteddevs.insert("end", item)
+        # We should populate it with a list of connected device names
+        # each time this page is loaded we all need to clear the old list with
+        # delete(0, END)
+        # You can refer to the active, or selected, item with the keyword "active"
+
+        # the device information window
+        infolabel = tk.Label(self, text="Device Information")
+        infolabel.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+
+class EditDeviceGroups(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # name the screen
+        label = tk.Label(self, text="Edit Device Groups")
         label.grid(column=3, row=0, sticky="ew", columnspan=3)
 
         # setting up the home button
