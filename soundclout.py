@@ -19,7 +19,7 @@ class Soundclout(tk.Tk):    # this class is the controller for our overall app
         container.grid_columnconfigure(0, weight=1)     # components can resize
 
         self.frames = {}
-        for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior):    # be sure to list all the classes here
+        for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior,ProcessRunning):    # be sure to list all the classes here
             page_name = F.__name__
             frame = F(parent=container, controller=self)    # soundclout class controls everything
             self.frames[page_name] = frame                  # so all app-wide variables go in here
@@ -47,7 +47,8 @@ class Home(tk.Frame):       # home screen of our app
         label.grid(row=0, column=0, sticky="nw") # label in top left corner
 
         # these are all the buttons for the different pages you can go to
-        button1 = tk.Button(self, text="Start", fg="blue", bg="green", width=20)
+        button1 = tk.Button(self, text="Start", fg="blue", bg="green", width=20,
+                           command=lambda: controller.show_frame("ProcessRunning"))
         button2 = tk.Button(self, text="Device Tester",
                             command=lambda: controller.show_frame("DeviceTester"), width=20, bg="lightblue")
         button3 = tk.Button(self, text="Connect Devices",
@@ -160,7 +161,7 @@ class EditDeviceGroups(tk.Frame):
 
         # name the screen
         label = tk.Label(self, text="Edit Device Groups")
-        label.grid(column=2, row=0, sticky="ew", columnspan=3)
+        label.grid(column=2, row=0, sticky="ew", columnspan=2)
 
         # setting up the home button
         homebutton = tk.Button(self, text="Home",
@@ -176,10 +177,13 @@ class EditDeviceGroups(tk.Frame):
 
         # add to group button
         button1 = tk.Button(self, text="Add to Group", bg="lightblue", width=15)
-        button1.grid(row=5, column=1, pady=5, padx=20, columnspan=2)
+        button1.grid(row=5, column=2, pady=5, columnspan=2)
         # remove from current group button
         button2 = tk.Button(self, text="Remove From Current Group", bg="lightblue", width=24)
         button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
+        # create new group button
+        button3 = tk.Button(self, text="Create New Group", bg="lightblue", width=20)
+        button3.grid(row=6, column=2, pady=5, columnspan=2)
     
         # We should populate it with a list of connected device names
         # each time this page is loaded we all need to clear the old list with
@@ -271,10 +275,30 @@ class EditGroupBehavior(tk.Frame):
         amountval1.grid(row=11, column=3, columnspan=2, sticky="w")
         amountval2.grid(row=11, column=3, columnspan=2, sticky="e")
 
+        # the commit button
+        commitButton = tk.Button(self, text="Commit Changes", bg="lightblue")
+        commitButton.grid(row=12, column=3, pady=10, sticky="nsew")
+
+
+class ProcessRunning(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        #text
+        label = tk.Label(self, text="Event Loop Is Running...")
+        label.grid(column=0, row=0, sticky="ew")
+
+        #stop button
+        stop = tk.Button(self, text="Stop Loop",
+                           command=lambda: controller.show_frame("Home"), bg="red")
+        stop.grid(column=0, row=1, sticky="ew", pady=20)
+
 #---------------------This is the main method (duh)----------------------
 
 if __name__ == "__main__":
     app = Soundclout()
     #frame = tk.Frame(app, width=1024, height=768)  # create a window around the app
     #frame.pack()                                   # of the designated size (but this size is too big)
-    app.mainloop()
+app.mainloop()
