@@ -189,13 +189,8 @@ class EditDeviceGroups(tk.Frame):
             connecteddevs.insert("end", item)
 
         # add to group button
-<<<<<<< HEAD
         button1 = tk.Button(self, text="Add to Group", command=lambda:print("Add to Group"), bg="lightblue", width=15)
         button1.grid(row=5, column=1, pady=5, padx=20, columnspan=2)
-=======
-        button1 = tk.Button(self, text="Add to Group", bg="lightblue", width=15)
-        button1.grid(row=5, column=2, pady=5, columnspan=2)
->>>>>>> dd5ea7e5158373beae8b335a5289021e19c8f499
         # remove from current group button
         button2 = tk.Button(self, text="Remove From Current Group", command=lambda:print("Remove From Current Group"), bg="lightblue", width=24)
         button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
