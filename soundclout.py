@@ -50,12 +50,8 @@ class Home(tk.Frame):       # home screen of our app
         label.grid(row=0, column=0, sticky="nw") # label in top left corner
 
         # these are all the buttons for the different pages you can go to
-<<<<<<< HEAD
-        button1 = tk.Button(self, text="Start", command=lambda: print("Hello World"), fg="blue", bg="green", width=20)
-=======
         button1 = tk.Button(self, text="Start", fg="blue", bg="green", width=20,
                            command=lambda: controller.show_frame("ProcessRunning"))
->>>>>>> dd5ea7e5158373beae8b335a5289021e19c8f499
         button2 = tk.Button(self, text="Device Tester",
                             command=lambda: controller.show_frame("DeviceTester"), width=20, bg="lightblue")
         button3 = tk.Button(self, text="Connect Devices",
@@ -193,13 +189,8 @@ class EditDeviceGroups(tk.Frame):
             connecteddevs.insert("end", item)
 
         # add to group button
-<<<<<<< HEAD
         button1 = tk.Button(self, text="Add to Group", command=lambda:print("Add to Group"), bg="lightblue", width=15)
         button1.grid(row=5, column=1, pady=5, padx=20, columnspan=2)
-=======
-        button1 = tk.Button(self, text="Add to Group", bg="lightblue", width=15)
-        button1.grid(row=5, column=2, pady=5, columnspan=2)
->>>>>>> dd5ea7e5158373beae8b335a5289021e19c8f499
         # remove from current group button
         button2 = tk.Button(self, text="Remove From Current Group", command=lambda:print("Remove From Current Group"), bg="lightblue", width=24)
         button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
