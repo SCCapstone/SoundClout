@@ -195,7 +195,7 @@ class EditDeviceGroups(tk.Frame):
         button2 = tk.Button(self, text="Remove From Current Group", command=lambda:print("Remove From Current Group"), bg="lightblue", width=24)
         button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
         # create new group button
-        button3 = tk.Button(self, text="Create New Group", bg="lightblue", width=20)
+        button3 = tk.Button(self, text="Create New Group", command=lambda:print("Create New Group"), bg="lightblue", width=20)
         button3.grid(row=6, column=2, pady=5, columnspan=2)
     
         # We should populate it with a list of connected device names
@@ -289,7 +289,7 @@ class EditGroupBehavior(tk.Frame):
         amountval2.grid(row=11, column=3, columnspan=2, sticky="e")
 
         # the commit button
-        commitButton = tk.Button(self, text="Commit Changes", bg="lightblue")
+        commitButton = tk.Button(self, text="Commit Changes",command=lambda:print("Commit Changes"), bg="lightblue")
         commitButton.grid(row=12, column=3, pady=10, sticky="nsew")
 
 
