@@ -27,7 +27,8 @@ class Soundclout(tk.Tk):    # this class is the controller for our overall app
 
         self.frames = {}
         self.connecteddevslist = []
-        for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior,ProcessRunning):    # be sure to list all the classes here
+        self.groupslist = []
+        for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior,ProcessRunning,AddToGroup):    # be sure to list all the classes here
             page_name = F.__name__
             frame = F(parent=container, controller=self)    # soundclout class controls everything
             self.frames[page_name] = frame                  # so all app-wide variables go in here
@@ -257,15 +258,21 @@ class EditDeviceGroups(tk.Frame):
         # This is how you populate the connected devices list
 
         # add to group button
-        button1 = tk.Button(self, text="Add to Group", command=lambda:print("Add to Group"), bg="lightblue", width=15)
+        button1 = tk.Button(self, text="Add to Group", command=lambda:controller.show_frame("AddToGroup"), bg="lightblue", width=15)
         button1.grid(row=5, column=1, pady=5, padx=20, columnspan=2)
-        # remove from current group button
-        button2 = tk.Button(self, text="Remove From Current Group", command=lambda:print("Remove From Current Group"), bg="lightblue", width=24)
-        button2.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
-        # create new group button
-        button3 = tk.Button(self, text="Create New Group", command=lambda:print("Create New Group"), bg="lightblue", width=20)
-        button3.grid(row=6, column=2, pady=5, columnspan=2)
 
+
+        # create new group button
+        button2 = tk.Button(self, text="Create Group", command=lambda: self.create(), bg="lightblue", width=15)
+        button2.grid(row=6, column=1, pady=5, padx=20, columnspan=2)
+        
+        # remove from current group button
+        button3 = tk.Button(self, text="Remove From Current Group", command=lambda:print("Remove From Current Group"), bg="lightblue", width=24)
+        button3.grid(row=5, column=4, pady=10, padx=0, columnspan=2)
+
+        # remove from current group button
+        button4 = tk.Button(self, text="Reset Groups", command=lambda: self.reset(), bg="lightblue", width=24)
+        button4.grid(row=6, column=4, pady=10, padx=0, columnspan=2)
         # We should populate it with a list of connected device names
         # each time this page is loaded we all need to clear the old list with
         # delete(0, END)
@@ -277,11 +284,66 @@ class EditDeviceGroups(tk.Frame):
 
         infolabe2 = tk.Label(self, text="Device Information")
         infolabe2.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+
+    def create(self):
+    	groupNo =+ 1
+    	self.controller.groupslist.append('Group '+str(groupNo))
+
+    def reset(self):
+
+        for x in range(len(self.controller.groupslist)):
+        	print(self.controller.groupslist[x])
+        	self.controller.groupslist.remove(self.controller.groupslist[x])
+
     def refresh(self):
         if(len(self.controller.connecteddevslist)>0):
             self.connecteddevs.delete(0,last=None)
             for x in range(len(self.controller.connecteddevslist)):
                 self.connecteddevs.insert(tk.END, self.controller.connecteddevslist[x])
+
+class AddToGroup(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # name the screen
+        label = tk.Label(self, text="Edit Device Groups")
+        label.grid(column=2, row=0, sticky="ew", columnspan=2)
+
+        # setting up the home button
+        homebutton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("Home"), bg="lightblue")
+        homebutton.grid(row=0, column=0, sticky="nw")
+
+        # need to make a scrollbar
+        self.groupslist = tk.Listbox(self)
+        self.groupslist.grid(row=4, column=3, padx=20, pady=10, columnspan=2)
+        # This is how you populate the connected devices list
+
+        # add to group button
+        button1 = tk.Button(self, text="Add to Group", command=lambda:print("Add to Group"), bg="lightblue", width=15)
+        button1.grid(row=5, column=3, pady=5, padx=20, columnspan=2)
+
+
+        # create new group button
+        button2 = tk.Button(self, text="Back", command=lambda:controller.show_frame("EditDeviceGroups"), bg="lightblue", width=15)
+        button2.grid(row=6, column=3, pady=5, padx=20, columnspan=2)
+        
+        # We should populate it with a list of connected device names
+        # each time this page is loaded we all need to clear the old list with
+        # delete(0, END)
+        # You can refer to the active, or selected, item with the keyword "active"
+
+        # using the message widget we can create a list of the connected devices that
+        # updates appropriately using a function we need to make in the main app class
+    def refresh(self):
+        if(len(self.controller.groupslist)>0):
+            self.groupslist.delete(0,last=None)
+            for x in range(len(self.controller.groupslist)):
+                self.groupslist.insert(tk.END, self.controller.groupslist[x])
+
+
 class EditGroupBehavior(tk.Frame):
 
     def __init__(self, parent, controller):
