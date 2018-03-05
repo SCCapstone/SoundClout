@@ -2,9 +2,13 @@ from __future__ import print_function
 import Tkinter as tk
 import tkFont as tkfont
 import sys
+import bluetooth
+from random import randint
+
 
 
 # THIS CODE IS WRITTEN IN PYTHON 2.7
+
 
 class Soundclout(tk.Tk):    # this class is the controller for our overall app
 
@@ -22,6 +26,7 @@ class Soundclout(tk.Tk):    # this class is the controller for our overall app
         container.grid_columnconfigure(0, weight=1)     # components can resize
 
         self.frames = {}
+        self.connecteddevslist = []
         for F in (Home,DeviceTester,ConnectDevices,EditDeviceGroups,EditGroupBehavior,ProcessRunning):    # be sure to list all the classes here
             page_name = F.__name__
             frame = F(parent=container, controller=self)    # soundclout class controls everything
@@ -37,11 +42,25 @@ class Soundclout(tk.Tk):    # this class is the controller for our overall app
     def show_frame(self, page_name):
         # Show a frame for the given page name
         frame = self.frames[page_name]
+        frame.refresh()
         frame.tkraise()
-
+    def makeBinString(self, timeLength, eventAmount, eventLegth):
+        randString = list("")
+        #makes string length of timeLength
+        for x in range(self.timeLength):
+            randString = randString + list("0")
+        #takes random position and turn it and the following eventLength-1 spots into 1s
+        for x in range(self.eventAmount):
+            eventPosition = randint(0, self.timeLength-1)
+            randString[eventPosition] = '1'
+            for y in xrange(1,self.eventLength,1):
+                if(eventPosition+y < self.timeLength):
+                    randString[eventPosition+y] = '1'
+                else:
+                    break
+        return randString
 
 class Home(tk.Frame):       # home screen of our app
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -73,10 +92,16 @@ class Home(tk.Frame):       # home screen of our app
         # this section displays the connected devices
         devicelabel = tk.Label(self, text="Connected Devices")
         devicelabel.grid(column=4, row=3, padx=50, stick="nsew")
-        conncteddevs = tk.Message(self, text="testing", width=150, bg="gray")
-        conncteddevs.grid(column=4, row=4)
+        self.connecteddevs = tk.Listbox(self, width=20, bg="gray")
+        self.connecteddevs.grid(column=4, row=4)
         # using the message widget we can create a list of the connected devices that
         # updates appropriately using a function we need to make in the main app class
+    def refresh(self):
+        if(len(self.controller.connecteddevslist)>0):
+            self.connecteddevs.delete(0,last=None)
+            for x in range(len(self.controller.connecteddevslist)):
+                self.connecteddevs.insert(tk.END, self.controller.connecteddevslist[x])
+
 
 #---------------------These are the subsequent screens----------------------
 
@@ -96,27 +121,44 @@ class DeviceTester(tk.Frame):
         homebutton.grid(row=0, column=0, sticky="nw")
 
         # the test devices window
-        button1 = tk.Button(self, text="Test Device", command=lambda: print("Test Device") , bg="lightblue", width=20)
+        button1 = tk.Button(self, text="Test Device", command=lambda: self.test_device() , bg="lightblue", width=20)
         button1.grid(row=3, column=2, pady=5, padx=20, columnspan=2)
         # need to make a scrollbar
         scrollbar = tk.Scrollbar(self)
         scrollbar.grid(sticky="e", column=3)
-        connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
-        connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
-        scrollbar.config(command=connecteddevs.yview)
+        self.connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
+        self.connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=3)
+        scrollbar.config(command=self.connecteddevs.yview)
         # This is how you populate the connected devices list
-        for i in range(50):
-            connecteddevs.insert(tk.END, i)
         # We should populate it with a list of connected device names
-    
+
         # each time this page is loaded we all need to clear the old list with
         # delete(0, END)
         # You can refer to the active, or selected, item with the keyword "active"
 
         # the device information window
-        infolabel = tk.Label(self, text="Device Information")
-        infolabel.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+    def test_device(self):
+        print("testing device: " + self.connecteddevs.get(self.connecteddevs.curselection()))
+        addr = None
+        uuid = self.connecteddevs.get(self.connecteddevs.curselection()).split(" ")[1]
+        service_matches = bluetooth.find_service( uuid = uuid, address = addr)
 
+        first_match = service_matches[0]
+        port = first_match["port"]
+        name = first_match["name"]
+        host = first_match["host"]
+
+        sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        sock.connect((host,port))
+
+        data = "turn on"
+        sock.send(data)
+        sock.close()
+    def refresh(self):
+        if(len(self.controller.connecteddevslist)>0):
+            self.connecteddevs.delete(0,last=None)
+            for x in range(len(self.controller.connecteddevslist)):
+                self.connecteddevs.insert(tk.END, self.controller.connecteddevslist[x])
 class ConnectDevices(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -133,38 +175,66 @@ class ConnectDevices(tk.Frame):
         homebutton.grid(row=0, column=0, sticky="nw")
 
         # scan button
-        button1 = tk.Button(self, text="Scan", command=lambda:print("Scan"), bg="lightblue", width=6)
+        button1 = tk.Button(self, text="Scan", command=lambda: self.scanner(), bg="lightblue", width=6)
         button1.grid(row=3, column=1, pady=5, padx=20, columnspan=2)
         # connect button
-        button2 = tk.Button(self, text="Connect", command=lambda:print("Connect"), bg="lightblue", width=6)
+        button2 = tk.Button(self, text="Connect", command=lambda: self.connect(), bg="lightblue", width=6)
         button2.grid(row=3, column=3, pady=10, padx=0, columnspan=2)
 
         # need to make a scrollbar
-        scrollbar = tk.Scrollbar(self)
-        scrollbar.pack( side = tk.RIGHT, fill = tk.Y )
-        scrollbar.grid(sticky="e", column=3)
-        
-        connecteddevs = tk.Listbox(self, yscrollcommand=scrollbar.set)
-        connecteddevs.pack()
-        connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
-        
+
+        self.scanneddevs = tk.Listbox(self)
+        self.scanneddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
+
+        self.connecteddevs = tk.Listbox(self)
+        self.connecteddevs.grid(row=4, column = 4, padx=20, pady = 10, columnspan = 2)
+
         # This is how you populate the connected devices list
         ####for item in ["one", "two", "three", "four"]:
         #####    connecteddevs.insert("end", item)
-        
-        for i in range(50):
-            connecteddevs.insert(tk.END, i)
-        
-        connecteddevs.config(yscrollcommand=scrollbar.set)
-        scrollbar.config(command=connecteddevs.yview)
+
+
         # We should populate it with a list of connected device names
         # each time this page is loaded we all need to clear the old list with
         # delete(0, END)
         # You can refer to the active, or selected, item with the keyword "active"
 
         # the device information window
-        infolabel = tk.Label(self, text="Device Information")
+        infolabel = tk.Label(self, text="Connected Devices")
         infolabel.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
+    def scanner(self):
+        target = None
+        services = bluetooth.find_service(address=target)
+
+        if len(services)==0:
+            pass
+        for svc in services:
+            testString = "" + ("Service Name: %s" % svc["name"])
+            if "musicPi" in testString:
+                testString = svc["name"] + " " + svc["service-id"]
+                self.scanneddevs.insert(tk.END,testString )
+    def connect(self):
+        toinsert = self.scanneddevs.get(self.scanneddevs.curselection())
+        addr = None
+        uuid = toinsert.split(" ")[1].lower()
+        service_matches = bluetooth.find_service(uuid=uuid, address = addr)
+        first_match = service_matches[0]
+        port = first_match["port"]
+        name = first_match["name"]
+        host = first_match["host"]
+
+        sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        sock.connect((host, port))
+        data = "Confirm connect"
+
+        sock.send(data)
+        sock.close()
+
+        self.connecteddevs.insert(tk.END, toinsert)
+        self.controller.connecteddevslist.append(toinsert)
+
+    def refresh(self):
+        print("refresh")
 
 class EditDeviceGroups(tk.Frame):
 
@@ -182,11 +252,9 @@ class EditDeviceGroups(tk.Frame):
         homebutton.grid(row=0, column=0, sticky="nw")
 
         # need to make a scrollbar
-        connecteddevs = tk.Listbox(self)
-        connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
+        self.connecteddevs = tk.Listbox(self)
+        self.connecteddevs.grid(row=4, column=2, padx=20, pady=10, columnspan=2)
         # This is how you populate the connected devices list
-        for item in ["one", "two", "three", "four"]:
-            connecteddevs.insert("end", item)
 
         # add to group button
         button1 = tk.Button(self, text="Add to Group", command=lambda:print("Add to Group"), bg="lightblue", width=15)
@@ -197,7 +265,7 @@ class EditDeviceGroups(tk.Frame):
         # create new group button
         button3 = tk.Button(self, text="Create New Group", command=lambda:print("Create New Group"), bg="lightblue", width=20)
         button3.grid(row=6, column=2, pady=5, columnspan=2)
-    
+
         # We should populate it with a list of connected device names
         # each time this page is loaded we all need to clear the old list with
         # delete(0, END)
@@ -209,7 +277,11 @@ class EditDeviceGroups(tk.Frame):
 
         infolabe2 = tk.Label(self, text="Device Information")
         infolabe2.grid(row=3, column=5, padx=20, pady=10, columnspan=2)
-
+    def refresh(self):
+        if(len(self.controller.connecteddevslist)>0):
+            self.connecteddevs.delete(0,last=None)
+            for x in range(len(self.controller.connecteddevslist)):
+                self.connecteddevs.insert(tk.END, self.controller.connecteddevslist[x])
 class EditGroupBehavior(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -291,7 +363,8 @@ class EditGroupBehavior(tk.Frame):
         # the commit button
         commitButton = tk.Button(self, text="Commit Changes",command=lambda:print("Commit Changes"), bg="lightblue")
         commitButton.grid(row=12, column=3, pady=10, sticky="nsew")
-
+    def refresh(self):
+        print("refreshed")
 
 class ProcessRunning(tk.Frame):
 
@@ -307,7 +380,8 @@ class ProcessRunning(tk.Frame):
         stop = tk.Button(self, text="Stop Loop",
                            command=lambda: controller.show_frame("Home"), bg="red")
         stop.grid(column=0, row=1, sticky="ew", pady=20)
-
+    def refresh(self):
+        print("refreshed")
 #---------------------This is the main method (duh)----------------------
 
 if __name__ == "__main__":
