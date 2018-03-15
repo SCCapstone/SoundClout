@@ -6,7 +6,17 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 
 class HomeScreen(Screen):
+<<<<<<< HEAD
 	pass
+=======
+	skipBuild = 'build_timeline_screen_6'
+
+	#skips build option if already being built
+	def skip_build_screen(self,value):
+		if value is 1:
+			print("skip_build_screen")
+			HomeScreen.skipBuild = 'edit_timeline_screen_7'
+>>>>>>> master
 
 class RunScreen(Screen):
 	pass
@@ -20,15 +30,39 @@ class ConnectDevicesScreen(Screen):
 class EditDeviceGroupsScreen(Screen):
 	pass
 
+<<<<<<< HEAD
 class EditGroupBehaviourScreen(Screen):
 	pass
 
+=======
+class BuildTimelineScreen(Screen):
+	pass
+
+class EditTimelineScreen(Screen):
+	pass
+
+class EditGroupBehaviourScreen(Screen):
+	pass
+
+
+		
+
+>>>>>>> master
 class Manager(ScreenManager):
 
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
+<<<<<<< HEAD
 
 	connect_devices_screen = ObjectProperty()
+=======
+	device_tester_screen = ObjectProperty()
+	connect_devices_screen = ObjectProperty()
+	edit_device_groups_screen = ObjectProperty()
+	build_timeline_screen = ObjectProperty()
+	edit_timeline_screen = ObjectProperty()
+	edit_group_behaviour_screen = ObjectProperty()
+>>>>>>> master
 
 class SoundCloutApp(App):
 	

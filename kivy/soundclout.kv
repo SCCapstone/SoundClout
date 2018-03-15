@@ -19,7 +19,7 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -74,7 +74,8 @@
         	Button:
             	text: "Edit Group Behavior"
 				font_size: 20
-				on_press: root.manager.current = 'edit_group_behaviour_screen_6'
+				on_press: root.manager.current = str(root.skipBuild)
+				on_release: root.skip_build_screen(1)
 
         BoxLayout:
     		orientation: "vertical"
@@ -105,7 +106,7 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -155,7 +156,7 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -191,7 +192,7 @@
             	text: "Test Device"
 				font_size: 20
 				height: 100
-			
+
 			Label:
 				text: "Device List"
 				font_size: 30
@@ -226,7 +227,7 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -329,7 +330,7 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -360,7 +361,7 @@
             	Rectangle:
                 	pos: self.pos
                 	size: self.size
-			
+
 			Label:
 				text: "Device List"
 				font_size: 30
@@ -384,7 +385,7 @@
 				text: "Device Information"
 				font_size: 30
 
-<EditGroupBehaviourScreen>:
+<BuildTimelineScreen>:
     rows: 2
     spacing: 10
     canvas:
@@ -399,7 +400,63 @@
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
- 
+
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+        	on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
+
+    BoxLayout:
+        size_hint_y: None
+        height: 500
+        spacing: 50
+        padding: 50
+        pos: root.x, (root.height-560)
+
+        BoxLayout:
+    		orientation: "vertical"
+        	spacing: 10
+        	padding: 10
+        	canvas:
+            	Color:
+                	rgba: hex('#0099cc')
+            	Rectangle:
+                	pos: self.pos
+                	size: self.size
+    		Button:
+				text: "Build Timeline"
+				on_press: root.manager.current = 'edit_timeline_screen_7'
+				font_size: 30
+
+			Button:
+				text: "Load Timeline"
+				font_size: 30
+
+<EditTimelineScreen>:
+    rows: 2
+    spacing: 10
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    #ToolBar
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
+
         # Make the background for the toolbar blue
         canvas:
             Color:
@@ -431,14 +488,69 @@
                 	pos: self.pos
                 	size: self.size
     		Label:
-				text: "Cycle Running"
+				text: "Edit Timeline"
+				font_size: 30
+
+<EditGroupBehaviourScreen>:
+    rows: 2
+    spacing: 10
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
+
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+        	on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
+
+    BoxLayout:
+        size_hint_y: None
+        height: 500
+        spacing: 50
+        padding: 50
+        pos: root.x, (root.height-560)
+
+        BoxLayout:
+    		orientation: "vertical"
+        	spacing: 10
+        	padding: 10
+        	canvas:
+            	Color:
+                	rgba: hex('#0099cc')
+            	Rectangle:
+                	pos: self.pos
+                	size: self.size
+    		Label:
+				text: "Edit Group Behaviour"
 				font_size: 30
 
 <Manager>:
 	id: screen_manager
 	home_screen: home_screen
 	run_screen: run_screen
+	device_tester_screen: device_tester_screen
 	connect_devices_screen: connect_devices_screen
+	edit_device_groups_screen: edit_device_groups_screen
+	build_timeline_screen: build_timeline_screen
+	edit_timeline_screen: edit_timeline_screen
+	edit_group_behaviour_screen: edit_group_behaviour_screen
 
 	HomeScreen:
 		id: home_screen
@@ -449,7 +561,7 @@
 		id: run_screen
 		name: 'runscreen_2'
 		manager: screen_manager
-	
+
 	DeviceTesterScreen:
 		id: device_tester_screen
 		name: 'device_tester_screen_3'
@@ -465,7 +577,17 @@
 		name: 'edit_device_groups_screen_5'
 		manager: screen_manager
 
+	BuildTimelineScreen:
+		id: build_timeline_screen
+		name: 'build_timeline_screen_6'
+		manager: screen_manager
+
+	EditTimelineScreen:
+		id: edit_timeline_screen
+		name: 'edit_timeline_screen_7'
+		manager: screen_manager
+
 	EditGroupBehaviourScreen:
 		id: edit_group_behaviour_screen
-		name: 'edit_group_behaviour_screen_6'
+		name: 'edit_group_behaviour_screen_8'
 		manager: screen_manager
