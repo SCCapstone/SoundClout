@@ -94,44 +94,55 @@ class EditGroupBehaviourScreen(Screen):
 	sliderValue = 0
 
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
-	groupSettings = [[1,1,0,0],[1,2,0,0]]
-	tempSettings = []
-
+	groupSettings = []
 	def print_out(self):
 		print self.groupNumber
 		print self.timelineNumber
 
-	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
+	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
+		tempSettings = []
+		print('EditGroupBehaviourScreen.add_settings')
+		for i in xrange(0,len(self.groupSettings)):
+		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
+		 			print('exist')
+		 			return			
+		print('added')
+		#EditGroupBehaviourScreen().back_out()
+		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
+		self.groupSettings.append(tempSettings)
+
+	#finds and reads four tuple for timeline element to update slider position and switch position
+	#for now refresh settings are disabled although save_changes works
+	def refresh_settings(self):
 		pass
-		# print('EditGroupBehaviourScreen.add_settings')
-		# for i in xrange(0,len(self.groupSettings)):
-		# 	print('here')
-		# 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
-		# 			print('exist')
-		# 			continue
-		# 	else:
-		# 		print('added')
-		# 		self.tempSettings = [self.groupNumber,self.timelineNumber,0,0]
-		# 		self.groupSettings.extend(self.tempSettings)
 
 	#if settings aren't changed, back out and dont change settings(currently using it to print four tuple)
 	def back_out(self):
-		pass
-		# print('EditGroupBehaviourScreen.back_out')
-		# for i in xrange(0,len(self.groupSettings)):
-		# 	# if groupSettings[i][0]==groupNumber:
-		# 	# 	if groupSettings[i][1]==timelineNumber:
-		# 	# 		continue
-		# 	print self.groupSettings[i][0]
-		# 	print self.groupSettings[i][1]
-		# 	print self.groupSettings[i][2]
-		# 	print self.groupSettings[i][3]
+		print('EditGroupBehaviourScreen.back_out')
+		for i in xrange(0,len(self.groupSettings)):
+			# if groupSettings[i][0]==groupNumber:
+			# 	if groupSettings[i][1]==timelineNumber:
+			# 		continue
+			print self.groupSettings[i][0]
+			print self.groupSettings[i][1]
+			print self.groupSettings[i][2]
+		 	print self.groupSettings[i][3]
+
+	def reset_settings(self):
+		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-	def save_changes(self):
-		pass
+	def save_changes(self,switchActive,sliderValue):
+		#find element
+		for i in xrange(0,len(self.groupSettings)):
+		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
+		 			print('found')
+		 			#update element
+		 			self.groupSettings[i][2] = switchActive
+		 			self.groupSettings[i][3] = sliderValue
 
+	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
 		if value is True:
 			print("Switch On")
@@ -158,7 +169,6 @@ class SoundCloutApp(App):
 	
 	def build(self):
 		return Manager(transition=WipeTransition())
-
 
 if  __name__=='__main__':
 	SoundCloutApp().run()

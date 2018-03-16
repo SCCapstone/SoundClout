@@ -539,8 +539,9 @@
 	            size_hint_y: None
 	            height: 50
 	            width:100
-	        	text: 'New Table'
-				on_press: root.manager.current = 'build_timeline_screen_6'
+	        	text: 'New Timeline'
+                on_press: main.EditGroupBehaviourScreen().reset_settings()
+				on_release: root.manager.current = 'build_timeline_screen_6'
 
     		BoxLayout:
         		orientation: "vertical"
@@ -697,15 +698,38 @@
             	Rectangle:
                 	pos: self.pos
                 	size: self.size
-   
-	        Button:
-	            size_hint_x: None
-	            size_hint_y: None
-	            height: 50
-	            width:100
-	        	text: 'Back'
-	        	on_press: root.back_out()
-				on_release: root.manager.current = 'edit_timeline_screen_7'
+           
+            BoxLayout:
+                size_hint_y: None
+                orientation: "horizontal"
+                height: 50
+                spacing: 10
+                padding: 0
+                canvas:
+                    Color:
+                        rgba: hex('#0099cc')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size   
+    	        Button:
+    	            size_hint_x: None
+    	            size_hint_y: None
+    	            height: 50
+    	            width:100
+    	        	text: 'Back'
+    	        	on_press: root.back_out()
+    				on_release: root.manager.current = 'edit_timeline_screen_7'
+       
+                Button:
+                    size_hint_x: None
+                    size_hint_y: None
+                    height: 50
+                    width:100
+                    text: 'Save'
+
+                    #have to change first arguement, for now assume switch is on
+                    on_press: root.save_changes(int(1),int(slider_id.value))
+                    on_release: root.manager.current = 'edit_timeline_screen_7'
 
     		BoxLayout:
         		orientation: "horizontal"
