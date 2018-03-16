@@ -77,7 +77,7 @@ class EditTimelineScreen(Screen):
 		if value is 1:
 			print('skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
-group number and timeline number
+
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
 		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
