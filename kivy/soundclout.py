@@ -8,7 +8,7 @@ from kivy.uix.boxlayout import BoxLayout
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 
-	#skips build option if already being built
+	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
 		if value is 1:
 			print('HomeScreen.skip_build_screen')
@@ -71,18 +71,20 @@ class BuildTimelineScreen(Screen):
 class EditTimelineScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 
-	#skips build option if already being built
+	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
 		print('EditTimelineScreen.skip_build_screen')
 		if value is 1:
 			print('skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
-
+group number and timeline number
+	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
 		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
 		#assign group and device number so modifications can be made
 		EditGroupBehaviourScreen.groupNumber=groupNumber
 		EditGroupBehaviourScreen.timelineNumber=timelineNumber
+		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
 
 class EditGroupBehaviourScreen(Screen):
@@ -99,6 +101,7 @@ class EditGroupBehaviourScreen(Screen):
 		print self.groupNumber
 		print self.timelineNumber
 
+	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 	def add_settings(self):
 		pass
 		# print('EditGroupBehaviourScreen.add_settings')
@@ -112,6 +115,7 @@ class EditGroupBehaviourScreen(Screen):
 		# 		self.tempSettings = [self.groupNumber,self.timelineNumber,0,0]
 		# 		self.groupSettings.extend(self.tempSettings)
 
+	#if settings aren't changed, back out and dont change settings(currently using it to print four tuple)
 	def back_out(self):
 		pass
 		# print('EditGroupBehaviourScreen.back_out')
@@ -124,6 +128,7 @@ class EditGroupBehaviourScreen(Screen):
 		# 	print self.groupSettings[i][2]
 		# 	print self.groupSettings[i][3]
 
+	#if save changes button is pressed, update four tuple on group timeline
 	def save_changes(self):
 		pass
 
@@ -133,6 +138,7 @@ class EditGroupBehaviourScreen(Screen):
 		else:
 			print("Switch Off")
 
+#manages screens
 class Manager(ScreenManager):
 
 	home_screen = ObjectProperty()
