@@ -11,17 +11,56 @@ class HomeScreen(Screen):
 	#skips build option if already being built
 	def skip_build_screen(self,value):
 		if value is 1:
-			print("skip_build_screen")
-			HomeScreen.skipBuild = 'edit_timeline_screen_7'
+			print('HomeScreen.skip_build_screen')
+			self.skipBuild = 'edit_timeline_screen_7'
 
 class RunScreen(Screen):
 	pass
 
 class DeviceTesterScreen(Screen):
-	pass
+	
+	def refresh_devices_list(self):
+		print('DeviceTesterScreen.refresh_devices_list')
+		#refresh devices list
+		self.connected_device_list._trigger_reset_populate()
+		
 
 class ConnectDevicesScreen(Screen):
-	pass
+	
+	scan_list = ['Pi-1','Pi-2','Pi-3']
+	applied_list =['']
+
+	def connect_device(self):
+		print('ConnectDevicesScreen.connect_device')
+		#if device is selected
+		if self.device_list.adapter.selection:
+			#get selection
+			selection = self.device_list.adapter.selection[0].text
+			#remove from available devices
+			self.device_list.adapter.data.remove(selection)
+			#add to connected devices
+			self.connected_device_list.adapter.data.extend([selection])
+			#refresh both device list and connected devices list
+			self.device_list._trigger_reset_populate()
+			self.connected_device_list._trigger_reset_populate() 
+
+	def disconnect_device(self):
+		print('ConnectDevicesScreen.disconnect_device')
+		#if device is selected
+		if self.connected_device_list.adapter.selection:
+			#get selection
+			selection = self.connected_device_list.adapter.selection[0].text
+			#remove from available devices
+			self.connected_device_list.adapter.data.remove(selection)
+			#add to connected devices
+			self.device_list.adapter.data.extend([selection])
+			#refresh both device list and connected devices list
+			self.device_list._trigger_reset_populate()
+			self.connected_device_list._trigger_reset_populate()
+
+
+class DeviceListButton(ListItemButton):
+    pass
 
 class EditDeviceGroupsScreen(Screen):
 	pass
@@ -30,13 +69,69 @@ class BuildTimelineScreen(Screen):
 	pass
 
 class EditTimelineScreen(Screen):
-	pass
+	skipBuild = 'build_timeline_screen_6'
+
+	#skips build option if already being built
+	def skip_build_screen(self,value):
+		print('EditTimelineScreen.skip_build_screen')
+		if value is 1:
+			print('skip_build_screen')
+			self.skipBuild = 'edit_timeline_screen_7'
+
+	def group_modification(self,groupNumber,timelineNumber):
+		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
+		#assign group and device number so modifications can be made
+		EditGroupBehaviourScreen.groupNumber=groupNumber
+		EditGroupBehaviourScreen.timelineNumber=timelineNumber
+		EditGroupBehaviourScreen().add_settings()
 
 class EditGroupBehaviourScreen(Screen):
-	pass
+	groupNumber = 0
+	timelineNumber = 0
+	switchActive = 0
+	sliderValue = 0
 
+	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
+	groupSettings = [[1,1,0,0],[1,2,0,0]]
+	tempSettings = []
 
-		
+	def print_out(self):
+		print self.groupNumber
+		print self.timelineNumber
+
+	def add_settings(self):
+		pass
+		# print('EditGroupBehaviourScreen.add_settings')
+		# for i in xrange(0,len(self.groupSettings)):
+		# 	print('here')
+		# 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
+		# 			print('exist')
+		# 			continue
+		# 	else:
+		# 		print('added')
+		# 		self.tempSettings = [self.groupNumber,self.timelineNumber,0,0]
+		# 		self.groupSettings.extend(self.tempSettings)
+
+	def back_out(self):
+		pass
+		# print('EditGroupBehaviourScreen.back_out')
+		# for i in xrange(0,len(self.groupSettings)):
+		# 	# if groupSettings[i][0]==groupNumber:
+		# 	# 	if groupSettings[i][1]==timelineNumber:
+		# 	# 		continue
+		# 	print self.groupSettings[i][0]
+		# 	print self.groupSettings[i][1]
+		# 	print self.groupSettings[i][2]
+		# 	print self.groupSettings[i][3]
+
+	def save_changes(self):
+		pass
+
+	def switch_on(self, value):
+		if value is True:
+			print("Switch On")
+		else:
+			print("Switch Off")
 
 class Manager(ScreenManager):
 
@@ -49,10 +144,15 @@ class Manager(ScreenManager):
 	edit_timeline_screen = ObjectProperty()
 	edit_group_behaviour_screen = ObjectProperty()
 
+	def update(self):
+		self.connected_device_list._trigger_reset_populate()
+		self.current_screen.update()	
+
 class SoundCloutApp(App):
 	
 	def build(self):
 		return Manager(transition=WipeTransition())
 
-if  __name__=="__main__":
+
+if  __name__=='__main__':
 	SoundCloutApp().run()
