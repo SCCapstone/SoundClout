@@ -163,7 +163,29 @@ class Manager(ScreenManager):
 
 	def update(self):
 		self.connected_device_list._trigger_reset_populate()
-		self.current_screen.update()	
+		self.current_screen.update()
+
+# The device class that will hold device name, number, and port for sending information
+# May also hold group number at a later date
+class Device():
+
+	def __init__(self, n="Null", num=-1, p=-1):
+		self.name = n
+		self.number = num
+		self.port = p
+
+# A class representing the groups being saved in the app
+# holds a list of devices in the group and the saved group parameters
+class Group():
+
+	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
+	def __init__(self, devList = [], groupParams = []):
+		self.devices = devList
+		self.groupSettings = groupParams
+
+	def triggerEvent(self):
+		# TODO handle the event triggering
+
 
 class SoundCloutApp(App):
 	
