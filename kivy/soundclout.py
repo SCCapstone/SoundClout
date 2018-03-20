@@ -174,6 +174,9 @@ class Device():
 		self.number = num
 		self.port = p
 
+	def signalDevice(self):
+		# TODO handle filling this out
+
 # A class representing the groups being saved in the app
 # holds a list of devices in the group and the saved group parameters
 class Group():
@@ -183,7 +186,7 @@ class Group():
 		self.devices = devList
 		self.groupSettings = groupParams
 
-	def triggerEvent(self):
+	def signalGroup(self):
 		# TODO handle the event triggering
 
 
