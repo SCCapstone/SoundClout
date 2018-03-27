@@ -4,6 +4,7 @@ from kivy.uix.listview import ListItemButton
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.scrollview import ScrollView
 
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
@@ -78,6 +79,9 @@ class EditTimelineScreen(Screen):
 			print('skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
 
+
+
+	######MOVE TO PROPER PAGE##########
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
 		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
@@ -128,6 +132,7 @@ class EditGroupBehaviourScreen(Screen):
 			print self.groupSettings[i][1]
 			print self.groupSettings[i][2]
 		 	print self.groupSettings[i][3]
+		 	print ''
 
 	def reset_settings(self):
 		self.groupSettings = []
@@ -175,18 +180,19 @@ class Device():
 		self.port = p
 
 	def signalDevice(self):
+		pass
 		# TODO handle filling this out
 
 # A class representing the groups being saved in the app
 # holds a list of devices in the group and the saved group parameters
 class Group():
-
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
 	def __init__(self, devList = [], groupParams = []):
 		self.devices = devList
 		self.groupSettings = groupParams
 
 	def signalGroup(self):
+		pass
 		# TODO handle the event triggering
 
 
