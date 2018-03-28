@@ -5,6 +5,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.button import Button,Label
+from kivy.graphics import Color,Rectangle,InstructionGroup
 
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
@@ -25,7 +27,6 @@ class DeviceTesterScreen(Screen):
 		#refresh devices list
 		self.connected_device_list._trigger_reset_populate()
 		
-
 class ConnectDevicesScreen(Screen):
 	
 	scan_list = ['Pi-1','Pi-2','Pi-3']
@@ -59,13 +60,17 @@ class ConnectDevicesScreen(Screen):
 			self.device_list._trigger_reset_populate()
 			self.connected_device_list._trigger_reset_populate()
 
-
 class DeviceListButton(ListItemButton):
     pass
 
 class EditDeviceGroupsScreen(Screen):
-	pass
+	Groups = [[1,10],[2,20],[3,30]]
 
+    #def on_enter(self):
+    #    for i in xrange(0,len(main.EditDeviceGroupsScreen.Groups)):
+    #        button = Button(text="Group " + str(main.EditDeviceGroupsScreen.Groups[i][1]))
+    #        self.ids.grid.add_widget(button)
+	
 class BuildTimelineScreen(Screen):
 	pass
 
@@ -79,9 +84,33 @@ class EditTimelineScreen(Screen):
 			print('skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
 
+	def currentSlot():
+		pass
+
+class SelectGroupScreen(Screen):
+	#reassignment in EditTimelineScreen.glayout
+	currentSlot = 0
+
+	#Adds all the widgets from the group list
+	def on_enter(self):
+		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+			addedGroup = BoxLayout(size_hint_y=None,height='150sp',orientation='horizontal')
+			#cav = InstructionGroup()
+			#cav.add(Color(0, 0, 1, 0.2))
+			#cav.add(Rectangle(size=self.size))
+			#addedGroup.canvas.add(cav)
+			#addedGroup.add_widget(Label(text="Label Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25))
+			addedGroup.add_widget(Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25))
+
+			#Button(text="Modify Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=30,size_hint_y=None,height='150sp')
+			
+			self.ids.glayout2.add_widget(addedGroup)
+
+	#Removes all widget on leaving to prevent the creation of duplicate widgets
+	def on_leave(self):
+		self.ids.glayout2.clear_widgets()
 
 
-	######MOVE TO PROPER PAGE##########
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
 		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
@@ -90,6 +119,18 @@ class EditTimelineScreen(Screen):
 		EditGroupBehaviourScreen.timelineNumber=timelineNumber
 		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
+
+	def back_out(self):
+		print('EditGroupBehaviourScreen.back_out')
+		for i in xrange(0,len(self.groupSettings)):
+			# if groupSettings[i][0]==groupNumber:
+			# 	if groupSettings[i][1]==timelineNumber:
+			# 		continue
+			print self.groupSettings[i][0]
+			print self.groupSettings[i][1]
+			print self.groupSettings[i][2]
+		 	print self.groupSettings[i][3]
+		 	print ''
 
 class EditGroupBehaviourScreen(Screen):
 	groupNumber = 0
@@ -164,6 +205,7 @@ class Manager(ScreenManager):
 	edit_device_groups_screen = ObjectProperty()
 	build_timeline_screen = ObjectProperty()
 	edit_timeline_screen = ObjectProperty()
+	select_group_screen = ObjectProperty()
 	edit_group_behaviour_screen = ObjectProperty()
 
 	def update(self):
@@ -186,6 +228,7 @@ class Device():
 # A class representing the groups being saved in the app
 # holds a list of devices in the group and the saved group parameters
 class Group():
+
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
 	def __init__(self, devList = [], groupParams = []):
 		self.devices = devList
