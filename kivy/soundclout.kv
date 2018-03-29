@@ -5,9 +5,6 @@
 #: import ListItemButton kivy.uix.listview.ListItemButton
 #: import ScrollView kivy.uix.scrollview
 
-<GroupWidget>:
-	
-
 <HomeScreen>:
 	rows: 2
 	spacing: 10
@@ -375,6 +372,7 @@
 			pos: self.pos
 			size: self.size
 
+	#ToolBar
 	BoxLayout:
 		size_hint_y: None
 		height: 50
@@ -398,7 +396,7 @@
 		size_hint_y: None
 		height: 500
 		spacing: 50
-		padding: 50
+		padding: 20
 		pos: root.x, (root.height-560)
 
 		BoxLayout:
@@ -411,29 +409,36 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-			
-			Label:
-				text: "Device List"
-				font_size: 30
-
 			Button:
-				text: "Group Menu"
-				font_size: 20
-				height: 100
+				size_hint_x: None
+				size_hint_y: None
+				height: 50
+				size: self.size
+				text: 'create group'
+				on_release: main.EditDeviceGroupsScreen().create_group()
 
-		BoxLayout:
-			orientation: "vertical"
-			spacing: 10
-			padding: 10
-			canvas:
-				Color:
-					rgba: hex('#0099cc')
-				Rectangle:
-					pos: self.pos
-					size: self.size
-			Label:
-				text: "Device Information"
-				font_size: 30
+			#Groups holder
+			BoxLayout:
+				orientation: "vertical"
+				spacing: 5
+				padding: 5
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				#Adds Scrollability
+				ScrollView:
+					do_scroll_x:False
+					do_scroll_Y:True
+					BoxLayout:
+						id: glayout2
+						orientation: 'vertical'
+						spacing: 5
+						size_hint_y: None
+						height: self.minimum_height
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -744,14 +749,12 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-   
 			Button:
 				size_hint_x: None
 				size_hint_y: None
 				height: 50
 				width:100
 				text: 'Back'
-				#on_press: root.back_out()
 				on_release: root.manager.current = 'edit_timeline_screen_7'
 
 			#Groups holder
@@ -776,8 +779,6 @@
 						spacing: 5
 						size_hint_y: None
 						height: self.minimum_height
-
-
 
 <EditGroupBehaviourScreen>:
 	rows: 2
@@ -844,8 +845,9 @@
 					height: 50
 					width:100
 					text: 'Back'
+
 					on_press: root.back_out()
-					on_release: root.manager.current = 'edit_timeline_screen_7'
+					on_release: root.manager.current = 'select_group_screen_8'
 	   
 				Button:
 					size_hint_x: None
@@ -856,7 +858,7 @@
 
 					#have to change first arguement, for now assume switch is on
 					on_press: root.save_changes(int(1),int(slider_id.value))
-					on_release: root.manager.current = 'edit_timeline_screen_7'
+					on_release: root.manager.current = 'select_group_screen_8'
 
 			BoxLayout:
 				orientation: "horizontal"

@@ -64,13 +64,34 @@ class DeviceListButton(ListItemButton):
     pass
 
 class EditDeviceGroupsScreen(Screen):
-	Groups = [[1,10],[2,20],[3,30]]
+	#Groups = [GroupNo,null]
+	Groups = [[1,10],[2,20],[3,30],[4,40],[5,50]]
 
-    #def on_enter(self):
-    #    for i in xrange(0,len(main.EditDeviceGroupsScreen.Groups)):
-    #        button = Button(text="Group " + str(main.EditDeviceGroupsScreen.Groups[i][1]))
-    #        self.ids.grid.add_widget(button)
-	
+	def on_enter(self):
+		self.ids.glayout2.clear_widgets()
+		for i in xrange(0,len(self.Groups)):
+			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+			addedButton=Button(text="Group " + str(self.Groups[i][0]) + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification((self.Groups[i][0]+1),self.currentSlot))
+			addedButton.bind(on_release=lambda x:self.nav_to_group())
+			addedGroup.add_widget(addedButton)
+			self.ids.glayout2.add_widget(addedGroup)
+
+	#Removes all widget on leaving to prevent the creation of duplicate widgets
+	def nav_to_group(self):
+		self.manager.current = 'edit_group_behaviour_screen_9'
+
+	def create_group(self):
+		base = 1
+#		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+#			if base < EditDeviceGroupsScreen().Groups[i][0]
+#				base = EditDeviceGroupsScreen().Groups[i][0]
+#		EditDeviceGroupsScreen().Groups.append([str(i),str((i)*10)])
+
+		#		#print(EditDeviceGroupsScreen().Groups[i+1,i*10])
+#		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+#			print(str(EditDeviceGroupsScreen().Groups[i][0])+' '+str(EditDeviceGroupsScreen().Groups[i][1]))
+
 class BuildTimelineScreen(Screen):
 	pass
 
@@ -93,22 +114,18 @@ class SelectGroupScreen(Screen):
 
 	#Adds all the widgets from the group list
 	def on_enter(self):
+		self.ids.glayout2.clear_widgets()
 		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
-			addedGroup = BoxLayout(size_hint_y=None,height='150sp',orientation='horizontal')
-			#cav = InstructionGroup()
-			#cav.add(Color(0, 0, 1, 0.2))
-			#cav.add(Rectangle(size=self.size))
-			#addedGroup.canvas.add(cav)
-			#addedGroup.add_widget(Label(text="Label Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25))
-			addedGroup.add_widget(Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25))
-
-			#Button(text="Modify Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=30,size_hint_y=None,height='150sp')
-			
+			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+			addedButton=Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification((EditDeviceGroupsScreen().Groups[i][0]+1),self.currentSlot))
+			addedButton.bind(on_release=lambda x:self.nav_to_group())
+			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
 
 	#Removes all widget on leaving to prevent the creation of duplicate widgets
-	def on_leave(self):
-		self.ids.glayout2.clear_widgets()
+	def nav_to_group(self):
+		self.manager.current = 'edit_group_behaviour_screen_9'
 
 
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
