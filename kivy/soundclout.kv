@@ -5,6 +5,293 @@
 #: import ListItemButton kivy.uix.listview.ListItemButton
 #: import ScrollView kivy.uix.scrollview
 
+<DeviceTemplateScreen>:
+	rows: 2
+	spacing: 10
+	canvas:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 50
+		spacing: 10
+		pos: root.x, (root.height-50)
+ 
+		# Make the background for the toolbar blue
+		canvas:
+			Color:
+				rgba: hex('#0099cc')
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Button:
+			on_press: root.manager.current = 'homescreen_1'
+			background_normal: 'icons/home.png'
+			size_hint_x: None
+			width:50
+
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 20
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+			orientation: "vertical"
+			spacing: 10
+			padding: 10
+			canvas:
+				Color:
+					rgba: hex('#0099cc')
+				Rectangle:
+					pos: self.pos
+					size: self.size
+		   
+			BoxLayout:
+				size_hint_y: None
+				orientation: "horizontal"
+				height: 50
+				spacing: 10
+				padding: 0
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size   
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Back'
+
+					on_press: root.back_out()
+					on_release: root.manager.current = 'select_group_screen_8'
+	   
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Disconnect'
+
+					#have to change first arguement, for now assume switch is on
+					on_release: root.disconnect()
+					
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+				padding: 10
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				GridLayout:
+					id: GroupSettings
+					cols: 2
+					rows: 2
+					spacing: 5
+					padding: 5
+					canvas:
+						Color:
+							rgba: hex('#ffffff')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+
+					#Name
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Name:'
+							font_size: 24
+						
+						#TODO
+						Label:
+							text: 'Pi-1'
+							font_size: 24
+
+					#Number
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Number:'
+							font_size: 24
+						
+						#TODO
+						Label:
+							text: '1'
+							font_size: 24
+
+					#Port
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Port:'
+							font_size: 24
+						
+						#TODO
+						Label:
+							text: '1111'
+							font_size: 24
+
+<GroupTemplateScreen>:
+	rows: 2
+	spacing: 10
+	canvas:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 50
+		spacing: 10
+		pos: root.x, (root.height-50)
+ 
+		# Make the background for the toolbar blue
+		canvas:
+			Color:
+				rgba: hex('#0099cc')
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Button:
+			on_press: root.manager.current = 'homescreen_1'
+			background_normal: 'icons/home.png'
+			size_hint_x: None
+			width:50
+
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 20
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+			orientation: "vertical"
+			spacing: 10
+			padding: 10
+			canvas:
+				Color:
+					rgba: hex('#0099cc')
+				Rectangle:
+					pos: self.pos
+					size: self.size
+		   
+			BoxLayout:
+				size_hint_y: None
+				orientation: "horizontal"
+				height: 50
+				spacing: 10
+				padding: 0
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size   
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Back'
+					on_release: root.manager.current = 'edit_device_groups_screen_5'
+	   
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Remove'
+
+					#have to change first arguement, for now assume switch is on
+					on_press: root.remove()
+					on_release:root.manager.current = 'edit_device_groups_screen_5'
+
+			BoxLayout:
+				orientation: "vertical"
+				spacing: 10
+				padding: 10
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				#Devices connected
+				BoxLayout:
+					orientation: "horizontal"
+					canvas:
+						Color:
+							rgba: hex('#98a6b3')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+
+					Label:
+						text: 'Name:'
+						font_size: 24
+						
+						#TODO
+					Label:
+						text: 'Group 1'
+						font_size: 24
+
+				#Devices connected
+				BoxLayout:
+					orientation: "horizontal"
+					canvas:
+						Color:
+							rgba: hex('#98a6b3')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+
+					Label:
+						text: 'Devices:'
+						font_size: 24
+						
+					#TODO
+					Label:
+						text: '1,2,3,4'
+						font_size: 24
+
 <HomeScreen>:
 	rows: 2
 	spacing: 10
@@ -415,7 +702,8 @@
 				height: 50
 				size: self.size
 				text: 'create group'
-				on_release: main.EditDeviceGroupsScreen().create_group()
+				on_press: main.EditDeviceGroupsScreen().create_group()
+				on_release: root.manager.current = 'group_template_screen_11'
 
 			#Groups holder
 			BoxLayout:
@@ -951,6 +1239,8 @@
 	edit_timeline_screen: edit_timeline_screen
 	edit_group_behaviour_screen: edit_group_behaviour_screen
 	select_group_screen: select_group_screen
+	device_template_screen: device_template_screen
+	group_template_screen: group_template_screen
 
 	HomeScreen:
 		id: home_screen
@@ -995,4 +1285,14 @@
 	EditGroupBehaviourScreen:
 		id: edit_group_behaviour_screen
 		name: 'edit_group_behaviour_screen_9'
+		manager: screen_manager
+
+	DeviceTemplateScreen:
+		id: device_template_screen
+		name: 'device_template_screen_10'
+		manager: screen_manager
+
+	GroupTemplateScreen:
+		id: group_template_screen
+		name: 'group_template_screen_11'
 		manager: screen_manager

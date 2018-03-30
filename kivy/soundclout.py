@@ -8,6 +8,14 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.graphics import Color,Rectangle,InstructionGroup
 
+class DeviceTemplateScreen(Screen):
+	pass
+
+class GroupTemplateScreen(Screen):
+	
+	def remove(self):
+		pass
+
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 
@@ -29,7 +37,7 @@ class DeviceTesterScreen(Screen):
 		
 class ConnectDevicesScreen(Screen):
 	
-	scan_list = ['Pi-1','Pi-2','Pi-3']
+	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
 	applied_list =['']
 
 	def connect_device(self):
@@ -65,17 +73,24 @@ class DeviceListButton(ListItemButton):
 
 class EditDeviceGroupsScreen(Screen):
 	#Groups = [GroupNo,null]
-	Groups = [[1,10],[2,20],[3,30],[4,40],[5,50]]
+	Groups = [[1,10],[2,20]]
 
 	def on_enter(self):
+
+		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+			print(str(EditDeviceGroupsScreen().Groups[i][0]))
+
+		print('HERE')
+
 		self.ids.glayout2.clear_widgets()
-		for i in xrange(0,len(self.Groups)):
+		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group " + str(self.Groups[i][0]) + " Settings",font_size=25)
-			addedButton.bind(on_press=lambda x:self.group_modification((self.Groups[i][0]+1),self.currentSlot))
+			addedButton=Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification((EditDeviceGroupsScreen().Groups[i][0]+1),self.currentSlot))
 			addedButton.bind(on_release=lambda x:self.nav_to_group())
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
+
 
 	#Removes all widget on leaving to prevent the creation of duplicate widgets
 	def nav_to_group(self):
@@ -83,14 +98,10 @@ class EditDeviceGroupsScreen(Screen):
 
 	def create_group(self):
 		base = 1
-#		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
-#			if base < EditDeviceGroupsScreen().Groups[i][0]
-#				base = EditDeviceGroupsScreen().Groups[i][0]
-#		EditDeviceGroupsScreen().Groups.append([str(i),str((i)*10)])
-
-		#		#print(EditDeviceGroupsScreen().Groups[i+1,i*10])
-#		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
-#			print(str(EditDeviceGroupsScreen().Groups[i][0])+' '+str(EditDeviceGroupsScreen().Groups[i][1]))
+		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+			if base < EditDeviceGroupsScreen().Groups[i][0]:
+				base = EditDeviceGroupsScreen().Groups[i][0]
+		EditDeviceGroupsScreen().Groups.append([base+1,(base+1)*10])		
 
 class BuildTimelineScreen(Screen):
 	pass
@@ -127,7 +138,6 @@ class SelectGroupScreen(Screen):
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
-
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
 		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
@@ -137,18 +147,6 @@ class SelectGroupScreen(Screen):
 		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
 
-	def back_out(self):
-		print('EditGroupBehaviourScreen.back_out')
-		for i in xrange(0,len(self.groupSettings)):
-			# if groupSettings[i][0]==groupNumber:
-			# 	if groupSettings[i][1]==timelineNumber:
-			# 		continue
-			print self.groupSettings[i][0]
-			print self.groupSettings[i][1]
-			print self.groupSettings[i][2]
-		 	print self.groupSettings[i][3]
-		 	print ''
-
 class EditGroupBehaviourScreen(Screen):
 	groupNumber = 0
 	timelineNumber = 0
@@ -157,9 +155,6 @@ class EditGroupBehaviourScreen(Screen):
 
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
 	groupSettings = []
-	def print_out(self):
-		print self.groupNumber
-		print self.timelineNumber
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
@@ -170,7 +165,6 @@ class EditGroupBehaviourScreen(Screen):
 		 			print('exist')
 		 			return			
 		print('added')
-		#EditGroupBehaviourScreen().back_out()
 		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
 		self.groupSettings.append(tempSettings)
 
@@ -178,19 +172,6 @@ class EditGroupBehaviourScreen(Screen):
 	#for now refresh settings are disabled although save_changes works
 	def refresh_settings(self):
 		pass
-
-	#if settings aren't changed, back out and dont change settings(currently using it to print four tuple)
-	def back_out(self):
-		print('EditGroupBehaviourScreen.back_out')
-		for i in xrange(0,len(self.groupSettings)):
-			# if groupSettings[i][0]==groupNumber:
-			# 	if groupSettings[i][1]==timelineNumber:
-			# 		continue
-			print self.groupSettings[i][0]
-			print self.groupSettings[i][1]
-			print self.groupSettings[i][2]
-		 	print self.groupSettings[i][3]
-		 	print ''
 
 	def reset_settings(self):
 		self.groupSettings = []
@@ -224,6 +205,8 @@ class Manager(ScreenManager):
 	edit_timeline_screen = ObjectProperty()
 	select_group_screen = ObjectProperty()
 	edit_group_behaviour_screen = ObjectProperty()
+	device_template_screen = ObjectProperty()
+ 	group_template_screen= ObjectProperty()
 
 	def update(self):
 		self.connected_device_list._trigger_reset_populate()
