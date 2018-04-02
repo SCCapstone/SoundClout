@@ -708,14 +708,35 @@
                 Rectangle:
                     pos: self.pos
                     size: self.size
-            Button:
-                size_hint_x: None
-                size_hint_y: None
-                height: 50
-                size: self.size
-                text: 'Create Group'
-                on_release: root.create_group()
-                on_release: root.manager.current = 'group_template_screen_11'
+			BoxLayout:
+	            orientation: "horizontal"
+				size_hint_y: None
+	            spacing: 10
+	            padding: 10
+				height: 70
+	            canvas:
+	                Color:
+	                    rgba: hex('#0099cc')
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+            	Button:
+                	size_hint_x: None
+                	size_hint_y: None
+                	height: 50
+                	size: self.size
+                	text: 'Create Group'
+                	#on_release: root.create_group()
+                	on_release: root.manager.current = 'create_group_screen_5.1'
+				Button:
+					size_hint_x: None
+                	size_hint_y: None
+					####NEEDS TO BE SET TO VARIABLE VALUE
+					pos: (root.width - 50) - self.width, self.y
+					height: 50
+                	size: self.size
+                	text: 'Save Groups'
+					on_release: root.save_to_file()
 
             #Groups holder
             BoxLayout:
@@ -739,6 +760,95 @@
                         spacing: 5
                         size_hint_y: None
                         height: self.minimum_height
+########################
+<CreateGroupScreen>
+	rows: 2
+	spacing: 10
+	canvas:
+	    Color:
+	        rgba: 1,1,1,1
+	    Rectangle:
+	        pos: self.pos
+	        size: self.size
+    #ToolBar
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
+
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 20
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            canvas:
+                Color:
+                    rgba: hex('#0099cc')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+	            padding: 10
+				height: 70
+				size_hint_y: None
+				Label:
+					text: 'Group Name'
+					height: 50
+				TextInput:
+					spacing: 10
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					size: self.size
+					text: 'OK'
+					multiline: False
+					id: group_name
+
+
+
+			BoxLayout:
+				size_hint_y: .8
+				canvas:
+					Color:
+						rgba: 1,1,1,1
+					Rectangle:
+				        pos: self.pos
+				        size: self.size
+			Button:
+				spacing: 10
+				size_hint_x: None
+				size_hint_y: None
+				height: 50
+				pos_hint: {'center_x':.5, 'center_y': .5}
+				size: self.size
+				text: 'OK'
+				on_release: root.manager.edit_device_groups_screen.create_group()
+				#THIS NEEDS TO BE CHANGED GET RID OF COMMENT WHEN DONE
+				on_release: root.manager.current = 'group_template_screen_11'
+
+
+###################
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -1327,6 +1437,9 @@
 	device_tester_screen: device_tester_screen
 	connect_devices_screen: connect_devices_screen
 	edit_device_groups_screen: edit_device_groups_screen
+	####
+	create_group_screen: create_group_screen
+	####
 	build_timeline_screen: build_timeline_screen
 	edit_timeline_screen: edit_timeline_screen
 	edit_group_behaviour_screen: edit_group_behaviour_screen
@@ -1359,7 +1472,12 @@
 		id: edit_device_groups_screen
 		name: 'edit_device_groups_screen_5'
 		manager: screen_manager
-
+#####
+	CreateGroupScreen:
+		id: create_group_screen
+		name: 'create_group_screen_5.1'
+		manager: screen_manager
+#####
 	BuildTimelineScreen:
 		id: build_timeline_screen
 		name: 'build_timeline_screen_6'

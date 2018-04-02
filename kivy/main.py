@@ -8,8 +8,10 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
 from kivy.graphics import Color,Rectangle,InstructionGroup
+import io
+import os, errno
 
-				
+
 
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
@@ -24,14 +26,14 @@ class RunScreen(Screen):
 	pass
 
 class DeviceTesterScreen(Screen):
-	
+
 	def refresh_devices_list(self):
 		print('DeviceTesterScreen.refresh_devices_list')
 		#refresh devices list
 		self.connected_device_list._trigger_reset_populate()
-		
+
 class ConnectDevicesScreen(Screen):
-	
+
 	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
 	applied_list =[]
 
@@ -47,8 +49,8 @@ class ConnectDevicesScreen(Screen):
 			self.connected_device_list.adapter.data.extend([selection])
 			#refresh both device list and connected devices list
 			self.device_list._trigger_reset_populate()
-			self.connected_device_list._trigger_reset_populate() 
-			
+			self.connected_device_list._trigger_reset_populate()
+
 			for i in xrange(0,len(ConnectDevicesScreen.scan_list)):
 				if ConnectDevicesScreen.scan_list[i]==selection:
 					ConnectDevicesScreen.applied_list.append(selection)
@@ -92,11 +94,11 @@ class EditDeviceGroupsScreen(Screen):
 
 	def on_enter(self):
 		self.ids.glayout2.clear_widgets()
-		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",
+			addedButton=Button(text="Group " + self.manager.groupList[i].name + "\'s Settings",
 							   font_size=25,
-							   id=str(EditDeviceGroupsScreen().Groups[i][0]),
+							   id=self.manager.groupList[i].name,
 							   on_release=self.press_btn
 							   )
 			addedGroup.add_widget(addedButton)
@@ -109,18 +111,34 @@ class EditDeviceGroupsScreen(Screen):
 		self.manager.current = 'group_template_screen_11'
 
 	def create_group(self):
-		base = 1
-		if EditDeviceGroupsScreen().Groups==[]:
-			EditDeviceGroupsScreen().Groups.append([1,10])
-			GroupTemplateScreen.currentGroupNo=1
-			return
+		group = Group(self.manager.create_group_screen.ids.group_name.text, devList = [], groupParams = [])
+		self.manager.groupList.append(group)
 
-		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
-			if base < EditDeviceGroupsScreen().Groups[i][0]:
-				base = EditDeviceGroupsScreen().Groups[i][0]
-		EditDeviceGroupsScreen().Groups.append([base+1,(base+1)*10])
-		GroupTemplateScreen.currentGroupNo=	base+1
+	def save_to_file(self):
+		try:
+			os.remove("saveFile.txt")
+		except OSError:
+			pass
+		s = ""
+		for i in range(len(self.manager.groupList)):
+			s = s + self.manager.groupList[i].name
+			s = s + '\n'
+			for j in range(len(self.manager.groupList[i].devList)):
+				s = s + self.manager.groupList[i].devList[j].n + ' '
+				s = s + self.manager.groupList[i].devList[j].num + ' '
+				s = s + self.manager.groupList[i].devList[j].p + ' '
+			s = s + '\n'
+			for j in range(len(self.manager.groupList[i].groupSettings)):
+				s = s + self.manager.groupList[i].groupSettings[j] + ' '
+			s = s + '\n'
+		file = open("saveFile.txt", "w+")
+		file.write(s)
+		file.close
 
+#####
+class CreateGroupScreen(Screen):
+	pass
+#####
 class BuildTimelineScreen(Screen):
 	pass
 
@@ -180,7 +198,9 @@ class GroupTemplateScreen(Screen):
 
 		#Add back labels for the group and devices connected
 		self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
-		self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
+		#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
+		#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
+		self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=35))
 
 		self.ids.devicesConnected.add_widget(Label(text="Devices:",font_size=35))
 		self.ids.devicesConnected.add_widget(Label(text=str(self.connectedDevices),font_size=35))
@@ -211,7 +231,7 @@ class EditGroupBehaviourScreen(Screen):
 		for i in xrange(0,len(self.groupSettings)):
 		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
 		 			print('exist')
-		 			return			
+		 			return
 		print('added')
 		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
 		self.groupSettings.append(tempSettings)
@@ -269,14 +289,22 @@ class AddRemoveDeviceSelectionScreen(Screen):
 #			print("Checkbox Unchecked")
 
 
+
+
+
 #manages screens
 class Manager(ScreenManager):
+################################################################
+	groupList = []
 
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
 	device_tester_screen = ObjectProperty()
 	connect_devices_screen = ObjectProperty()
 	edit_device_groups_screen = ObjectProperty()
+	###########################
+	create_group_screen = ObjectProperty()
+	#####################
 	build_timeline_screen = ObjectProperty()
 	edit_timeline_screen = ObjectProperty()
 	select_group_screen = ObjectProperty()
@@ -308,8 +336,9 @@ class Device():
 class Group():
 
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
-	def __init__(self, devList = [], groupParams = []):
-		self.devices = devList
+	def __init__(self,name, devList = [], groupParams = []):
+		self.name = name
+		self.devList = devList
 		self.groupSettings = groupParams
 
 	def signalGroup(self):
@@ -318,7 +347,7 @@ class Group():
 
 
 class SoundCloutApp(App):
-	
+
 	def build(self):
 		return Manager(transition=WipeTransition())
 
