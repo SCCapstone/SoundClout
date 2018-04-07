@@ -131,14 +131,10 @@ class EditDeviceGroupsScreen(Screen):
 
 	def save(self, path, filename):
 		with open(os.path.join(path, filename), 'w') as stream:
-			stream.write(self.text_input.text)
+			stream.write(self.SaveConfiguration())
 		self.dismiss_popup()
 
-		"""
-		try:
-			os.remove("saveFile.txt")
-		except OSError:
-			pass
+	def SaveConfiguration(self):
 		s = ""
 		for i in range(len(self.manager.groupList)):
 			s = s + self.manager.groupList[i].name
@@ -151,10 +147,8 @@ class EditDeviceGroupsScreen(Screen):
 			for j in range(len(self.manager.groupList[i].groupSettings)):
 				s = s + self.manager.groupList[i].groupSettings[j] + ' '
 			s = s + '\n'
-		file = open("saveFile.txt", "w+")
-		file.write(s)
-		file.close
-		"""
+		return s
+
 
 #####
 
@@ -311,10 +305,12 @@ class AddRemoveDeviceSelectionScreen(Screen):
 #			print("Checkbox Unchecked")
 
 class SaveDialogScreen(Screen):
-	text_input = ObjectProperty(None)
+
 	save = ObjectProperty(None)
  	cancel = ObjectProperty(None)
+
 	wd = os.getcwd()
+
 
 
 

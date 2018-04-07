@@ -1437,7 +1437,6 @@
 	rows: 2
 	spacing: 10
 
-	text_input: self.text_input
 	BoxLayout:
 
 		size: self.size
@@ -1446,9 +1445,11 @@
 		FileChooserListView:
 			id: filechooser
 			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
 
 		TextInput:
 			id: text_input
+			text: "savefile"
 			size_hint_y: None
 			height: 30
 			multiline: False
