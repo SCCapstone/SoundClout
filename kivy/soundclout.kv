@@ -662,6 +662,8 @@
 					height: 100
 
 <EditDeviceGroupsScreen>:
+	##?
+	text_input: self.text_input
     rows: 2
     spacing: 10
     canvas:
@@ -736,7 +738,7 @@
 					height: 50
                 	size: self.size
                 	text: 'Save Groups'
-					on_release: root.save_to_file()
+					on_release: root.show_save()
 
             #Groups holder
             BoxLayout:
@@ -761,6 +763,10 @@
                         size_hint_y: None
                         height: self.minimum_height
 ########################
+
+
+
+
 <CreateGroupScreen>
 	rows: 2
 	spacing: 10
@@ -846,6 +852,8 @@
 				on_release: root.manager.edit_device_groups_screen.create_group()
 				#THIS NEEDS TO BE CHANGED GET RID OF COMMENT WHEN DONE
 				on_release: root.manager.current = 'group_template_screen_11'
+
+
 
 
 ###################
@@ -1392,11 +1400,7 @@
             spacing: 10
             padding: 10
             canvas:
-                Color:
-                    rgba: hex('#0099cc')
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
+
             Button:
                 size_hint_x: None
                 size_hint_y: None
@@ -1428,6 +1432,36 @@
                         size_hint_y: None
                         height: self.minimum_height
 
+<SaveDialogScreen>:
+
+	rows: 2
+	spacing: 10
+
+	text_input: self.text_input
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+
+		TextInput:
+			id: text_input
+			size_hint_y: None
+			height: 30
+			multiline: False
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Save"
+				on_release:root.save(filechooser.path, text_input.text)
+
 
 <Manager>:
 	id: screen_manager
@@ -1439,6 +1473,7 @@
 	edit_device_groups_screen: edit_device_groups_screen
 	####
 	create_group_screen: create_group_screen
+	save_dialog_screen: save_dialog_screen
 	####
 	build_timeline_screen: build_timeline_screen
 	edit_timeline_screen: edit_timeline_screen
@@ -1477,6 +1512,12 @@
 		id: create_group_screen
 		name: 'create_group_screen_5.1'
 		manager: screen_manager
+
+	SaveDialogScreen:
+		id: save_dialog_screen
+		name: 'save_dialog_screen_5.2'
+		manager: screen_manager
+
 #####
 	BuildTimelineScreen:
 		id: build_timeline_screen

@@ -1,13 +1,17 @@
 from kivy.app import App
+from kivy.factory import Factory
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
 from kivy.uix.listview import ListItemButton
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.filechooser import FileChooser
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
+from kivy.uix.popup import Popup
 from kivy.graphics import Color,Rectangle,InstructionGroup
+from kivy.uix.rst import RstDocument
 import io
 import os, errno
 
@@ -91,6 +95,8 @@ class DeviceListButton(ListItemButton):
 class EditDeviceGroupsScreen(Screen):
 	#Groups = [GroupNo,null]
 	Groups = []
+	text_input = ObjectProperty(None)
+
 
 	def on_enter(self):
 		self.ids.glayout2.clear_widgets()
@@ -114,7 +120,21 @@ class EditDeviceGroupsScreen(Screen):
 		group = Group(self.manager.create_group_screen.ids.group_name.text, devList = [], groupParams = [])
 		self.manager.groupList.append(group)
 
-	def save_to_file(self):
+## Save???
+	def dismiss_popup(self):
+		self._popup.dismiss()
+
+	def show_save(self):
+		content = SaveDialogScreen(save=self.save, cancel=self.dismiss_popup)
+		self._popup = Popup(title="Save File", content=content, size_hint=(0.9,0.9))
+		self._popup.open()
+
+	def save(self, path, filename):
+		with open(os.path.join(path, filename), 'w') as stream:
+			stream.write(self.text_input.text)
+		self.dismiss_popup()
+
+		"""
 		try:
 			os.remove("saveFile.txt")
 		except OSError:
@@ -134,8 +154,10 @@ class EditDeviceGroupsScreen(Screen):
 		file = open("saveFile.txt", "w+")
 		file.write(s)
 		file.close
+		"""
 
 #####
+
 class CreateGroupScreen(Screen):
 	pass
 #####
@@ -288,7 +310,11 @@ class AddRemoveDeviceSelectionScreen(Screen):
 #		else:
 #			print("Checkbox Unchecked")
 
-
+class SaveDialogScreen(Screen):
+	text_input = ObjectProperty(None)
+	save = ObjectProperty(None)
+ 	cancel = ObjectProperty(None)
+	wd = os.getcwd()
 
 
 
@@ -297,6 +323,8 @@ class Manager(ScreenManager):
 ################################################################
 	groupList = []
 
+
+
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
 	device_tester_screen = ObjectProperty()
@@ -304,6 +332,7 @@ class Manager(ScreenManager):
 	edit_device_groups_screen = ObjectProperty()
 	###########################
 	create_group_screen = ObjectProperty()
+	save_dialog_screen = ObjectProperty()
 	#####################
 	build_timeline_screen = ObjectProperty()
 	edit_timeline_screen = ObjectProperty()
@@ -347,6 +376,9 @@ class Group():
 
 
 class SoundCloutApp(App):
+
+
+
 
 	def build(self):
 		return Manager(transition=WipeTransition())
