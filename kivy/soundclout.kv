@@ -730,11 +730,25 @@
                 	text: 'Create Group'
                 	#on_release: root.create_group()
                 	on_release: root.manager.current = 'create_group_screen_5.1'
+
+				BoxLayout:
+					size_hiny_x: 1
+
 				Button:
 					size_hint_x: None
                 	size_hint_y: None
 					####NEEDS TO BE SET TO VARIABLE VALUE
-					pos: (root.width - 50) - self.width, self.y
+
+					height: 50
+                	size: self.size
+                	text: 'Load Groups'
+					on_release: root.show_load()
+
+				Button:
+					size_hint_x: None
+                	size_hint_y: None
+					####NEEDS TO BE SET TO VARIABLE VALUE
+
 					height: 50
                 	size: self.size
                 	text: 'Save Groups'
@@ -762,9 +776,6 @@
                         spacing: 5
                         size_hint_y: None
                         height: self.minimum_height
-########################
-
-
 
 
 <CreateGroupScreen>
@@ -776,14 +787,14 @@
 	    Rectangle:
 	        pos: self.pos
 	        size: self.size
-    #ToolBar
+
     BoxLayout:
         size_hint_y: None
         height: 50
         spacing: 10
         pos: root.x, (root.height-50)
 
-        # Make the background for the toolbar blue
+
         canvas:
             Color:
                 rgba: hex('#0099cc')
@@ -850,13 +861,9 @@
 				size: self.size
 				text: 'OK'
 				on_release: root.manager.edit_device_groups_screen.create_group()
-				#THIS NEEDS TO BE CHANGED GET RID OF COMMENT WHEN DONE
 				on_release: root.manager.current = 'group_template_screen_11'
 
 
-
-
-###################
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -1449,7 +1456,7 @@
 
 		TextInput:
 			id: text_input
-			text: "savefile"
+			text: ""
 			size_hint_y: None
 			height: 30
 			multiline: False
@@ -1463,6 +1470,39 @@
 				text: "Save"
 				on_release:root.save(filechooser.path, text_input.text)
 
+<LoadDialogScreen>:
+
+	rows: 2
+	spacing: 10
+
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
+
+		TextInput:
+			id: text_input
+			text: "savefile.txt"
+			size_hint_y: None
+			height: 30
+			multiline: False
+
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Load"
+				on_release: root.load(filechooser.path, filechooser.selection)
+
 
 <Manager>:
 	id: screen_manager
@@ -1472,10 +1512,9 @@
 	device_tester_screen: device_tester_screen
 	connect_devices_screen: connect_devices_screen
 	edit_device_groups_screen: edit_device_groups_screen
-	####
 	create_group_screen: create_group_screen
 	save_dialog_screen: save_dialog_screen
-	####
+	load_dialog_screen: load_dialog_screen
 	build_timeline_screen: build_timeline_screen
 	edit_timeline_screen: edit_timeline_screen
 	edit_group_behaviour_screen: edit_group_behaviour_screen
@@ -1508,7 +1547,7 @@
 		id: edit_device_groups_screen
 		name: 'edit_device_groups_screen_5'
 		manager: screen_manager
-#####
+
 	CreateGroupScreen:
 		id: create_group_screen
 		name: 'create_group_screen_5.1'
@@ -1519,7 +1558,11 @@
 		name: 'save_dialog_screen_5.2'
 		manager: screen_manager
 
-#####
+	LoadDialogScreen:
+		id: load_dialog_screen
+		name: 'save_dialog_screen_5.3'
+		manager: screen_manager
+
 	BuildTimelineScreen:
 		id: build_timeline_screen
 		name: 'build_timeline_screen_6'

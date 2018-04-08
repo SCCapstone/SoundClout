@@ -95,7 +95,7 @@ class DeviceListButton(ListItemButton):
 class EditDeviceGroupsScreen(Screen):
 	#Groups = [GroupNo,null]
 	Groups = []
-	text_input = ObjectProperty(None)
+	text_input = ''
 
 
 	def on_enter(self):
@@ -120,7 +120,7 @@ class EditDeviceGroupsScreen(Screen):
 		group = Group(self.manager.create_group_screen.ids.group_name.text, devList = [], groupParams = [])
 		self.manager.groupList.append(group)
 
-## Save???
+## Save/Load
 	def dismiss_popup(self):
 		self._popup.dismiss()
 
@@ -131,10 +131,21 @@ class EditDeviceGroupsScreen(Screen):
 
 	def save(self, path, filename):
 		with open(os.path.join(path, filename), 'w') as stream:
-			stream.write(self.SaveConfiguration())
+			stream.write(self.RecordConfiguration())
 		self.dismiss_popup()
 
-	def SaveConfiguration(self):
+	def show_load(self):
+		content = LoadDialogScreen(load=self.load, cancel=self.dismiss_popup)
+		self._popup = Popup(title="Load file", content=content,
+							size_hint=(0.9, 0.9))
+		self._popup.open()
+
+	def load(self, path, filename):
+		with open(os.path.join(path, filename[0])) as stream:
+			self.text_input = stream.read()
+		self.dismiss_popup()
+	#concatenates all groups in ScreenManager.groupList onto a string
+	def RecordConfiguration(self):
 		s = ""
 		for i in range(len(self.manager.groupList)):
 			s = s + self.manager.groupList[i].name
@@ -150,11 +161,11 @@ class EditDeviceGroupsScreen(Screen):
 		return s
 
 
-#####
 
+# could be fused with EditDeviceGroupsScreen
 class CreateGroupScreen(Screen):
 	pass
-#####
+
 class BuildTimelineScreen(Screen):
 	pass
 
@@ -311,25 +322,28 @@ class SaveDialogScreen(Screen):
 
 	wd = os.getcwd()
 
+class LoadDialogScreen(Screen):
+
+	load = ObjectProperty(None)
+	cancel = ObjectProperty(None)
+	wd = os.getcwd()
+
 
 
 
 #manages screens
 class Manager(ScreenManager):
-################################################################
+	#list of currentgroups
 	groupList = []
-
-
 
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
 	device_tester_screen = ObjectProperty()
 	connect_devices_screen = ObjectProperty()
 	edit_device_groups_screen = ObjectProperty()
-	###########################
 	create_group_screen = ObjectProperty()
 	save_dialog_screen = ObjectProperty()
-	#####################
+	load_dialog_screen = ObjectProperty()
 	build_timeline_screen = ObjectProperty()
 	edit_timeline_screen = ObjectProperty()
 	select_group_screen = ObjectProperty()
