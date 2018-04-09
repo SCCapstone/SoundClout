@@ -95,7 +95,7 @@ class DeviceListButton(ListItemButton):
 class EditDeviceGroupsScreen(Screen):
 	#Groups = [GroupNo,null]
 	Groups = []
-	text_input = ''
+	loaded_config = []
 
 
 	def on_enter(self):
@@ -142,7 +142,9 @@ class EditDeviceGroupsScreen(Screen):
 
 	def load(self, path, filename):
 		with open(os.path.join(path, filename[0])) as stream:
-			self.text_input = stream.read()
+			self.loaded_config = stream.read().splitlines()
+			self.LoadConfiguration()
+			self.on_enter()
 		self.dismiss_popup()
 	#concatenates all groups in ScreenManager.groupList onto a string
 	def RecordConfiguration(self):
@@ -151,15 +153,23 @@ class EditDeviceGroupsScreen(Screen):
 			s = s + self.manager.groupList[i].name
 			s = s + '\n'
 			for j in range(len(self.manager.groupList[i].devList)):
-				s = s + self.manager.groupList[i].devList[j].n + ' '
-				s = s + self.manager.groupList[i].devList[j].num + ' '
-				s = s + self.manager.groupList[i].devList[j].p + ' '
+				s = s + self.manager.groupList[i].devList[j].n + ', '
+				s = s + self.manager.groupList[i].devList[j].num + ', '
+				s = s + self.manager.groupList[i].devList[j].p + ', '
 			s = s + '\n'
 			for j in range(len(self.manager.groupList[i].groupSettings)):
-				s = s + self.manager.groupList[i].groupSettings[j] + ' '
+				s = s + self.manager.groupList[i].groupSettings[j] + ', '
 			s = s + '\n'
 		return s
 
+	def LoadConfiguration(self):
+		self.manager.groupList = []
+		for i in range(0, len(self.loaded_config), 3):
+			if not self.loaded_config[i]:
+				break
+			group = Group(self.loaded_config[i],[],[])
+			self.manager.groupList.append(group)
+			pass
 
 
 # could be fused with EditDeviceGroupsScreen
@@ -333,7 +343,7 @@ class LoadDialogScreen(Screen):
 
 #manages screens
 class Manager(ScreenManager):
-	#list of currentgroups
+	#list of current groups
 	groupList = []
 
 	home_screen = ObjectProperty()
