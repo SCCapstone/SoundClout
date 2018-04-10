@@ -1,12 +1,312 @@
 #: kivy 1.10.0
 #: import hex kivy.utils.get_color_from_hex
-#: import main soundclout
+#: import main main
 #: import ListAdapter kivy.adapters.listadapter.ListAdapter
 #: import ListItemButton kivy.uix.listview.ListItemButton
 #: import ScrollView kivy.uix.scrollview
 
-<GroupWidget>:
-	
+<DeviceTemplateScreen>:
+	rows: 2
+	spacing: 10
+	canvas:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 50
+		spacing: 10
+		pos: root.x, (root.height-50)
+
+		# Make the background for the toolbar blue
+		canvas:
+			Color:
+				rgba: hex('#0099cc')
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Button:
+			on_press: root.manager.current = 'homescreen_1'
+			background_normal: 'icons/home.png'
+			size_hint_x: None
+			width:50
+
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 20
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+			orientation: "vertical"
+			spacing: 10
+			padding: 10
+			canvas:
+				Color:
+					rgba: hex('#0099cc')
+				Rectangle:
+					pos: self.pos
+					size: self.size
+
+			BoxLayout:
+				size_hint_y: None
+				orientation: "horizontal"
+				height: 50
+				spacing: 10
+				padding: 0
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Back'
+
+					on_press: root.back_out()
+					on_release: root.manager.current = 'select_group_screen_8'
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Disconnect'
+
+					#have to change first arguement, for now assume switch is on
+					on_release: root.disconnect()
+
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+				padding: 10
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				GridLayout:
+					id: GroupSettings
+					cols: 2
+					rows: 2
+					spacing: 5
+					padding: 5
+					canvas:
+						Color:
+							rgba: hex('#ffffff')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+
+					#Name
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Name:'
+							font_size: 24
+
+						#TODO
+						Label:
+							text: 'Pi-1'
+							font_size: 24
+
+					#Number
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Number:'
+							font_size: 24
+
+						#TODO
+						Label:
+							text: '1'
+							font_size: 24
+
+					#Port
+					BoxLayout:
+						orientation: "horizontal"
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Port:'
+							font_size: 24
+
+						#TODO
+						Label:
+							text: '1111'
+							font_size: 24
+
+<GroupTemplateScreen>:
+    rows: 2
+    spacing: 10
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
+
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
+
+    BoxLayout:
+        size_hint_y: None
+        height: 500
+        spacing: 50
+        padding: 20
+        pos: root.x, (root.height-560)
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            canvas:
+                Color:
+                    rgba: hex('#0099cc')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                size_hint_y: None
+                orientation: "horizontal"
+                height: 50
+                spacing: 10
+                padding: 0
+                canvas:
+                    Color:
+                        rgba: hex('#0099cc')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                Button:
+                    size_hint_x: None
+                    size_hint_y: None
+                    height: 50
+                    width:100
+                    text: 'Back'
+                    on_release: root.manager.current = 'edit_device_groups_screen_5'
+
+                Button:
+                    size_hint_x: None
+                    size_hint_y: None
+                    height: 50
+                    width:100
+                    text: 'Remove'
+
+                    #have to change first arguement, for now assume switch is on
+                    on_press: root.removeGroup()
+                    on_release:root.manager.current = 'edit_device_groups_screen_5'
+
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 10
+                padding: 10
+                canvas:
+                    Color:
+                        rgba: hex('#ffffff')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+	            BoxLayout:
+	                orientation: "vertical"
+	                spacing: 10
+	                padding: 10
+	                canvas:
+	                    Color:
+	                        rgba: hex('#ffffff')
+	                    Rectangle:
+	                        pos: self.pos
+	                        size: self.size
+					ScrollView:
+	                    do_scroll_x:False
+	                    do_scroll_Y:True
+	                    BoxLayout:
+	                        id: devicelisting
+	                        orientation: 'vertical'
+	                        spacing: 5
+	                        size_hint_y: None
+	                        height: self.minimum_height
+
+	            BoxLayout:
+	                orientation: "vertical"
+	                spacing: 10
+	                padding: 10
+	                canvas:
+	                    Color:
+	                        rgba: hex('#ffffff')
+	                    Rectangle:
+	                        pos: self.pos
+	                        size: self.size
+
+	                #Devices connected
+	                BoxLayout:
+	                	id: groupName
+	                    orientation: "horizontal"
+	                    canvas:
+	                        Color:
+	                            rgba: hex('#98a6b3')
+	                        Rectangle:
+	                            pos: self.pos
+	                            size: self.size
+
+	                #Devices connected
+	                BoxLayout:
+	                	id:devicesConnected
+	                    orientation: "horizontal"
+	                    canvas:
+	                        Color:
+	                            rgba: hex('#98a6b3')
+	                        Rectangle:
+	                            pos: self.pos
+	                            size: self.size
 
 <HomeScreen>:
 	rows: 2
@@ -23,7 +323,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -110,7 +410,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -162,7 +462,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -195,18 +495,18 @@
 					size: self.size
 			BoxLayout:
 				orientation: "vertical"
-				
+
 				Button:
 					text: "Refresh List"
 					on_press: root.refresh_devices_list()
 					font_size: 20
-					height: 100        		
+					height: 100
 
 				Button:
 					text: "Test Device"
 					font_size: 20
 					height: 100
-			
+
 			BoxLayout:
 				orientation: "horizontal"
 				canvas:
@@ -254,7 +554,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -307,7 +607,7 @@
 					on_press: root.connect_device()
 					font_size: 20
 					height: 100
-			
+
 			BoxLayout:
 				orientation: "horizontal"
 				canvas:
@@ -366,74 +666,83 @@
 					height: 100
 
 <EditDeviceGroupsScreen>:
-	rows: 2
-	spacing: 10
-	canvas:
-		Color:
-			rgba: 1,1,1,1
-		Rectangle:
-			pos: self.pos
-			size: self.size
+    rows: 2
+    spacing: 10
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
-	BoxLayout:
-		size_hint_y: None
-		height: 50
-		spacing: 10
-		pos: root.x, (root.height-50)
- 
-		# Make the background for the toolbar blue
-		canvas:
-			Color:
-				rgba: hex('#0099cc')
-			Rectangle:
-				pos: self.pos
-				size: self.size
-		Button:
-			on_press: root.manager.current = 'homescreen_1'
-			background_normal: 'icons/home.png'
-			size_hint_x: None
-			width:50
+    #ToolBar
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
 
-	BoxLayout:
-		size_hint_y: None
-		height: 500
-		spacing: 50
-		padding: 50
-		pos: root.x, (root.height-560)
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
 
-		BoxLayout:
-			orientation: "vertical"
-			spacing: 10
-			padding: 10
-			canvas:
-				Color:
-					rgba: hex('#0099cc')
-				Rectangle:
-					pos: self.pos
-					size: self.size
-			
-			Label:
-				text: "Device List"
-				font_size: 30
+    BoxLayout:
+        size_hint_y: None
+        height: 500
+        spacing: 50
+        padding: 20
+        pos: root.x, (root.height-560)
 
-			Button:
-				text: "Group Menu"
-				font_size: 20
-				height: 100
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            canvas:
+                Color:
+                    rgba: hex('#0099cc')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                size_hint_x: None
+                size_hint_y: None
+                height: 50
+                size: self.size
+                text: 'Create Group'
+                on_release: root.create_group()
+                on_release: root.manager.current = 'group_template_screen_11'
 
-		BoxLayout:
-			orientation: "vertical"
-			spacing: 10
-			padding: 10
-			canvas:
-				Color:
-					rgba: hex('#0099cc')
-				Rectangle:
-					pos: self.pos
-					size: self.size
-			Label:
-				text: "Device Information"
-				font_size: 30
+            #Groups holder
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 5
+                padding: 5
+                canvas:
+                    Color:
+                        rgba: hex('#ffffff')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                #Adds Scrollability
+                ScrollView:
+                    do_scroll_x:False
+                    do_scroll_Y:True
+                    BoxLayout:
+                        id: glayout2
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: self.minimum_height
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -450,7 +759,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -506,7 +815,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -537,7 +846,7 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-   
+
 			Button:
 				size_hint_x: None
 				size_hint_y: None
@@ -567,102 +876,105 @@
 						rows:1
 						size_hint_x: None
 						width: self.minimum_width
-						
+
 						Button:
 							text:"SLOT 1"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 1 
+							on_press: main.SelectGroupScreen().currentSlot = 1
+							on_press: print(main.SelectGroupScreen().currentSlot)
 							on_release: root.manager.current = 'select_group_screen_8'
-								
-						
+							on_press: main.SelectGroupScreen().currentSlot = 1
+
+
 						Button:
 							text:"SLOT 2"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 2 
+							on_press: main.SelectGroupScreen().currentSlot = 2
+							on_press: print(main.SelectGroupScreen().currentSlot )
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 3"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 3 
+							on_press: main.SelectGroupScreen().currentSlot = 3
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 4"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 4 
+							on_press: main.SelectGroupScreen().currentSlot = 4
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 5"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 5 
+							on_press: main.SelectGroupScreen().currentSlot = 5
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 6"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 6 
+							on_press: main.SelectGroupScreen().currentSlot = 6
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 7"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 7 
+							on_press: main.SelectGroupScreen().currentSlot = 7
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 8"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 8 
+							on_press: main.SelectGroupScreen().currentSlot = 8
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 9"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 9 
+							on_press: main.SelectGroupScreen().currentSlot = 9
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 10"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 10 
+							on_press: main.SelectGroupScreen().currentSlot = 10
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 11"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 11 
+							on_press: main.SelectGroupScreen().currentSlot = 11
 							on_release: root.manager.current = 'select_group_screen_8'
-						
+
 						Button:
 							text:"SLOT 12"
 							font_size: 20
 							size_hint_x: None
 							width: '200sp'
-							on_press: main.SelectGroupScreen().currentSlot = 12 
+							on_press: main.SelectGroupScreen().currentSlot = 12
 							on_release: root.manager.current = 'select_group_screen_8'
 
 				BoxLayout:
@@ -684,7 +996,7 @@
 								size: self.size
 						Label:
 							text: 'Enviromental Var 1'
-							font_size: 20        
+							font_size: 20
 
 					BoxLayout:
 						canvas:
@@ -695,7 +1007,7 @@
 								size: self.size
 						Label:
 							text: 'Enviromental Var 2'
-							font_size: 20        
+							font_size: 20
 
 <SelectGroupScreen>:
 	rows: 2
@@ -713,7 +1025,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -744,14 +1056,12 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-   
 			Button:
 				size_hint_x: None
 				size_hint_y: None
 				height: 50
 				width:100
 				text: 'Back'
-				#on_press: root.back_out()
 				on_release: root.manager.current = 'edit_timeline_screen_7'
 
 			#Groups holder
@@ -777,8 +1087,6 @@
 						size_hint_y: None
 						height: self.minimum_height
 
-
-
 <EditGroupBehaviourScreen>:
 	rows: 2
 	spacing: 10
@@ -794,7 +1102,7 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
- 
+
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -825,7 +1133,7 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-		   
+
 			BoxLayout:
 				size_hint_y: None
 				orientation: "horizontal"
@@ -837,16 +1145,17 @@
 						rgba: hex('#0099cc')
 					Rectangle:
 						pos: self.pos
-						size: self.size   
+						size: self.size
 				Button:
 					size_hint_x: None
 					size_hint_y: None
 					height: 50
 					width:100
 					text: 'Back'
+
 					on_press: root.back_out()
-					on_release: root.manager.current = 'edit_timeline_screen_7'
-	   
+					on_release: root.manager.current = 'select_group_screen_8'
+
 				Button:
 					size_hint_x: None
 					size_hint_y: None
@@ -855,8 +1164,9 @@
 					text: 'Save'
 
 					#have to change first arguement, for now assume switch is on
-					on_press: root.save_changes(int(1),int(slider_id.value))
-					on_release: root.manager.current = 'edit_timeline_screen_7'
+					#print(main.SelectGroupScreen().currentSlot)
+					on_press: root.save_changes(main.SelectGroupScreen().currentSlot,int(1),int(slider_id.value))
+					on_release: root.manager.current = 'select_group_screen_8'
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -907,7 +1217,7 @@
 								size: self.size
 
 						Label:
-							text: str(int(slider_id.value)) + ' Events'
+							text: str(slider_id.value) + ' Events'
 							font_size: 24
 
 						Slider:
@@ -922,7 +1232,7 @@
 					orientation: "vertical"
 					spacing: 5
 					padding: 5
-					size_hint_x: None		        	
+					size_hint_x: None
 					width:250
 					canvas:
 						Color:
@@ -940,6 +1250,7 @@
 
 <Manager>:
 	id: screen_manager
+
 	home_screen: home_screen
 	run_screen: run_screen
 	device_tester_screen: device_tester_screen
@@ -949,6 +1260,8 @@
 	edit_timeline_screen: edit_timeline_screen
 	edit_group_behaviour_screen: edit_group_behaviour_screen
 	select_group_screen: select_group_screen
+	device_template_screen: device_template_screen
+	group_template_screen: group_template_screen
 
 	HomeScreen:
 		id: home_screen
@@ -959,7 +1272,7 @@
 		id: run_screen
 		name: 'runscreen_2'
 		manager: screen_manager
-	
+
 	DeviceTesterScreen:
 		id: device_tester_screen
 		name: 'device_tester_screen_3'
@@ -989,8 +1302,18 @@
 		id: select_group_screen
 		name: 'select_group_screen_8'
 		manager: screen_manager
-	
+
 	EditGroupBehaviourScreen:
 		id: edit_group_behaviour_screen
 		name: 'edit_group_behaviour_screen_9'
+		manager: screen_manager
+
+	DeviceTemplateScreen:
+		id: device_template_screen
+		name: 'device_template_screen_10'
+		manager: screen_manager
+
+	GroupTemplateScreen:
+		id: group_template_screen
+		name: 'group_template_screen_11'
 		manager: screen_manager
