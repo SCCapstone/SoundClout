@@ -1170,6 +1170,8 @@
 
 					BoxLayout:
 						orientation: "horizontal"
+						size_hint_y: None
+						height: 50
 						canvas:
 							Color:
 								rgba: hex('#98a6b3')
@@ -1187,6 +1189,8 @@
 
 					BoxLayout:
 						orientation: "horizontal"
+						size_hint_y: None
+						height: 50
 						canvas:
 							Color:
 								rgba: hex('#98a6b3')
@@ -1205,26 +1209,41 @@
 							value: 0
 							step: 1
 
+					BoxLayout:
+						orientation: "vertical"
+						spacing: 10
+						padding: 10
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
 
-				BoxLayout:
-					orientation: "vertical"
-					spacing: 5
-					padding: 5
-					size_hint_x: None
-					width:250
-					canvas:
-						Color:
-							rgba: hex('#0099cc')
-						Rectangle:
-							pos: self.pos
-							size: self.size
+						Label:
+							size_hint_y: None
+							height: 50
+							text: 'Triggers'
+							font_size: 24
 
-					Label:
-						text: 'Specific Events'
-						font_size: 30
 
-					Label:
-						font_size: 20
+						ScrollView:
+							do_scroll_x:False
+							do_scroll_Y:True
+							BoxLayout:
+								id: triggerlisting
+								orientation: 'vertical'
+								spacing: 5
+								size_hint_y: None
+								height: self.minimum_height
+								canvas:
+									Color:
+										rgba: hex('#ffffff')
+									Rectangle:
+										pos: self.pos
+										size: self.size
+
+
 
 <Manager>:
 	id: screen_manager
