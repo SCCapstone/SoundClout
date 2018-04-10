@@ -12,6 +12,7 @@ from kivy.uix.switch import Switch
 from kivy.uix.popup import Popup
 from kivy.graphics import Color,Rectangle,InstructionGroup
 from kivy.uix.rst import RstDocument
+from timelinereader import timelineReader
 import io
 import os, errno
 
@@ -189,15 +190,15 @@ class SelectGroupScreen(Screen):
 	#Adds all the widgets from the group list
 	def on_enter(self):
 		self.ids.glayout2.clear_widgets()
-		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25)
-			addedButton.bind(on_press=lambda x:self.group_modification((EditDeviceGroupsScreen().Groups[i][0]),self.currentSlot))
-			addedButton.bind(on_release=lambda x:self.nav_to_group())	
-				
+			addedButton=Button(text="Group " + self.manager.groupList[i].name + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification(i,self.currentSlot))
+			addedButton.bind(on_release=lambda x:self.nav_to_group())
+
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
-	
+
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
