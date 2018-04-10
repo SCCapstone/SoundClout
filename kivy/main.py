@@ -135,12 +135,12 @@ class SelectGroupScreen(Screen):
 		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
 			addedButton=Button(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]) + " Settings",font_size=25)
-			addedButton.bind(on_press=lambda x:self.group_modification((EditDeviceGroupsScreen().Groups[i][0]+1),self.currentSlot))
-			addedButton.bind(on_release=lambda x:self.nav_to_group())
+			addedButton.bind(on_press=lambda x:self.group_modification((EditDeviceGroupsScreen().Groups[i][0]),self.currentSlot))
+			addedButton.bind(on_release=lambda x:self.nav_to_group())	
+				
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
-
-	#Removes all widget on leaving to prevent the creation of duplicate widgets
+	
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
@@ -199,9 +199,9 @@ class GroupTemplateScreen(Screen):
 		print (value)
 
 #		if value is active:
-#			print("Checkbox Checked")
+#			rint("Checkbox Checked")
 #		else:
-#			print("Checkbox Unchecked")
+#			rint("Checkbox Unchecked")
 
 
 class EditGroupBehaviourScreen(Screen):
@@ -240,7 +240,7 @@ class EditGroupBehaviourScreen(Screen):
 					self.groupSettings[i][1] = timelineNumber
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
-					print(self.groupSettings[i])
+					print(self.groupSettings)
 					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]))
 					j.MonthGroupBehavior()
 
