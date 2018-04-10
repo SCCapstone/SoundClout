@@ -20,7 +20,6 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
-
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -51,7 +50,6 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-
 			BoxLayout:
 				size_hint_y: None
 				orientation: "horizontal"
@@ -73,7 +71,6 @@
 
 					on_press: root.back_out()
 					on_release: root.manager.current = 'select_group_screen_8'
-
 				Button:
 					size_hint_x: None
 					size_hint_y: None
@@ -83,7 +80,6 @@
 
 					#have to change first arguement, for now assume switch is on
 					on_release: root.disconnect()
-
 			BoxLayout:
 				orientation: "horizontal"
 				spacing: 10
@@ -121,7 +117,6 @@
 						Label:
 							text: 'Name:'
 							font_size: 24
-
 						#TODO
 						Label:
 							text: 'Pi-1'
@@ -140,7 +135,6 @@
 						Label:
 							text: 'Number:'
 							font_size: 24
-
 						#TODO
 						Label:
 							text: '1'
@@ -159,7 +153,6 @@
 						Label:
 							text: 'Port:'
 							font_size: 24
-
 						#TODO
 						Label:
 							text: '1111'
@@ -265,11 +258,15 @@
 	                    Rectangle:
 	                        pos: self.pos
 	                        size: self.size
-
-	                Button:
-	                    text: 'Add/Remove Devices'
-	                    font_size: 25
-	                    on_release: root.manager.current = 'add_remove_device_selection_screen_12'
+					ScrollView:
+	                    do_scroll_x:False
+	                    do_scroll_Y:True
+	                    BoxLayout:
+	                        id: devicelisting
+	                        orientation: 'vertical'
+	                        spacing: 5
+	                        size_hint_y: None
+	                        height: self.minimum_height
 
 	            BoxLayout:
 	                orientation: "vertical"
@@ -1004,7 +1001,9 @@
 							size_hint_x: None
 							width: '200sp'
 							on_press: main.SelectGroupScreen().currentSlot = 1
+							on_press: print(main.SelectGroupScreen().currentSlot)
 							on_release: root.manager.current = 'select_group_screen_8'
+							on_press: main.SelectGroupScreen().currentSlot = 1
 
 
 						Button:
@@ -1013,6 +1012,7 @@
 							size_hint_x: None
 							width: '200sp'
 							on_press: main.SelectGroupScreen().currentSlot = 2
+							on_press: print(main.SelectGroupScreen().currentSlot )
 							on_release: root.manager.current = 'select_group_screen_8'
 
 						Button:
@@ -1273,16 +1273,14 @@
 
 					on_press: root.back_out()
 					on_release: root.manager.current = 'select_group_screen_8'
-
 				Button:
 					size_hint_x: None
 					size_hint_y: None
 					height: 50
 					width:100
 					text: 'Save'
-
-					#have to change first arguement, for now assume switch is on
-					on_press: root.save_changes(int(1),int(slider_id.value))
+					#print(main.SelectGroupScreen().currentSlot)
+					on_press: root.save_changes(main.SelectGroupScreen().currentSlot,int(1),int(slider_id.value))
 					on_release: root.manager.current = 'select_group_screen_8'
 
 			BoxLayout:
@@ -1365,79 +1363,6 @@
 					Label:
 						font_size: 20
 
-<AddRemoveDeviceSelectionScreen>:
-    rows: 2
-    spacing: 10
-    canvas:
-        Color:
-            rgba: 1,1,1,1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-    #ToolBar
-    BoxLayout:
-        size_hint_y: None
-        height: 50
-        spacing: 10
-        pos: root.x, (root.height-50)
-
-        # Make the background for the toolbar blue
-        canvas:
-            Color:
-                rgba: hex('#0099cc')
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        Button:
-            on_press: root.manager.current = 'homescreen_1'
-            background_normal: 'icons/home.png'
-            size_hint_x: None
-            width:50
-
-    BoxLayout:
-        size_hint_y: None
-        height: 500
-        spacing: 50
-        padding: 20
-        pos: root.x, (root.height-560)
-
-        BoxLayout:
-            orientation: "vertical"
-            spacing: 10
-            padding: 10
-            canvas:
-
-            Button:
-                size_hint_x: None
-                size_hint_y: None
-                height: 50
-                size: self.size
-                text: 'Back'
-                on_release: root.manager.current = 'group_template_screen_11'
-
-            #Groups holder
-            BoxLayout:
-                orientation: "vertical"
-                spacing: 5
-                padding: 5
-                canvas:
-                    Color:
-                        rgba: hex('#ffffff')
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-
-                #Adds Scrollability
-                ScrollView:
-                    do_scroll_x:False
-                    do_scroll_Y:True
-                    BoxLayout:
-                        id: devicelisting
-                        orientation: 'vertical'
-                        spacing: 5
-                        size_hint_y: None
-                        height: self.minimum_height
 
 <SaveDialogScreen>:
 
@@ -1521,7 +1446,6 @@
 	select_group_screen: select_group_screen
 	device_template_screen: device_template_screen
 	group_template_screen: group_template_screen
-	add_remove_device_selection_screen: add_remove_device_selection_screen
 
 	HomeScreen:
 		id: home_screen
@@ -1591,9 +1515,4 @@
 	GroupTemplateScreen:
 		id: group_template_screen
 		name: 'group_template_screen_11'
-		manager: screen_manager
-
-	AddRemoveDeviceSelectionScreen:
-		id: add_remove_device_selection_screen
-		name: 'add_remove_device_selection_screen_12'
 		manager: screen_manager

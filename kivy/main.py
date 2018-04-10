@@ -23,7 +23,6 @@ class HomeScreen(Screen):
 	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
 		if value is 1:
-			print('HomeScreen.skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
 
 class RunScreen(Screen):
@@ -32,7 +31,6 @@ class RunScreen(Screen):
 class DeviceTesterScreen(Screen):
 
 	def refresh_devices_list(self):
-		print('DeviceTesterScreen.refresh_devices_list')
 		#refresh devices list
 		self.connected_device_list._trigger_reset_populate()
 
@@ -42,7 +40,6 @@ class ConnectDevicesScreen(Screen):
 	applied_list =[]
 
 	def connect_device(self):
-		print('ConnectDevicesScreen.connect_device')
 		#if device is selected
 		if self.device_list.adapter.selection:
 			#get selection
@@ -61,12 +58,7 @@ class ConnectDevicesScreen(Screen):
 					del ConnectDevicesScreen.scan_list[i]
 					return
 
-
-
-
-
 	def disconnect_device(self):
-		print('ConnectDevicesScreen.disconnect_device')
 		#if device is selected
 		if self.connected_device_list.adapter.selection:
 			#get selection
@@ -87,8 +79,9 @@ class ConnectDevicesScreen(Screen):
 
 
 	def on_leave(self):
-		print self.scan_list
-		print self.applied_list
+		print (self.scan_list)
+		print (self.applied_list)
+
 class DeviceListButton(ListItemButton):
 	pass
 
@@ -112,7 +105,6 @@ class EditDeviceGroupsScreen(Screen):
 
 	#on press, send group id to group template and transition to template screen
 	def press_btn(self,instance):
-		print instance.text[6]
 		GroupTemplateScreen.currentGroupNo=instance.text[6]
 		self.manager.current = 'group_template_screen_11'
 
@@ -184,9 +176,7 @@ class EditTimelineScreen(Screen):
 
 	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
-		print('EditTimelineScreen.skip_build_screen')
 		if value is 1:
-			print('skip_build_screen')
 			self.skipBuild = 'edit_timeline_screen_7'
 
 	def currentSlot():
@@ -213,7 +203,6 @@ class SelectGroupScreen(Screen):
 
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
 	def group_modification(self,groupNumber,timelineNumber):
-		print('EditGroupBehaviourScreen('+str(groupNumber)+','+str(timelineNumber)+')')
 		#assign group and device number so modifications can be made
 		EditGroupBehaviourScreen.groupNumber=groupNumber
 		EditGroupBehaviourScreen.timelineNumber=timelineNumber
@@ -233,24 +222,46 @@ class GroupTemplateScreen(Screen):
 		self.ids.groupName.clear_widgets()
 		self.ids.devicesConnected.clear_widgets()
 
+
 		#Add back labels for the group and devices connected
 		self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 		#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 		#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
 		self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=35))
 
-		self.ids.devicesConnected.add_widget(Label(text="Devices:",font_size=35))
-		self.ids.devicesConnected.add_widget(Label(text=str(self.connectedDevices),font_size=35))
+		self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
+		self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=35))
+
+		self.ids.devicelisting.clear_widgets()
+		for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+
+			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
+
+			switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
+			switch.bind(active=self.switch_on)
+			addedGroup.add_widget(switch)
+
+			self.ids.devicelisting.add_widget(addedGroup)
 
 	def removeGroup(self):
 		del EditDeviceGroupsScreen.Groups[int(self.currentGroupNo)-1]
 
 	#saving this for when Group names have to be deleted by name matching
 	def removeGroupMatching(self):
-		print self.currentGroupNo
 		for i in range(0, len(EditDeviceGroupsScreen().Groups)):
 			if self.currentGroupNo == EditDeviceGroupsScreen().Groups[i][0]:
 				del (EditDeviceGroupsScreen.Groups[i])
+
+	def switch_on(self,instance, value):
+		print (instance)
+		print (value)
+
+#		if value is active:
+#			print("Checkbox Checked")
+#		else:
+#			print("Checkbox Unchecked")
+
 
 class EditGroupBehaviourScreen(Screen):
 	groupNumber = 0
@@ -264,12 +275,9 @@ class EditGroupBehaviourScreen(Screen):
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
 		tempSettings = []
-		print('EditGroupBehaviourScreen.add_settings')
 		for i in xrange(0,len(self.groupSettings)):
 		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
-		 			print('exist')
 		 			return
-		print('added')
 		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
 		self.groupSettings.append(tempSettings)
 
@@ -282,14 +290,18 @@ class EditGroupBehaviourScreen(Screen):
 		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-	def save_changes(self,switchActive,sliderValue):
+
+	def save_changes(self,timelineNumber,switchActive,sliderValue):
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
 		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
-		 			print('found')
 		 			#update element
-		 			self.groupSettings[i][2] = switchActive
-		 			self.groupSettings[i][3] = sliderValue
+					self.groupSettings[i][1] = timelineNumber
+					self.groupSettings[i][2] = switchActive
+					self.groupSettings[i][3] = sliderValue
+					print(self.groupSettings[i])
+					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]))
+					j.MonthGroupBehavior()
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
@@ -297,33 +309,8 @@ class EditGroupBehaviourScreen(Screen):
 			print("Switch On")
 		else:
 			print("Switch Off")
-
 	def back_out(self):
-		pass
 
-class AddRemoveDeviceSelectionScreen(Screen):
-
-	def on_enter(self):
-		self.ids.devicelisting.clear_widgets()
-		for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
-			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
-
-			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
-
-			switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
-			switch.bind(active=self.switch_on)
-			addedGroup.add_widget(switch)
-
-			self.ids.devicelisting.add_widget(addedGroup)
-
-	def switch_on(self,instance, value):
-		print instance
-		print value
-
-#		if value is active:
-#			print("Checkbox Checked")
-#		else:
-#			print("Checkbox Unchecked")
 
 class SaveDialogScreen(Screen):
 
@@ -394,14 +381,10 @@ class Group():
 		pass
 		# TODO handle the event triggering
 
-
 class SoundCloutApp(App):
-
-
-
-
 	def build(self):
 		return Manager(transition=WipeTransition())
 
 if  __name__=='__main__':
+
 	SoundCloutApp().run()
