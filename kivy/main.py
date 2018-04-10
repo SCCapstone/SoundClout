@@ -310,7 +310,7 @@ class EditGroupBehaviourScreen(Screen):
 		else:
 			print("Switch Off")
 	def back_out(self):
-
+		pass
 
 class SaveDialogScreen(Screen):
 
