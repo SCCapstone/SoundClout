@@ -22,13 +22,28 @@ class RunScreen(Screen):
 	pass
 
 class DeviceTesterScreen(Screen):
-	def refresh_devices_list(self):
-		#refresh devices list
-		self.connected_device_list._trigger_reset_populate()
+
+	def on_enter(self):
+		#Clear all widgets
+		self.ids.devicetestlisting.clear_widgets()
+		for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+
+			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
+
+			switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
+			switch.bind(active=self.switch_on)
+			addedGroup.add_widget(switch)
+
+			self.ids.devicetestlisting.add_widget(addedGroup)
+
+	def switch_on(self,instance, value):
+		print (instance)
+		print (value)
 
 class ConnectDevicesScreen(Screen):
 	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
-	applied_list =[]
+	applied_list =['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
 
 	def connect_device(self):
 		#if device is selected
