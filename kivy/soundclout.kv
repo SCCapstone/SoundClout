@@ -20,11 +20,6 @@
 		height: 50
 		spacing: 10
 		pos: root.x, (root.height-50)
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 		# Make the background for the toolbar blue
 		canvas:
 			Color:
@@ -55,11 +50,6 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-<<<<<<< HEAD
-
-=======
-		   
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 			BoxLayout:
 				size_hint_y: None
 				orientation: "horizontal"
@@ -71,11 +61,7 @@
 						rgba: hex('#0099cc')
 					Rectangle:
 						pos: self.pos
-<<<<<<< HEAD
 						size: self.size
-=======
-						size: self.size   
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 				Button:
 					size_hint_x: None
 					size_hint_y: None
@@ -85,11 +71,6 @@
 
 					on_press: root.back_out()
 					on_release: root.manager.current = 'select_group_screen_8'
-<<<<<<< HEAD
-
-=======
-	   
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 				Button:
 					size_hint_x: None
 					size_hint_y: None
@@ -99,11 +80,6 @@
 
 					#have to change first arguement, for now assume switch is on
 					on_release: root.disconnect()
-<<<<<<< HEAD
-
-=======
-					
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 			BoxLayout:
 				orientation: "horizontal"
 				spacing: 10
@@ -141,11 +117,6 @@
 						Label:
 							text: 'Name:'
 							font_size: 24
-<<<<<<< HEAD
-
-=======
-						
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 						#TODO
 						Label:
 							text: 'Pi-1'
@@ -164,11 +135,6 @@
 						Label:
 							text: 'Number:'
 							font_size: 24
-<<<<<<< HEAD
-
-=======
-						
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 						#TODO
 						Label:
 							text: '1'
@@ -187,11 +153,6 @@
 						Label:
 							text: 'Port:'
 							font_size: 24
-<<<<<<< HEAD
-
-=======
-						
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 						#TODO
 						Label:
 							text: '1111'
@@ -1187,25 +1148,14 @@
 
 					on_press: root.back_out()
 					on_release: root.manager.current = 'select_group_screen_8'
-<<<<<<< HEAD
-
-=======
-	   
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 				Button:
 					size_hint_x: None
 					size_hint_y: None
 					height: 50
 					width:100
 					text: 'Save'
-
-					#have to change first arguement, for now assume switch is on
-<<<<<<< HEAD
 					#print(main.SelectGroupScreen().currentSlot)
 					on_press: root.save_changes(main.SelectGroupScreen().currentSlot,int(1),int(slider_id.value))
-=======
-					on_press: root.save_changes(int(1),int(slider_id.value))
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb
 					on_release: root.manager.current = 'select_group_screen_8'
 
 			BoxLayout:

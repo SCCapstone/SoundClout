@@ -8,11 +8,8 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
 from kivy.graphics import Color,Rectangle,InstructionGroup
-<<<<<<< HEAD:kivy/main.py
-from timelinereader import *
-=======
 
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
+from timelinereader import *
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 
@@ -25,23 +22,11 @@ class RunScreen(Screen):
 	pass
 
 class DeviceTesterScreen(Screen):
-<<<<<<< HEAD:kivy/main.py
-
 	def refresh_devices_list(self):
 		#refresh devices list
 		self.connected_device_list._trigger_reset_populate()
 
 class ConnectDevicesScreen(Screen):
-
-=======
-	
-	def refresh_devices_list(self):
-		#refresh devices list
-		self.connected_device_list._trigger_reset_populate()
-		
-class ConnectDevicesScreen(Screen):
-	
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
 	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
 	applied_list =[]
 
@@ -56,13 +41,9 @@ class ConnectDevicesScreen(Screen):
 			self.connected_device_list.adapter.data.extend([selection])
 			#refresh both device list and connected devices list
 			self.device_list._trigger_reset_populate()
-<<<<<<< HEAD:kivy/main.py
 			self.connected_device_list._trigger_reset_populate()
 
-=======
-			self.connected_device_list._trigger_reset_populate() 
-			
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
+
 			for i in xrange(0,len(ConnectDevicesScreen.scan_list)):
 				if ConnectDevicesScreen.scan_list[i]==selection:
 					ConnectDevicesScreen.applied_list.append(selection)
@@ -90,8 +71,8 @@ class ConnectDevicesScreen(Screen):
 
 
 	def on_leave(self):
-		print self.scan_list
-		print self.applied_list
+		print (self.scan_list)
+		print (self.applied_list)
 
 class DeviceListButton(ListItemButton):
 	pass
@@ -214,8 +195,8 @@ class GroupTemplateScreen(Screen):
 				del (EditDeviceGroupsScreen.Groups[i])
 
 	def switch_on(self,instance, value):
-		print instance
-		print value
+		print (instance)
+		print (value)
 
 #		if value is active:
 #			print("Checkbox Checked")
@@ -237,11 +218,7 @@ class EditGroupBehaviourScreen(Screen):
 		tempSettings = []
 		for i in xrange(0,len(self.groupSettings)):
 		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
-<<<<<<< HEAD:kivy/main.py
 		 			return
-=======
-		 			return			
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
 		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
 		self.groupSettings.append(tempSettings)
 
@@ -254,39 +231,28 @@ class EditGroupBehaviourScreen(Screen):
 		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-<<<<<<< HEAD:kivy/main.py
+
 	def save_changes(self,timelineNumber,switchActive,sliderValue):
-=======
-	def save_changes(self,switchActive,sliderValue):
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
 		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
 		 			#update element
-<<<<<<< HEAD:kivy/main.py
 					self.groupSettings[i][1] = timelineNumber
-		 			self.groupSettings[i][2] = switchActive
-		 			self.groupSettings[i][3] = sliderValue
+					self.groupSettings[i][2] = switchActive
+					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings[i])
 					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]))
 					j.MonthGroupBehavior()
-=======
-		 			self.groupSettings[i][2] = switchActive
-		 			self.groupSettings[i][3] = sliderValue
 
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
 		if value is True:
 			print("Switch On")
 		else:
 			print("Switch Off")
-
-<<<<<<< HEAD:kivy/main.py
 	def back_out(self):
-=======
-	def back_out(self): 
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
+
+
 		pass
 
 #manages screens
@@ -337,17 +303,9 @@ class Group():
 		# TODO handle the event triggering
 
 class SoundCloutApp(App):
-<<<<<<< HEAD:kivy/main.py
-
-=======
-	
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
 	def build(self):
 		return Manager(transition=WipeTransition())
 
 if  __name__=='__main__':
-<<<<<<< HEAD:kivy/main.py
+
 	SoundCloutApp().run()
-=======
-	SoundCloutApp().run()
->>>>>>> 4c9e0556f5f5608c5fcf9f0c3a32266d58dd29cb:kivy/main.py
