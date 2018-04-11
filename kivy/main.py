@@ -211,7 +211,8 @@ class SelectGroupScreen(Screen):
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
 			addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
-			addedButton.bind(on_press=lambda x:self.group_modification(addedButton,self.currentSlot))
+			addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
+			addedButton.bind(on_press=self.press_btn)
 			addedButton.bind(on_release=lambda x:self.nav_to_group())
 
 			addedGroup.add_widget(addedButton)
@@ -223,12 +224,14 @@ class SelectGroupScreen(Screen):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
-	def group_modification(self,button, timelineNumber):
+	def group_modification(self,timelineNumber):
 		#assign group and device number so modifications can be made
-		EditGroupBehaviourScreen.groupNumber=int(button.text[6])
 		EditGroupBehaviourScreen.timelineNumber=timelineNumber
 		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
+
+	def press_btn(self,instance):
+		EditGroupBehaviourScreen.groupNumber=int(instance.text[6])
 
 class DeviceTemplateScreen(Screen):
 	pass
@@ -244,7 +247,7 @@ class GroupTemplateScreen(Screen):
 		self.ids.devicesConnected.clear_widgets()
 
 
-		#Add back labels for the group and devices connected
+		#Add back labels for the group and devices connectedf
 		self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 		#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 		#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
