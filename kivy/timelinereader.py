@@ -4,25 +4,28 @@ import io
 from random import randint
 import sys
 class timelineReader:
-    def __init__(self,settingsList, cyclelength, eventLength,groupname):
+    def __init__(self,settingsList, cyclelength, eventLength,groupname, numberofslots):
             self.settingsList = settingsList
             self.cyclelength = cyclelength
             self.eventLength = eventLength
             self.groupname = groupname
+            self.numberofslots = numberofslots
 
     def MonthGroupBehavior(self):
         #1 bit is 1/10th of a second
         cycleLengthBits = self.cyclelength*36000 #converts cyclelength to bits and is calculated if cyclelength is given in hours
-        monthLength = int(cycleLengthBits/12)
-        eventLengthBits = self.eventLength*600 #converts event length to bits and is calculated if eventlength is given in minutes
+        monthLength = int(cycleLengthBits/self.numberofslots)
+        eventLengthBits = int(self.eventLength*600)
+        print(eventLengthBits) #converts event length to bits and is calculated if eventlength is given in minutes
         marker = self.settingsList[2]
         numEvents = self.settingsList[3]
         binaryString = '';
         if marker==True:
             p=binarySequence(monthLength,eventLengthBits,numEvents)
             a = p.makeBinString()
+            open(self.groupname+".soundclout",'a').close()
             file = open(self.groupname +".soundclout", "r+b")
-            print((self.settingsList[1]-1)*monthLength)
+            #print((self.settingsList[1]-1)*monthLength)
             file.seek((self.settingsList[1]-1)*monthLength)
             file.write(''.join(a))
             binaryString = ''.join(a)
@@ -30,9 +33,9 @@ class timelineReader:
 
             file.close
         if marker==False:
-            p=binarySequence(monthLength,0,0)
+            p=binarySequence(monthLength,eventLengthBits,0)
             b = p.makeBinString()
-
+            open(self.groupname+".soundclout",'a').close()
             file = open(self.groupname +".soundclout", "r+b")
             print((self.settingsList[1]-1)*monthLength)
             file.seek((self.settingsList[1]-1)*monthLength)
@@ -72,6 +75,6 @@ class binarySequence:
 
 
 #testing
-newList=[0,2,1,2]
-j = timelineReader(newList,1,5,"group1")
+newList=[0,1,1,2]
+j = timelineReader(newList,.2,.01,"group1",100)
 j.MonthGroupBehavior()
