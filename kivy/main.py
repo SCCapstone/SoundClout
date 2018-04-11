@@ -9,6 +9,7 @@ from kivy.uix.filechooser import FileChooser
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
+from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle,InstructionGroup
@@ -105,13 +106,14 @@ class EditDeviceGroupsScreen(Screen):
 	#Groups = [GroupNo,null]
 	Groups = []
 	loaded_config = []
+	group_index = 0
 
 
 	def on_enter(self):
 		self.ids.glayout2.clear_widgets()
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group " + self.manager.groupList[i].name + "\'s Settings",
+			addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",
 							   font_size=25,
 							   id=self.manager.groupList[i].name,
 							   on_release=self.press_btn
@@ -121,11 +123,12 @@ class EditDeviceGroupsScreen(Screen):
 
 	#on press, send group id to group template and transition to template screen
 	def press_btn(self,instance):
-		GroupTemplateScreen.currentGroupNo=instance.text[6]
+		GroupTemplateScreen.currentGroupNo=int(instance.text[6])
+		print(GroupTemplateScreen.currentGroupNo)
 		self.manager.current = 'group_template_screen_11'
 
 	def create_group(self):
-		group = Group(self.manager.create_group_screen.ids.group_name.text, devList = [], groupParams = [])
+		group = Group(self.manager.create_group_screen.ids.group_name.text, len(self.manager.groupList)+1, devList = [], groupParams = [])
 		self.manager.groupList.append(group)
 
 ## Save/Load
@@ -175,7 +178,7 @@ class EditDeviceGroupsScreen(Screen):
 		for i in range(0, len(self.loaded_config), 3):
 			if not self.loaded_config[i]:
 				break
-			group = Group(self.loaded_config[i],[],[])
+			group = Group(self.loaded_config[i],len(self.manager.groupList)+1,[],[])
 			self.manager.groupList.append(group)
 			pass
 
@@ -207,20 +210,22 @@ class SelectGroupScreen(Screen):
 		self.ids.glayout2.clear_widgets()
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group " + self.manager.groupList[i].name + " Settings",font_size=25)
-			addedButton.bind(on_press=lambda x:self.group_modification(i,self.currentSlot))
+			addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification(addedButton,self.currentSlot))
 			addedButton.bind(on_release=lambda x:self.nav_to_group())
 
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
 
+
+
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
 	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
-	def group_modification(self,groupNumber,timelineNumber):
+	def group_modification(self,button, timelineNumber):
 		#assign group and device number so modifications can be made
-		EditGroupBehaviourScreen.groupNumber=groupNumber
+		EditGroupBehaviourScreen.groupNumber=int(button.text[6])
 		EditGroupBehaviourScreen.timelineNumber=timelineNumber
 		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
@@ -261,7 +266,9 @@ class GroupTemplateScreen(Screen):
 			self.ids.devicelisting.add_widget(addedGroup)
 
 	def removeGroup(self):
-		del EditDeviceGroupsScreen.Groups[int(self.currentGroupNo)-1]
+		del self.manager.groupList[int(self.currentGroupNo)-1]
+		for i in range(self.currentGroupNo-1, len(self.manager.groupList), 1):
+			self.manager.groupList[i].index -= 1
 
 	#saving this for when Group names have to be deleted by name matching
 	def removeGroupMatching(self):
@@ -339,7 +346,7 @@ class EditGroupBehaviourScreen(Screen):
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings)
-					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]))
+					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]),12)
 					j.MonthGroupBehavior()
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
@@ -419,11 +426,11 @@ class Device():
 class Group():
 
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
-	def __init__(self,name, devList = [], groupParams = []):
+	def __init__(self,name,index, devList = [], groupParams = []):
 		self.name = name
 		self.devList = devList
 		self.groupSettings = groupParams
-
+		self.index = index
 	def signalGroup(self):
 		pass
 		# TODO handle the event triggering
