@@ -10,6 +10,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
 from kivy.uix.popup import Popup
+from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle,InstructionGroup
 from kivy.uix.rst import RstDocument
 from timelinereader import timelineReader
@@ -31,14 +32,28 @@ class RunScreen(Screen):
 
 class DeviceTesterScreen(Screen):
 
-	def refresh_devices_list(self):
-		#refresh devices list
-		self.connected_device_list._trigger_reset_populate()
+	def on_enter(self):
+		#Clear all widgets
+		self.ids.devicetestlisting.clear_widgets()
+		for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+
+			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
+
+			switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
+			switch.bind(active=self.switch_on)
+			addedGroup.add_widget(switch)
+
+			self.ids.devicetestlisting.add_widget(addedGroup)
+
+	def switch_on(self,instance, value):
+		print (instance)
+		print (value)
 
 class ConnectDevicesScreen(Screen):
 
 	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
-	applied_list =[]
+	applied_list =['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
 
 	def connect_device(self):
 		#if device is selected
@@ -269,9 +284,32 @@ class EditGroupBehaviourScreen(Screen):
 	timelineNumber = 0
 	switchActive = 0
 	sliderValue = 0
-
 	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
 	groupSettings = []
+
+	triggerGroup = 0
+	affectedGroup = 0
+	triggerPercentage = 0
+	#triggerSetting = [triggerGroup,affectedGroup,triggerPercentage]
+	triggerSetting = []
+
+	def on_enter(self):
+		self.ids.triggerlisting.clear_widgets()
+		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+
+			addedGroup.add_widget(Label(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]),font_size=25,color=(0,0,0,1)))
+
+			switch=Switch(active=False,id=str(EditDeviceGroupsScreen().Groups[i][0]))
+			switch.bind(active=self.switch_on_2)
+
+			slider=Slider(min=0,max=100,value=0,step=10)
+
+			addedGroup.add_widget(Label(text="%",font_size=25,color=(0,0,0,1)))
+
+			addedGroup.add_widget(switch)
+
+			self.ids.triggerlisting.add_widget(addedGroup)
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
@@ -287,11 +325,11 @@ class EditGroupBehaviourScreen(Screen):
 	def refresh_settings(self):
 		pass
 
+	#reset settings
 	def reset_settings(self):
 		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-
 	def save_changes(self,timelineNumber,switchActive,sliderValue):
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
@@ -310,8 +348,16 @@ class EditGroupBehaviourScreen(Screen):
 			print("Switch On")
 		else:
 			print("Switch Off")
+
+	def switch_on_2(self, value,null):
+		if value is True:
+			print("Switch On")
+		else:
+			print("Switch Off")
+
 	def back_out(self):
 		pass
+
 
 class SaveDialogScreen(Screen):
 
