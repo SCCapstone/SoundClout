@@ -1147,6 +1147,7 @@
 			width:50
 
 	BoxLayout:
+		orientation: "vertical"
 		size_hint_y: None
 		height: 500
 		spacing: 50
@@ -1163,13 +1164,30 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-			Button:
-				size_hint_x: None
-				size_hint_y: None
-				height: 50
-				width:100
-				text: 'Back'
-				on_release: root.manager.current = 'edit_timeline_screen_7'
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_y: 0.15
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Back'
+					on_release: root.manager.current = 'edit_timeline_screen_7'
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Add Slot'
 
 			#Groups holder
 			BoxLayout:
@@ -1185,6 +1203,7 @@
 
 				#Adds Scrollability
 				ScrollView:
+					id: scrollview1
 					do_scroll_x:False
 					do_scroll_Y:True
 					BoxLayout:
