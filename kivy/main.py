@@ -9,7 +9,7 @@ from kivy.uix.button import Button,Label
 from kivy.uix.switch import Switch
 from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle,InstructionGroup
-
+from plot import *
 from timelinereader import *
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
@@ -280,7 +280,7 @@ class EditGroupBehaviourScreen(Screen):
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings)
-					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]))
+					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]),12)
 					j.MonthGroupBehavior()
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
