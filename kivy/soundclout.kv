@@ -956,14 +956,36 @@
 					pos: self.pos
 					size: self.size
 
-			Button:
-				size_hint_x: None
-				size_hint_y: None
-				height: 50
-				width:100
-				text: 'New Timeline'
-				on_press: main.EditGroupBehaviourScreen().reset_settings()
-				on_release: root.manager.current = 'build_timeline_screen_6'
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+				padding: 10
+				size_hint_y: 0.15
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'New Timeline'
+					on_press: main.EditGroupBehaviourScreen().reset_settings()
+					on_release: root.manager.current = 'build_timeline_screen_6'
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Add Slot'
+					on_release: main.EditTimelineScreen().addSlot()
+					on_release: self.text = "Pressed"
 
 			#Groups holder
 			BoxLayout:
@@ -981,7 +1003,7 @@
 				ScrollView:
 					do_scroll_x:True
 					GridLayout:
-						id: glayout
+						id: glayout3
 						rows:1
 						size_hint_x: None
 						width: self.minimum_width
@@ -1182,12 +1204,7 @@
 					text: 'Back'
 					on_release: root.manager.current = 'edit_timeline_screen_7'
 
-				Button:
-					size_hint_x: None
-					size_hint_y: None
-					height: 50
-					width:100
-					text: 'Add Slot'
+
 
 			#Groups holder
 			BoxLayout:
