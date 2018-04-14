@@ -216,13 +216,14 @@ class EditTimelineScreen(Screen):
 	def findIndexOfSlot(self, button):
 		for i in range(len(self.ids.glayout3.children)):
 			if button is self.ids.glayout3.children[i]:
-				pass
+				return i
 	def removeSlot(self):
 		self.ids.glayout3.remove_widget(self.ids.glayout3.children[1])
 
 	def addSlot(self):
 		addedButton = Button(text = "Slot " + str(len(self.ids.glayout3.children)+1), font_size = 20, size_hint_x = None, width = '200sp')
-		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(len(self.ids.glayout3.children)+1))
+		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
+		print("Slot Number Updated")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 		return addedButton
 
@@ -245,17 +246,18 @@ class SelectGroupScreen(Screen):
 
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
-
+		print(self.currentSlot)
 	def setSlot(self, value):
+		print(value)
 		self.currentSlot = value
 
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
 
-	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.timelineNumber
-	def group_modification(self,timelineNumber):
+	#triggers on press of any timeline button assigning group number and timeline number to GroupBehaviourScreen.groupNumber and GroupBehaviourScreen.slotNumber
+	def group_modification(self,slotNumber):
 		#assign group and device number so modifications can be made
-		EditGroupBehaviourScreen.timelineNumber=timelineNumber
+		EditGroupBehaviourScreen.slotNumber=slotNumber
 		#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present, otherwise, loads current switch position and slider amount
 		EditGroupBehaviourScreen().add_settings()
 
@@ -320,10 +322,10 @@ class GroupTemplateScreen(Screen):
 
 class EditGroupBehaviourScreen(Screen):
 	groupNumber = 0
-	timelineNumber = 0
+	slotNumber = 0
 	switchActive = 0
 	sliderValue = 0
-	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
+	#groupSettings = [groupNumber-starting at 1,slotNumber-starting at 1,switchActive,sliderValue]
 	groupSettings = []
 
 	triggerGroup = 0
@@ -354,9 +356,9 @@ class EditGroupBehaviourScreen(Screen):
 	def add_settings(self):
 		tempSettings = []
 		for i in xrange(0,len(self.groupSettings)):
-		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
+		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
 		 			return
-		tempSettings = [self.groupNumber,self.timelineNumber,0,0]
+		tempSettings = [self.groupNumber,self.slotNumber,0,0]
 		self.groupSettings.append(tempSettings)
 
 	#finds and reads four tuple for timeline element to update slider position and switch position
@@ -369,12 +371,12 @@ class EditGroupBehaviourScreen(Screen):
 		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-	def save_changes(self,timelineNumber,switchActive,sliderValue):
+	def save_changes(self,slotNumber,switchActive,sliderValue):
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
-		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.timelineNumber:
+		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
 		 			#update element
-					self.groupSettings[i][1] = timelineNumber
+					self.groupSettings[i][1] = slotNumber
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings)
@@ -457,12 +459,14 @@ class Device():
 # holds a list of devices in the group and the saved group parameters
 class Group():
 
-	#groupSettings = [groupNumber-starting at 1,timelineNumber-starting at 1,switchActive,sliderValue]
+	#groupSettings = [groupNumber-starting at 1,slotNumber-starting at 1,switchActive,sliderValue]
 	def __init__(self,name,index, devList = [], groupParams = []):
 		self.name = name
 		self.devList = devList
 		self.groupSettings = groupParams
 		self.index = index
+
+
 	def signalGroup(self):
 		pass
 		# TODO handle the event triggering
