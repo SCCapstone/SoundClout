@@ -984,7 +984,7 @@
 					height: 50
 					width:100
 					text: 'Add Slot'
-					on_release: main.EditTimelineScreen().addSlot()
+					on_release: glayout3.add_widget(root.addSlot())
 					on_release: self.text = "Pressed"
 
 			#Groups holder
@@ -1204,6 +1204,13 @@
 					text: 'Back'
 					on_release: root.manager.current = 'edit_timeline_screen_7'
 
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Remove Slot'
+					on_release: root.manager.current = 'edit_timeline_screen_7'
 
 
 			#Groups holder

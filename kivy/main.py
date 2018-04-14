@@ -196,6 +196,9 @@ class EditTimelineScreen(Screen):
 
 	skipBuild = 'build_timeline_screen_6'
 
+	def on_enter(self):
+		pass
+
 	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
 		if value is 1:
@@ -210,13 +213,21 @@ class EditTimelineScreen(Screen):
 	def currentSlot():
 		pass
 
-	def findIndex(self):
-		pass
+	def findIndexOfSlot(self, button):
+		for i in range(len(self.ids.glayout3.children)):
+			if button is self.ids.glayout3.children[i]:
+				pass
+	def removeSlot(self):
+		self.ids.glayout3.remove_widget(self.ids.glayout3.children[1])
 
 	def addSlot(self):
-		addedButton = Button(text = "Slot " + str(len(self.ids.glayout3.children)), font_size = 20, size_hint_x = None, width = '200sp')
-		self.ids.glayout3.add_widget(addedButton)
-		print("Slot Added")
+		addedButton = Button(text = "Slot " + str(len(self.ids.glayout3.children)+1), font_size = 20, size_hint_x = None, width = '200sp')
+		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(len(self.ids.glayout3.children)+1))
+		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
+		return addedButton
+
+	def goToSelectGroupScreen(self):
+		self.manager.current = 'select_group_screen_8'
 
 class SelectGroupScreen(Screen):
 	#reassignment in EditTimelineScreen.glayout
@@ -235,7 +246,8 @@ class SelectGroupScreen(Screen):
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
 
-
+	def setSlot(self, value):
+		self.currentSlot = value
 
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
