@@ -20,6 +20,7 @@ class HomeScreen(Screen):
 			self.skipBuild = 'edit_timeline_screen_7'
 
 class RunScreen(Screen):
+	#TODO try call plot here and place png, catch errors
 	pass
 
 class DeviceTesterScreen(Screen):
@@ -280,7 +281,8 @@ class EditGroupBehaviourScreen(Screen):
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings)
-					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]),12)
+					#TODO need to replace ints here with variables cyclength,eventlength,numberofslots
+					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]),10)
 					j.MonthGroupBehavior()
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time

@@ -1,32 +1,43 @@
 import matplotlib.pyplot as plt
 
 
-
-def getnumberofOnes(cyclelength,slotlength,filename):
+#runs through file and returns list of ones in each slot
+def getnumberofOnes(cyclelength,numberofslots,filename):
     f=open(filename,'r')
     y = f.read()
     counter=0
     listforplot =[]
-    perslot =cyclelength*36000/slotlength
-    for p in xrange(0,slotlength):
-        #print(str(p*perslot)+ "to " +str((p+1)*perslot))
+    perslot =cyclelength*36000/numberofslots
+    for p in xrange(0,numberofslots):
         counter=0
         for x in y[p*perslot:(p+1)*perslot]:
-            #print(str(p*perslot)+ "to " +str((p+1)*perslot))
             if x == "1":
                 counter=counter+1
         listforplot.append(counter)
-        #print(listforplot)
     return(listforplot)
-
-def plot(oneslist,numberofslots):
+#plots timeline based on iputs
+def plot(numberofslots,listofgroup):
     slotlist=[]
-    for y in xrange(1,numberofslots+1):
-        slotlist.append(y)
-    plt.subplot(221)
-    plt.plot(slotlist, oneslist)
-    plt.yscale('linear')
-    plt.grid(True)
+    fig, ax = plt.subplots()
+    plt.subplots_adjust(bottom=.73, left=.08, right=.95, top=.99, hspace=.35,wspace=0)
+    z=len(listofgroup)
+    colorlist = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    listofgroup.reverse()
+    newlist =[]
+    for x in xrange(0,z):
+        newlist.append(x*1.2)
+        a =getnumberofOnes(1,numberofslots,str(x+1)+".soundclout")
+        for y in xrange(0,numberofslots):
+            slotlist.append(y)
+            if a[y]!=0:
+                ax.broken_barh([(slotlist[y], 1)],(1*x,1), facecolors='blue')
+        ax.set_ylim(1.5 ,1.5*x)
+        ax.set_xlim(1, numberofslots)
+        ax.set_xlabel('slots')
+        ax.set_ylabel('Groups')
+        ax.set_yticks(newlist)
+        ax.set_yticklabels(listofgroup)
+    plt.savefig('timeline.png',bbox_inches='tight',frameon=False)
     plt.show()
-a =getnumberofOnes(1,12,"1.soundclout")
-b= plot(a,12)
+z= ['group1','group2','group3']
+plot(10,z)
