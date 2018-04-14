@@ -36,12 +36,12 @@ class DeviceTesterScreen(Screen):
 	def on_enter(self):
 		#Clear all widgets
 		self.ids.devicetestlisting.clear_widgets()
-		for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
+		for i in xrange(0,len(ConnectDevicesScreen.applied_list)):
 			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
+			addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen.applied_list[i],font_size=25,color=(0,0,0,1)))
 
-			switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
+			switch=Switch(active=False,id=ConnectDevicesScreen.applied_list[i])
 			switch.bind(active=self.switch_on)
 			addedGroup.add_widget(switch)
 
@@ -53,51 +53,57 @@ class DeviceTesterScreen(Screen):
 
 class ConnectDevicesScreen(Screen):
 
-	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
-	applied_list =['Pi-1','Pi-2','Pi-3','Pi-4','Pi-5']
+	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4']
+	applied_list =[]
 
-	def connect_device(self):
-		#if device is selected
-		if self.device_list.adapter.selection:
-			#get selection
-			selection = self.device_list.adapter.selection[0].text
-			#remove from available devices
-			self.device_list.adapter.data.remove(selection)
-			#add to connected devices
-			self.connected_device_list.adapter.data.extend([selection])
-			#refresh both device list and connected devices list
-			self.device_list._trigger_reset_populate()
-			self.connected_device_list._trigger_reset_populate()
+	def on_enter(self):
+		#Clear all widgets
+		self.ids.scanlisting.clear_widgets()
+		self.ids.devicelisting.clear_widgets()
 
-			for i in xrange(0,len(ConnectDevicesScreen.scan_list)):
-				if ConnectDevicesScreen.scan_list[i]==selection:
-					ConnectDevicesScreen.applied_list.append(selection)
-					del ConnectDevicesScreen.scan_list[i]
-					return
+		for i in xrange(0,len(self.scan_list)):
+			addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-	def disconnect_device(self):
-		#if device is selected
-		if self.connected_device_list.adapter.selection:
-			#get selection
-			selection = self.connected_device_list.adapter.selection[0].text
-			#remove from available devices
-			self.connected_device_list.adapter.data.remove(selection)
-			#add to connected devices
-			self.device_list.adapter.data.extend([selection])
-			#refresh both device list and connected devices list
-			self.device_list._trigger_reset_populate()
-			self.connected_device_list._trigger_reset_populate()
+			addedDevice.add_widget(Button(text=self.scan_list[i],font_size=25, on_press=self.connect_device))
 
-			for i in xrange(0,len(ConnectDevicesScreen.applied_list)):
-				if ConnectDevicesScreen.applied_list[i]==selection:
-					ConnectDevicesScreen.scan_list.append(selection)
-					del ConnectDevicesScreen.applied_list[i]
-					return
+			self.ids.scanlisting.add_widget(addedDevice)
+
+		for i in xrange(0,len(self.applied_list)):
+			addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+
+			addedDevice.add_widget(Button(text=self.applied_list[i],font_size=25, on_press=self.disconnect_device))
+
+			self.ids.devicelisting.add_widget(addedDevice)
 
 
-	def on_leave(self):
-		print (self.scan_list)
-		print (self.applied_list)
+	#on press of scan button
+	def scan():
+		pass
+
+	def disconnect_all():
+		self.scan_list.append(applied_list)
+		self.applied_list = []
+
+	#connect device when pressed
+	def connect_device(self,instance):
+		self.applied_list.append(instance.text)
+		for i in xrange(0,len(self.scan_list)):
+			if self.scan_list[i] == instance.text:
+				del self.scan_list[i]
+				return
+
+		self.manager.current = 'connect_devices_screen_4'
+
+	#disconnect device when pressed
+	def disconnect_device(self,instance):
+		self.scan_list.append(instance.text)
+		for i in xrange(0,len(self.scan_list)):
+			if self.applied_list[i] == instance.text:
+				del self.applied_list[i]
+				return
+
+		self.manager.current = 'connect_devices_screen_4'
+
 
 class DeviceListButton(ListItemButton):
 	pass

@@ -517,8 +517,6 @@
 
 
 <ConnectDevicesScreen>:
-	connected_device_list : connected_device_list_view
-
 	rows: 2
 	spacing: 10
 	canvas:
@@ -568,7 +566,8 @@
 			BoxLayout:
 				orientation: "horizontal"
 				spacing: 10
-				padding: 10
+				size_hint_y: None
+				height: '100'
 				canvas:
 					Color:
 						rgba: hex('#0099cc')
@@ -578,12 +577,6 @@
 
 				Button:
 					text: "Scan"
-					font_size: 20
-					height: 100
-
-				Button:
-					text: "Connect"
-					on_press: root.connect_device()
 					font_size: 20
 					height: 100
 
@@ -600,12 +593,11 @@
 					do_scroll_x:False
 					do_scroll_Y:True
 					BoxLayout:
-						id: devicetestlisting
+						id: scanlisting
 						orientation: 'vertical'
 						spacing: 5
 						size_hint_y: None
 						height: self.minimum_height
-
 
 		BoxLayout:
 			orientation: "vertical"
@@ -620,22 +612,9 @@
 
 			BoxLayout:
 				orientation: "horizontal"
-				canvas:
-					Color:
-						rgba: hex('#ffffff')
-					Rectangle:
-						pos: self.pos
-						size: self.size
-
-				ListView:
-					id: connected_device_list_view
-					adapter:
-						ListAdapter(data=root.applied_list, cls=main.DeviceListButton)
-
-			BoxLayout:
-				orientation: "horizontal"
 				spacing: 10
-				padding: 10
+				size_hint_y: None
+				height: '100'
 				canvas:
 					Color:
 						rgba: hex('#0099cc')
@@ -644,13 +623,31 @@
 						size: self.size
 
 				Button:
-					text: "Disconnect Device"
-					on_press: root.disconnect_device()
+					text: "Disconnect All"
 					font_size: 20
 					height: 100
+					on_press: root.disconnect_all()
+
+			BoxLayout:
+				orientation: "horizontal"
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				ScrollView:
+					do_scroll_x:False
+					do_scroll_Y:True
+					BoxLayout:
+						id: devicelisting
+						orientation: 'vertical'
+						spacing: 5
+						size_hint_y: None
+						height: self.minimum_height
 
 <EditDeviceGroupsScreen>:
-
 	group_index: self.group_index
     rows: 2
     spacing: 10
@@ -985,7 +982,7 @@
 					width:100
 					text: 'Add Slot'
 					on_release: glayout3.add_widget(root.addSlot(),len(glayout3.children))
-					on_release: self.text = "Pressed"
+					#on_release: self.text = "Pressed"
 
 			#Groups holder
 			BoxLayout:
@@ -1335,25 +1332,6 @@
 						Rectangle:
 							pos: self.pos
 							size: self.size
-
-					BoxLayout:
-						orientation: "horizontal"
-						size_hint_y: None
-						height: 50
-						canvas:
-							Color:
-								rgba: hex('#98a6b3')
-							Rectangle:
-								pos: self.pos
-								size: self.size
-
-						Label:
-							text: 'Activate'
-							font_size: 24
-
-						Switch:
-							id: switch_id
-							on_active: root.switch_on(self.active)
 
 					BoxLayout:
 						orientation: "horizontal"
