@@ -25,19 +25,19 @@ def plot(numberofslots,listofgroup):
     listofgroup.reverse()
     newlist =[]
     for x in xrange(0,z):
-        newlist.append(x*1.2)
+        newlist.append(x*2.5)
         a =getnumberofOnes(1,numberofslots,str(x+1)+".soundclout")
         for y in xrange(0,numberofslots):
             slotlist.append(y)
             if a[y]!=0:
-                ax.broken_barh([(slotlist[y], 1)],(1*x,1), facecolors='blue')
-        ax.set_ylim(1.5 ,1.5*x)
-        ax.set_xlim(1, numberofslots)
+                ax.broken_barh([(slotlist[y], 1)],(2.5*x,2.5), facecolors='blue')
+        ax.set_ylim(0 ,2.5*len(newlist))
+        ax.set_xlim(0, numberofslots)
         ax.set_xlabel('slots')
         ax.set_ylabel('Groups')
         ax.set_yticks(newlist)
         ax.set_yticklabels(listofgroup)
     plt.savefig('timeline.png',bbox_inches='tight',frameon=False)
-    plt.show()
-z= ['group1','group2','group3']
-plot(10,z)
+    #plt.show()
+#z= ['group1','group2','group3']
+#plot(10,z)
