@@ -340,6 +340,7 @@ class EditGroupBehaviourScreen(Screen):
 
 	def on_enter(self):
 		self.ids.triggerlisting.clear_widgets()
+		self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot) 
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
@@ -405,7 +406,7 @@ class EditGroupBehaviourScreen(Screen):
 		print 'current group:' + str(self.groupNumber)
 		print 'target group:' + str(instance.id)
 		print 'percent: Unknown, check comment at main.EditGroupBehaviourScreen.apply_trigger() for details'
-	
+
 	def back_out(self):
 		pass
 

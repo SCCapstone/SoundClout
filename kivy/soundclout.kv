@@ -1310,6 +1310,15 @@
 					on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value))
 					on_release: root.manager.current = 'select_group_screen_8'
 
+				BoxLayout:
+					size_hint_x: 1
+
+				BoxLayout:
+					size_hint_x: None
+					Label:
+						id: SlotNo
+						text: "Slot #"
+
 			BoxLayout:
 				orientation: "horizontal"
 				spacing: 10
