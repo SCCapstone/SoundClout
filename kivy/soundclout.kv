@@ -742,8 +742,6 @@
             #Groups holder
             BoxLayout:
                 orientation: "vertical"
-                spacing: 5
-                padding: 5
                 canvas:
                     Color:
                         rgba: hex('#ffffff')
@@ -954,8 +952,6 @@
 
 			BoxLayout:
 				orientation: "horizontal"
-				spacing: 10
-				padding: 10
 				size_hint_y: 0.15
 				canvas:
 					Color:
@@ -986,8 +982,6 @@
 			#Groups holder
 			BoxLayout:
 				orientation: "vertical"
-				spacing: 5
-				padding: 5
 				canvas:
 					Color:
 						rgba: hex('#ffffff')
@@ -1104,7 +1098,6 @@
 
 				BoxLayout:
 					orientation: 'horizontal'
-					spacing:10
 					canvas:
 						Color:
 							rgba: hex('ffffff')
@@ -1115,24 +1108,13 @@
 					BoxLayout:
 						canvas:
 							Color:
-								rgba: hex('#98a6b3')
+								rgba: hex('#0099cc')
 							Rectangle:
 								pos: self.pos
 								size: self.size
 						Label:
-							text: 'Enviromental Var 1'
 							font_size: 20
 
-					BoxLayout:
-						canvas:
-							Color:
-								rgba: hex('#98a6b3')
-							Rectangle:
-								pos: self.pos
-								size: self.size
-						Label:
-							text: 'Enviromental Var 2'
-							font_size: 20
 
 <SelectGroupScreen>:
 	rows: 2
@@ -1307,7 +1289,7 @@
 					height: 50
 					width:100
 					text: 'Save'
-					on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value))
+					on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value),int(eventlengthinput.value))
 					on_release: root.manager.current = 'select_group_screen_8'
 
 				BoxLayout:
@@ -1364,6 +1346,42 @@
 							step: 1
 
 					BoxLayout:
+						orientation: "horizontal"
+						padding: 15
+						spacing: 10
+						size_hint_y: None
+						height: 75
+						canvas:
+							Color:
+								rgba: hex('#98a6b3')
+							Rectangle:
+								pos: self.pos
+								size: self.size
+
+						Label:
+							text: 'Trigger %: '
+							font_size: 24
+
+						TextInput:
+							multiline:False 
+							id:triggerpercentinput
+
+						Label:
+							text: 'Event length: '
+							font_size: 24
+
+						Slider:
+							min: 0
+							max: 1000
+							value: 0
+							step: 10
+							id:eventlengthinput
+
+						Label:
+							text: str(eventlengthinput.value) + ' bits'
+							font_size: 24
+
+					BoxLayout:
 						orientation: "vertical"
 						spacing: 10
 						padding: 10
@@ -1373,13 +1391,6 @@
 							Rectangle:
 								pos: self.pos
 								size: self.size
-
-						Label:
-							size_hint_y: None
-							height: 50
-							text: 'Triggers'
-							font_size: 24
-
 
 						ScrollView:
 							do_scroll_x:False
