@@ -517,8 +517,6 @@
 
 
 <ConnectDevicesScreen>:
-	connected_device_list : connected_device_list_view
-
 	rows: 2
 	spacing: 10
 	canvas:
@@ -568,7 +566,8 @@
 			BoxLayout:
 				orientation: "horizontal"
 				spacing: 10
-				padding: 10
+				size_hint_y: None
+				height: '100'
 				canvas:
 					Color:
 						rgba: hex('#0099cc')
@@ -581,12 +580,6 @@
 					font_size: 20
 					height: 100
 
-				Button:
-					text: "Connect"
-					on_press: root.connect_device()
-					font_size: 20
-					height: 100
-
 			BoxLayout:
 				orientation: "horizontal"
 				canvas:
@@ -595,17 +588,16 @@
 					Rectangle:
 						pos: self.pos
 						size: self.size
-						
+
 				ScrollView:
 					do_scroll_x:False
 					do_scroll_Y:True
 					BoxLayout:
-						id: devicetestlisting
+						id: scanlisting
 						orientation: 'vertical'
 						spacing: 5
 						size_hint_y: None
 						height: self.minimum_height
-
 
 		BoxLayout:
 			orientation: "vertical"
@@ -620,22 +612,9 @@
 
 			BoxLayout:
 				orientation: "horizontal"
-				canvas:
-					Color:
-						rgba: hex('#ffffff')
-					Rectangle:
-						pos: self.pos
-						size: self.size
-
-				ListView:
-					id: connected_device_list_view
-					adapter:
-						ListAdapter(data=root.applied_list, cls=main.DeviceListButton)
-
-			BoxLayout:
-				orientation: "horizontal"
 				spacing: 10
-				padding: 10
+				size_hint_y: None
+				height: '100'
 				canvas:
 					Color:
 						rgba: hex('#0099cc')
@@ -644,41 +623,174 @@
 						size: self.size
 
 				Button:
-					text: "Disconnect Device"
-					on_press: root.disconnect_device()
+					text: "Disconnect All"
 					font_size: 20
 					height: 100
+					on_press: root.disconnect_all()
+
+			BoxLayout:
+				orientation: "horizontal"
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				ScrollView:
+					do_scroll_x:False
+					do_scroll_Y:True
+					BoxLayout:
+						id: devicelisting
+						orientation: 'vertical'
+						spacing: 5
+						size_hint_y: None
+						height: self.minimum_height
 
 <EditDeviceGroupsScreen>:
+	group_index: self.group_index
+    rows: 2
+    spacing: 10
+    canvas:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    #ToolBar
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
+
+        # Make the background for the toolbar blue
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
+
+    BoxLayout:
+        size_hint_y: None
+        height: 500
+        spacing: 50
+        padding: 20
+        pos: root.x, (root.height-560)
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            canvas:
+                Color:
+                    rgba: hex('#0099cc')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+			BoxLayout:
+	            orientation: "horizontal"
+				size_hint_y: None
+	            spacing: 10
+	            padding: 10
+				height: 70
+	            canvas:
+	                Color:
+	                    rgba: hex('#0099cc')
+	                Rectangle:
+	                    pos: self.pos
+	                    size: self.size
+            	Button:
+                	size_hint_x: None
+                	size_hint_y: None
+                	height: 50
+                	size: self.size
+                	text: 'Create Group'
+                	#on_release: root.create_group()
+                	on_release: root.manager.current = 'create_group_screen_5.1'
+
+				BoxLayout:
+					size_hiny_x: 1
+
+				Button:
+					size_hint_x: None
+                	size_hint_y: None
+					####NEEDS TO BE SET TO VARIABLE VALUE
+
+					height: 50
+                	size: self.size
+                	text: 'Load Groups'
+					on_release: root.show_load()
+
+				Button:
+					size_hint_x: None
+                	size_hint_y: None
+					####NEEDS TO BE SET TO VARIABLE VALUE
+
+					height: 50
+                	size: self.size
+                	text: 'Save Groups'
+					on_release: root.show_save()
+
+            #Groups holder
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 5
+                padding: 5
+                canvas:
+                    Color:
+                        rgba: hex('#ffffff')
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                #Adds Scrollability
+                ScrollView:
+                    do_scroll_x:False
+                    do_scroll_Y:True
+                    BoxLayout:
+                        id: glayout2
+                        orientation: 'vertical'
+                        spacing: 5
+                        size_hint_y: None
+                        height: self.minimum_height
+
+
+<CreateGroupScreen>
 	rows: 2
 	spacing: 10
 	canvas:
-		Color:
-			rgba: 1,1,1,1
-		Rectangle:
-			pos: self.pos
-			size: self.size
+	    Color:
+	        rgba: 1,1,1,1
+	    Rectangle:
+	        pos: self.pos
+	        size: self.size
 
-	#ToolBar
-	BoxLayout:
-		size_hint_y: None
-		height: 50
-		spacing: 10
-		pos: root.x, (root.height-50)
+    BoxLayout:
+        size_hint_y: None
+        height: 50
+        spacing: 10
+        pos: root.x, (root.height-50)
 
-		# Make the background for the toolbar blue
-		canvas:
-			Color:
-				rgba: hex('#0099cc')
-			Rectangle:
-				pos: self.pos
-				size: self.size
-		Button:
-			on_press: root.manager.current = 'homescreen_1'
-			background_normal: 'icons/home.png'
-			size_hint_x: None
-			width:50
 
+        canvas:
+            Color:
+                rgba: hex('#0099cc')
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        Button:
+            on_press: root.manager.current = 'homescreen_1'
+            background_normal: 'icons/home.png'
+            size_hint_x: None
+            width:50
 	BoxLayout:
 		size_hint_y: None
 		height: 500
@@ -687,46 +799,55 @@
 		pos: root.x, (root.height-560)
 
 		BoxLayout:
-			orientation: "vertical"
-			spacing: 10
-			padding: 10
-			canvas:
-				Color:
-					rgba: hex('#0099cc')
-				Rectangle:
-					pos: self.pos
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            canvas:
+                Color:
+                    rgba: hex('#0099cc')
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+	            padding: 10
+				height: 70
+				size_hint_y: None
+				Label:
+					text: 'Group Name'
+					height: 50
+				TextInput:
+					spacing: 10
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
 					size: self.size
+					text: 'OK'
+					multiline: False
+					id: group_name
+
+
+			BoxLayout:
+				size_hint_y: .8
+				canvas:
+					Color:
+						rgba: 1,1,1,1
+					Rectangle:
+				        pos: self.pos
+				        size: self.size
 			Button:
+				spacing: 10
 				size_hint_x: None
 				size_hint_y: None
 				height: 50
+				pos_hint: {'center_x':.5, 'center_y': .5}
 				size: self.size
-				text: 'Create Group'
-				on_release: root.create_group()
+				text: 'OK'
+				on_release: root.manager.edit_device_groups_screen.create_group()
 				on_release: root.manager.current = 'group_template_screen_11'
 
-			#Groups holder
-			BoxLayout:
-				orientation: "vertical"
-				spacing: 5
-				padding: 5
-				canvas:
-					Color:
-						rgba: hex('#ffffff')
-					Rectangle:
-						pos: self.pos
-						size: self.size
 
-				#Adds Scrollability
-				ScrollView:
-					do_scroll_x:False
-					do_scroll_Y:True
-					BoxLayout:
-						id: glayout2
-						orientation: 'vertical'
-						spacing: 5
-						size_hint_y: None
-						height: self.minimum_height
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -831,14 +952,36 @@
 					pos: self.pos
 					size: self.size
 
-			Button:
-				size_hint_x: None
-				size_hint_y: None
-				height: 50
-				width:100
-				text: 'New Timeline'
-				on_press: main.EditGroupBehaviourScreen().reset_settings()
-				on_release: root.manager.current = 'build_timeline_screen_6'
+			BoxLayout:
+				orientation: "horizontal"
+				spacing: 10
+				padding: 10
+				size_hint_y: 0.15
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'New Timeline'
+					on_press: root.manager.edit_group_behaviour_screen.reset_settings()
+					on_release: root.manager.current = 'build_timeline_screen_6'
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Add Slot'
+					on_release: glayout3.add_widget(root.addSlot(),len(glayout3.children))
+					#on_release: self.text = "Pressed"
 
 			#Groups holder
 			BoxLayout:
@@ -856,108 +999,108 @@
 				ScrollView:
 					do_scroll_x:True
 					GridLayout:
-						id: glayout
+						id: glayout3
 						rows:1
 						size_hint_x: None
 						width: self.minimum_width
 
-						Button:
-							text:"SLOT 1"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 1
-							on_release: root.manager.current = 'select_group_screen_8'
-
-
-
-						Button:
-							text:"SLOT 2"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 2
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 3"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 3
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 4"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 4
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 5"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 5
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 6"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 6
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 7"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 7
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 8"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 8
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 9"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 9
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 10"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 10
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 11"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 11
-							on_release: root.manager.current = 'select_group_screen_8'
-
-						Button:
-							text:"SLOT 12"
-							font_size: 20
-							size_hint_x: None
-							width: '200sp'
-							on_press: main.SelectGroupScreen.currentSlot = 12
-							on_release: root.manager.current = 'select_group_screen_8'
+						# Button:
+						# 	text:"SLOT 1"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 1
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						#
+						#
+						# Button:
+						# 	text:"SLOT 2"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 2
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 3"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 3
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 4"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 4
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 5"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 5
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 6"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 6
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 7"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 7
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 8"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 8
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 9"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 9
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 10"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 10
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 11"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 11
+						# 	on_release: root.manager.current = 'select_group_screen_8'
+						#
+						# Button:
+						# 	text:"SLOT 12"
+						# 	font_size: 20
+						# 	size_hint_x: None
+						# 	width: '200sp'
+						# 	on_press: root.manager.select_group_screen.currentSlot = 12
+						# 	on_release: root.manager.current = 'select_group_screen_8'
 
 				BoxLayout:
 					orientation: 'horizontal'
@@ -1022,6 +1165,7 @@
 			width:50
 
 	BoxLayout:
+		orientation: "vertical"
 		size_hint_y: None
 		height: 500
 		spacing: 50
@@ -1038,13 +1182,32 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-			Button:
-				size_hint_x: None
-				size_hint_y: None
-				height: 50
-				width:100
-				text: 'Back'
-				on_release: root.manager.current = 'edit_timeline_screen_7'
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_y: 0.15
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Back'
+					on_release: root.manager.current = 'edit_timeline_screen_7'
+
+				Button:
+					size_hint_x: None
+					size_hint_y: None
+					height: 50
+					width:100
+					text: 'Remove Slot'
+					on_release: root.manager.current = 'edit_timeline_screen_7'
+
 
 			#Groups holder
 			BoxLayout:
@@ -1060,6 +1223,7 @@
 
 				#Adds Scrollability
 				ScrollView:
+					id: scrollview1
 					do_scroll_x:False
 					do_scroll_Y:True
 					BoxLayout:
@@ -1143,7 +1307,7 @@
 					height: 50
 					width:100
 					text: 'Save'
-					on_press: root.save_changes(main.SelectGroupScreen().currentSlot,int(1),int(slider_id.value))
+					on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value))
 					on_release: root.manager.current = 'select_group_screen_8'
 
 			BoxLayout:
@@ -1167,25 +1331,6 @@
 						Rectangle:
 							pos: self.pos
 							size: self.size
-
-					BoxLayout:
-						orientation: "horizontal"
-						size_hint_y: None
-						height: 50
-						canvas:
-							Color:
-								rgba: hex('#98a6b3')
-							Rectangle:
-								pos: self.pos
-								size: self.size
-
-						Label:
-							text: 'Activate'
-							font_size: 24
-
-						Switch:
-							id: switch_id
-							on_active: root.switch_on(self.active)
 
 					BoxLayout:
 						orientation: "horizontal"
@@ -1245,6 +1390,72 @@
 
 
 
+
+<SaveDialogScreen>:
+
+	rows: 2
+	spacing: 10
+
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
+
+		TextInput:
+			id: text_input
+			text: ""
+			size_hint_y: None
+			height: 30
+			multiline: False
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Save"
+				on_release:root.save(filechooser.path, text_input.text)
+
+<LoadDialogScreen>:
+
+	rows: 2
+	spacing: 10
+
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
+
+		TextInput:
+			id: text_input
+			text: "savefile.txt"
+			size_hint_y: None
+			height: 30
+			multiline: False
+
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Load"
+				on_release: root.load(filechooser.path, filechooser.selection)
+
+
 <Manager>:
 	id: screen_manager
 
@@ -1253,6 +1464,9 @@
 	device_tester_screen: device_tester_screen
 	connect_devices_screen: connect_devices_screen
 	edit_device_groups_screen: edit_device_groups_screen
+	create_group_screen: create_group_screen
+	save_dialog_screen: save_dialog_screen
+	load_dialog_screen: load_dialog_screen
 	build_timeline_screen: build_timeline_screen
 	edit_timeline_screen: edit_timeline_screen
 	edit_group_behaviour_screen: edit_group_behaviour_screen
@@ -1283,6 +1497,21 @@
 	EditDeviceGroupsScreen:
 		id: edit_device_groups_screen
 		name: 'edit_device_groups_screen_5'
+		manager: screen_manager
+
+	CreateGroupScreen:
+		id: create_group_screen
+		name: 'create_group_screen_5.1'
+		manager: screen_manager
+
+	SaveDialogScreen:
+		id: save_dialog_screen
+		name: 'save_dialog_screen_5.2'
+		manager: screen_manager
+
+	LoadDialogScreen:
+		id: load_dialog_screen
+		name: 'save_dialog_screen_5.3'
 		manager: screen_manager
 
 	BuildTimelineScreen:

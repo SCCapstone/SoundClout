@@ -16,7 +16,7 @@ def getnumberofOnes(cyclelength,numberofslots,filename):
         listforplot.append(counter)
     return(listforplot)
 #plots timeline based on iputs
-def plot(numberofslots,listofgroup):
+def plot(cyclelength,numberofslots,listofgroup):
     slotlist=[]
     fig, ax = plt.subplots()
     plt.subplots_adjust(bottom=.73, left=.08, right=.95, top=.99, hspace=.35,wspace=0)
@@ -26,7 +26,7 @@ def plot(numberofslots,listofgroup):
     newlist =[]
     for x in xrange(0,z):
         newlist.append(x*2.5)
-        a =getnumberofOnes(1,numberofslots,str(x+1)+".soundclout")
+        a =getnumberofOnes(cyclelength,numberofslots,str(x+1)+".soundclout")
         for y in xrange(0,numberofslots):
             slotlist.append(y)
             if a[y]!=0:
