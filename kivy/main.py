@@ -334,36 +334,33 @@ class EditGroupBehaviourScreen(Screen):
 	#groupSettings = [groupNumber-starting at 1,slotNumber-starting at 1,switchActive,sliderValue]
 	groupSettings = []
 
-	triggerGroup = 0
-	affectedGroup = 0
 	triggerPercentage = 0
 	#triggerSetting = [triggerGroup,affectedGroup,triggerPercentage]
 	triggerSetting = []
 
 	def on_enter(self):
 		self.ids.triggerlisting.clear_widgets()
-		for i in xrange(0,len(EditDeviceGroupsScreen().Groups)):
-			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+		for i in xrange(0,len(self.manager.groupList)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
-			addedGroup.add_widget(Label(text="Group " + str(EditDeviceGroupsScreen().Groups[i][0]),font_size=25,color=(0,0,0,1)))
+			addedGroup.add_widget(Label(text="Group " + str(self.manager.groupList[i].index),font_size=25,color=(0,0,0,1)))
 
-			switch=Switch(active=False,id=str(EditDeviceGroupsScreen().Groups[i][0]))
-			switch.bind(active=self.switch_on_2)
+			addedGroup.add_widget(TextInput(text='%',multiline=False, id='txt.'+str(self.manager.groupList[i].index),size_hint_x=None,width=50))
 
-			slider=Slider(min=0,max=100,value=0,step=10)
+			button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger")
+			button.bind(on_press=self.apply_trigger)
 
-			addedGroup.add_widget(Label(text="%",font_size=25,color=(0,0,0,1)))
-
-			addedGroup.add_widget(switch)
+			addedGroup.add_widget(button)
 
 			self.ids.triggerlisting.add_widget(addedGroup)
+			print addedGroup.id
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
 		tempSettings = []
 		for i in xrange(0,len(self.groupSettings)):
-		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
-		 			return
+			if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
+					return
 		tempSettings = [self.groupNumber,self.slotNumber,0,0]
 		self.groupSettings.append(tempSettings)
 
@@ -380,8 +377,8 @@ class EditGroupBehaviourScreen(Screen):
 	def save_changes(self,slotNumber,switchActive,sliderValue):
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
-		 	if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
-		 			#update element
+			if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
+					#update element
 					self.groupSettings[i][1] = slotNumber
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
@@ -396,12 +393,19 @@ class EditGroupBehaviourScreen(Screen):
 		else:
 			print("Switch Off")
 
-	def switch_on_2(self, value,null):
-		if value is True:
-			print("Switch On")
-		else:
-			print("Switch Off")
+	#the issue with the apply trigger is that i cant get the id of the textbox as it's dynamically created and i'm unsure how to reference it. I can get the groupNunber and targetGroupNumber as they are printed below.
+	def apply_trigger(self, instance):
+		#for i in xrange(0,len(self.triggerSetting)):
+			#if triggerSetting[i][0]= self.groupNumber and triggerSetting[i][1]= instance.id:
+				#update trigger
+				#triggerSetting[i][3]= instance.id
+				#return
 
+		#add new trigger
+		print 'current group:' + str(self.groupNumber)
+		print 'target group:' + str(instance.id)
+		print 'percent: Unknown, check comment at main.EditGroupBehaviourScreen.apply_trigger() for details'
+	
 	def back_out(self):
 		pass
 
@@ -409,7 +413,7 @@ class EditGroupBehaviourScreen(Screen):
 class SaveDialogScreen(Screen):
 
 	save = ObjectProperty(None)
- 	cancel = ObjectProperty(None)
+	cancel = ObjectProperty(None)
 
 	wd = os.getcwd()
 
