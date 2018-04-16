@@ -49,48 +49,54 @@ class RunScreen(Screen):
 
 
 class DeviceTesterScreen(Screen):
-
+	deviceTestedValues = []
 	def on_enter(self):
-		groups = []
+
 		try:
 			#Clear all widgets
 			self.ids.devicetestlisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen.applied_list)):
 				addedGroup = BoxLayout(size_hintOK_y=None,height='75sp',orientation='horizontal')
 
-				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen.applied_list[i],font_size=25,color=(0,0,0,1)))
+				addedGroup.add_widget(Label(text="" +ConnectDevicesScreen.applied_list[i],font_size=20,color=(0,0,0,1)))
 
-				switch=Switch(active=False,id=ConnectDevicesScreen.applied_list[i])
+				switch=Switch(active=True,id=ConnectDevicesScreen.applied_list[i])
 				switch.bind(active=self.switch_on)
 				addedGroup.add_widget(switch)
-				groups.append(addedGroup)
+
 				self.ids.devicetestlisting.add_widget(addedGroup)
+				self.deviceTestedValues.append(True)
 		except ValueError:
 			print('Error in the on_enter function!')
 
 	def switch_on(self,instance, value):
-		print (instance)
+		for x in xrange(0,len(ConnectDevicesScreen.applied_list)):
+			if (ConnectDevicesScreen.applied_list==instance.id):
+				self.deviceTestedValues[x] = value
+		print (instance.id)
 		print (value)
 	def testdevices(self):
+		print("working")
 		for x in xrange(0, len(ConnectDevicesScreen.applied_list)):
-			splitup = ConnectDevicesScreen.applied_list[x].split(' ')
-			addr = None
-			uuid = (splitup[1])
-			service_matches = find_service( uuid = uuid, address = addr)
-			first_match = service_matches[0]
-			port = first_match["port"]
-			name = first_match["name"]
-			host = first_match["host"]
+			if(self.deviceTestedValues[x]==True):
+				splitup = ConnectDevicesScreen.applied_list[x].split(' ')
+				addr = None
+				uuid = (splitup[1])
+				service_matches = find_service( uuid = uuid, address = addr)
+				first_match = service_matches[0]
+				port = first_match["port"]
+				name = first_match["name"]
+				host = first_match["host"]
 
-			print (name)
-			print (uuid)
-			sock=BluetoothSocket( RFCOMM )
-			sock.connect((host, port))
+				print (name)
+				print (uuid)
+				sock=BluetoothSocket( RFCOMM )
+				sock.connect((host, port))
 
-			data = "turn on"
+				data = "turn on"
 
-			sock.send(data)
-			sock.close()
+				sock.send(data)
+				sock.close()
 
 
 
@@ -200,7 +206,7 @@ class EditDeviceGroupsScreen(Screen):
 			for i in xrange(0,len(self.manager.groupList)):
 				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
 				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",
-								   font_size=25,
+								   font_size=10,
 								   id=self.manager.groupList[i].name,
 								   on_release=self.press_btn
 								   )
@@ -415,16 +421,16 @@ class GroupTemplateScreen(Screen):
 			self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=35))
+			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=15))
 
-			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
-			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=35))
+			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=15))
+			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=15))
 
 			self.ids.devicelisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
 				addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=25,color=(0,0,0,1)))
+				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=15,color=(0,0,0,1)))
 
 				switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
 				switch.bind(active=self.switch_on)

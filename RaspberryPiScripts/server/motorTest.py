@@ -21,4 +21,3 @@ print "testing off"
 GPIO.output(22, GPIO.LOW)
 GPIO.cleanup()
 exit()
-
