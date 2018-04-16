@@ -346,16 +346,18 @@ class EditGroupBehaviourScreen(Screen):
 	#triggerSetting = [triggerGroup,affectedGroup,triggerPercentage]
 	triggerSetting = []
 
+	#eventlength = length of events(int)
+	eventLength = 0
+
 	def on_enter(self):
 		self.ids.triggerlisting.clear_widgets()
+		self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot) 
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
 			addedGroup.add_widget(Label(text="Group " + str(self.manager.groupList[i].index),font_size=25,color=(0,0,0,1)))
 
-			addedGroup.add_widget(TextInput(text='%',multiline=False, id='txt.'+str(self.manager.groupList[i].index),size_hint_x=None,width=50))
-
-			button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger")
+			button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger",size_hint_x=None,width=175)
 			button.bind(on_press=self.apply_trigger)
 
 			addedGroup.add_widget(button)
@@ -382,7 +384,9 @@ class EditGroupBehaviourScreen(Screen):
 		self.groupSettings = []
 
 	#if save changes button is pressed, update four tuple on group timeline
-	def save_changes(self,slotNumber,switchActive,sliderValue):
+	def save_changes(self,slotNumber,switchActive,sliderValue,eventlength):
+		#update length of events
+		self.eventlength = eventlength
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
 			if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
@@ -401,18 +405,21 @@ class EditGroupBehaviourScreen(Screen):
 		else:
 			print("Switch Off")
 
-	#the issue with the apply trigger is that i cant get the id of the textbox as it's dynamically created and i'm unsure how to reference it. I can get the groupNunber and targetGroupNumber as they are printed below.
+	#apply trigger
 	def apply_trigger(self, instance):
-		#for i in xrange(0,len(self.triggerSetting)):
-			#if triggerSetting[i][0]= self.groupNumber and triggerSetting[i][1]= instance.id:
+		for i in xrange(0,len(self.triggerSetting)):
+			#remove self from if for strange error
+			if str(self.triggerSetting[i][0])==str(self.groupNumber) and str(self.triggerSetting[i][1])==str(instance.id):
 				#update trigger
-				#triggerSetting[i][3]= instance.id
-				#return
+				self.triggerSetting[i][2]= str(self.manager.edit_group_behaviour_screen.ids.triggerpercentinput.text)
+				print 'update'
+				print self.triggerSetting
+				return
 
 		#add new trigger
-		print 'current group:' + str(self.groupNumber)
-		print 'target group:' + str(instance.id)
-		print 'percent: Unknown, check comment at main.EditGroupBehaviourScreen.apply_trigger() for details'
+		print 'new'
+		self.triggerSetting.append([str(self.groupNumber),str(instance.id),str(self.manager.edit_group_behaviour_screen.ids.triggerpercentinput.text)])
+		print self.triggerSetting
 
 	def back_out(self):
 		pass
