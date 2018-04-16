@@ -23,7 +23,7 @@ import bluetooth
 from bluetooth import *
 
 
-connected_devices = []
+group = 0
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 	#skips build option if already timeline is already built
@@ -43,14 +43,15 @@ class RunScreen(Screen):
 			for x in xrange(0,len(self.manager.groupList)):
 				grouplist.append(self.manager.groupList[x].name)
 				print("this is the number of slots "+ str(len(self.manager.edit_timeline_screen.ids.glayout3.children)))
+				self.test_send(x+1)
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
-			test_send();
 
 
 		except ValueError:
 			print('Error in the on_enter function!')
-	def test_send(self):
-		sequencefile = open('sequencetester.txt','r')
+	def test_send(self, groupnumber):
+		filename = str(groupnumber) + ".soundclout"
+		sequencefile = open(filename,'r')
 		testsend = sequencefile.read()
 		splitup = ConnectDevicesScreen.applied_list[0].split(' ')
 		addr = None
@@ -196,7 +197,6 @@ class ConnectDevicesScreen(Screen):
 			for i in xrange(0,len(self.scan_list)-1):
 				if self.scan_list[i] == instance.text:
 					del self.scan_list[i]
-			connected_devices.append(instance.text)
 
 			self.manager.current = 'loading_screen'
 			self.manager.current = 'connect_devices_screen_4'
