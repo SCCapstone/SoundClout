@@ -351,7 +351,7 @@ class EditGroupBehaviourScreen(Screen):
 
 	def on_enter(self):
 		self.ids.triggerlisting.clear_widgets()
-		self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot) 
+		self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot)
 		for i in xrange(0,len(self.manager.groupList)):
 			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
@@ -389,14 +389,21 @@ class EditGroupBehaviourScreen(Screen):
 		self.eventlength = eventlength
 		#find element
 		for i in xrange(0,len(self.groupSettings)):
+
 			if self.groupSettings[i][0]==self.groupNumber and self.groupSettings[i][1]==self.slotNumber:
 					#update element
 					self.groupSettings[i][1] = slotNumber
 					self.groupSettings[i][2] = switchActive
 					self.groupSettings[i][3] = sliderValue
 					print(self.groupSettings)
-					j = timelineReader(self.groupSettings[i],1,2,str(self.groupSettings[i][0]),len(self.manager.edit_timeline_screen.ids.glayout3.children))
-					j.MonthGroupBehavior()
+			for x in xrange(len(self.triggerSetting)):
+				if self.triggerSetting[x][0]==self.groupSettings[i][0]:
+					j = timelineReader(self.groupSettings[i],1,self.eventlength,str(self.groupSettings[i][0]),len(self.manager.edit_timeline_screen.ids.glayout3.children))
+					tmp1 =j.MonthGroupBehavior()
+					a=Trigger(self.triggerSetting[x][2],tmp1,1,str(self.groupSettings[i][0]),str(self.triggerSetting[x][1]),len(self.manager.edit_timeline_screen.ids.glayout3.children))
+					a.Trigger()
+			j = timelineReader(self.groupSettings[i],1,self.eventlength,str(self.groupSettings[i][0]),len(self.manager.edit_timeline_screen.ids.glayout3.children))
+			j.MonthGroupBehavior()
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):

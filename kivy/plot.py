@@ -38,7 +38,6 @@ def plot(cyclelength,numberofslots,listofgroup):
         ax.set_yticks(newlist)
         ax.set_yticklabels(listofgroup)
     plt.savefig('timeline.png',bbox_inches='tight',frameon=False)
-    plt.show()
-    
+    #plt.show()
 #z= ['group1','group2','group3']
 #plot(10,z)
