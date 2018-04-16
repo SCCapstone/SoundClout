@@ -18,11 +18,14 @@ from timelinereader import timelineReader
 import io
 import os, errno
 from plot import *
+import sys
+import bluetooth
+from bluetooth import *
 
 
+connected_devices = []
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
-
 	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
 		try:
@@ -48,18 +51,19 @@ class RunScreen(Screen):
 class DeviceTesterScreen(Screen):
 
 	def on_enter(self):
+		groups = []
 		try:
 			#Clear all widgets
 			self.ids.devicetestlisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen.applied_list)):
-				addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
+				addedGroup = BoxLayout(size_hintOK_y=None,height='75sp',orientation='horizontal')
 
 				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen.applied_list[i],font_size=25,color=(0,0,0,1)))
 
 				switch=Switch(active=False,id=ConnectDevicesScreen.applied_list[i])
 				switch.bind(active=self.switch_on)
 				addedGroup.add_widget(switch)
-
+				groups.append(addedGroup)
 				self.ids.devicetestlisting.add_widget(addedGroup)
 		except ValueError:
 			print('Error in the on_enter function!')
@@ -67,11 +71,35 @@ class DeviceTesterScreen(Screen):
 	def switch_on(self,instance, value):
 		print (instance)
 		print (value)
+	def testdevices(self):
+		for x in xrange(0, len(ConnectDevicesScreen.applied_list)):
+			splitup = ConnectDevicesScreen.applied_list[x].split(' ')
+			addr = None
+			uuid = (splitup[1])
+			service_matches = find_service( uuid = uuid, address = addr)
+			first_match = service_matches[0]
+			port = first_match["port"]
+			name = first_match["name"]
+			host = first_match["host"]
+
+			print (name)
+			print (uuid)
+			sock=BluetoothSocket( RFCOMM )
+			sock.connect((host, port))
+
+			data = "turn on"
+
+			sock.send(data)
+			sock.close()
+
+
+
 
 class ConnectDevicesScreen(Screen):
 
-	scan_list = ['Pi-1','Pi-2','Pi-3','Pi-4']
+	scan_list = []
 	applied_list =[]
+
 
 	def on_enter(self):
 		try:
@@ -97,13 +125,34 @@ class ConnectDevicesScreen(Screen):
 
 
 	#on press of scan button
-	def scan():
-		pass
+	def scan(self):
+		print("hello")
+		scannedItems = ['Something I found']
+		intended = None
 
-	def disconnect_all():
+		services = bluetooth.find_service(address=intended)
+		if (len(services) == 0):
+			pass
+		for svc in services:
+		    testString = "" + ("Service Name: %s" % svc["name"])
+		    if "musicPi" in testString:
+				testString = svc["name"] + " " + svc["service-id"]
+				self.scan_list.append(testString)
+
+		self.scan_list.append(scannedItems[0])
+		self.manager.current = 'loading_screen'
+		self.manager.current = 'connect_devices_screen_4'
+
+
+
+
+	def disconnect_all(self):
 		try:
-			self.scan_list.append(applied_list)
+
 			self.applied_list = []
+			self.manager.current = 'loading_screen'
+			self.manager.current = 'connect_devices_screen_4'
+
 		except ValueError:
 			print('Error in the disconnect_all function!')
 
@@ -114,20 +163,21 @@ class ConnectDevicesScreen(Screen):
 			for i in xrange(0,len(self.scan_list)):
 				if self.scan_list[i] == instance.text:
 					del self.scan_list[i]
-					return
+			connected_devices.append(instance.text)
 
+			self.manager.current = 'loading_screen'
 			self.manager.current = 'connect_devices_screen_4'
+
 		except ValueError:
 			print('Error in the connect_device function!')
 
 	#disconnect device when pressed
 	def disconnect_device(self,instance):
-		self.scan_list.append(instance.text)
-		for i in xrange(0,len(self.scan_list)):
+		for i in xrange(0,len(self.applied_list)):
 			if self.applied_list[i] == instance.text:
 				del self.applied_list[i]
-				return
 
+		self.manager.current = 'loading_screen'
 		self.manager.current = 'connect_devices_screen_4'
 
 
@@ -591,6 +641,9 @@ class Group():
 	def signalGroup(self):
 		pass
 		# TODO handle the event triggering
+class LoadingScreen(Screen):
+	def on_enter(self):
+		pass
 
 class SoundCloutApp(App):
 	def build(self):

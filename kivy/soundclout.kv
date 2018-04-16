@@ -385,7 +385,7 @@
 					pos: self.pos
 					size: self.size
 			Label:
-				text: "Connected Devices"
+				text: "Welcome To SoundClout"
 				font_size: 30
 
 <RunScreen>:
@@ -493,6 +493,7 @@
 					text: "Test Device(s)"
 					font_size: 20
 					height: 100
+					on_press: root.testdevices()
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -577,6 +578,7 @@
 					text: "Scan"
 					font_size: 20
 					height: 100
+					on_press: root.scan()
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -1358,7 +1360,7 @@
 
 						TextInput:
 							padding: 10
-							multiline:False 
+							multiline:False
 							id:triggerpercentinput
 
 						Label:
@@ -1375,7 +1377,7 @@
 						Label:
 							text: str(eventlengthinput.value) + ' minutes'
 							font_size: 24
-				
+
 					BoxLayout:
 						orientation: "vertical"
 						spacing: 10
@@ -1466,6 +1468,55 @@
 			Button:
 				text: "Load"
 				on_release: root.load(filechooser.path, filechooser.selection)
+<LoadingScreen>:
+	rows: 2
+	spacing: 10
+	canvas:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 50
+		spacing: 10
+		pos: root.x, (root.height-50)
+
+		# Make the background for the toolbar blue
+		canvas:
+			Color:
+				rgba: hex('#0099cc')
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Button:
+			on_press: root.manager.current = 'homescreen_1'
+			background_normal: 'icons/home.png'
+			size_hint_x: None
+			width:50
+
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 50
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+			orientation: "vertical"
+			spacing: 10
+			padding: 10
+			canvas:
+				Color:
+					rgba: hex('#0099cc')
+				Rectangle:
+					pos: self.pos
+					size: self.size
+			Label:
+				text: "Working..."
+				font_size: 30
 
 <Manager>:
 	id: screen_manager
@@ -1484,6 +1535,7 @@
 	select_group_screen: select_group_screen
 	device_template_screen: device_template_screen
 	group_template_screen: group_template_screen
+	loading_screen: loading_screen
 
 	HomeScreen:
 		id: home_screen
@@ -1553,4 +1605,8 @@
 	GroupTemplateScreen:
 		id: group_template_screen
 		name: 'group_template_screen_11'
+		manager: screen_manager
+	LoadingScreen:
+		id: loading_screen
+		name: 'loading_screen'
 		manager: screen_manager
