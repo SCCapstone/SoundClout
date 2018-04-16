@@ -1,3 +1,6 @@
+# auth: Foster Williams
+
+
 import RPi.GPIO as GPIO
 import time
 
@@ -23,4 +26,3 @@ for x in xrange(0,len(sequence)):
         GPIO.output(16, GPIO.HIGH)
         time.sleep(1)
         GPIO.output(22, GPIO.LOW)
-        

@@ -1,5 +1,5 @@
 #This is a sequence tester for the SoudClout Project. The purpose of the soundclout project is to create music installations
-#This program simply
+#This program simply tests the rfcommuication server running on the individual pis
 
 from bluetooth import *
 import re

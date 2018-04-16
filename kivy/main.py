@@ -44,9 +44,32 @@ class RunScreen(Screen):
 				grouplist.append(self.manager.groupList[x].name)
 				print("this is the number of slots "+ str(len(self.manager.edit_timeline_screen.ids.glayout3.children)))
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
+			test_send();
+
+
 		except ValueError:
 			print('Error in the on_enter function!')
+	def test_send(self):
+		sequencefile = open('sequencetester.txt','r')
+		testsend = sequencefile.read()
+		splitup = ConnectDevicesScreen.applied_list[0].split(' ')
+		addr = None
+		uuid = (splitup[1])
+		service_matches = find_service( uuid = uuid, address = addr)
+		first_match = service_matches[0]
+		port = first_match["port"]
+		name = first_match["name"]
+		host = first_match["host"]
 
+		print (name)
+		print (uuid)
+		sock=BluetoothSocket( RFCOMM )
+		sock.connect((host, port))
+
+		data = testsend
+
+		sock.send(data)
+		sock.close()
 
 class DeviceTesterScreen(Screen):
 	deviceTestedValues = []
@@ -58,7 +81,7 @@ class DeviceTesterScreen(Screen):
 			for i in xrange(0,len(ConnectDevicesScreen.applied_list)):
 				addedGroup = BoxLayout(size_hintOK_y=None,height='75sp',orientation='horizontal')
 
-				addedGroup.add_widget(Label(text="" +ConnectDevicesScreen.applied_list[i],font_size=20,color=(0,0,0,1)))
+				addedGroup.add_widget(Label(text="" +ConnectDevicesScreen.applied_list[i],font_size=10,color=(0,0,0,1)))
 
 				switch=Switch(active=True,id=ConnectDevicesScreen.applied_list[i])
 				switch.bind(active=self.switch_on)
@@ -79,6 +102,7 @@ class DeviceTesterScreen(Screen):
 		print("working")
 		for x in xrange(0, len(ConnectDevicesScreen.applied_list)):
 			if(self.deviceTestedValues[x]==True):
+				print("testing device")
 				splitup = ConnectDevicesScreen.applied_list[x].split(' ')
 				addr = None
 				uuid = (splitup[1])
@@ -116,14 +140,14 @@ class ConnectDevicesScreen(Screen):
 			for i in xrange(0,len(self.scan_list)):
 				addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-				addedDevice.add_widget(Button(text=self.scan_list[i],font_size=25, on_press=self.connect_device))
+				addedDevice.add_widget(Button(text=self.scan_list[i],font_size=10, on_press=self.connect_device))
 
 				self.ids.scanlisting.add_widget(addedDevice)
 
 			for i in xrange(0,len(self.applied_list)):
 				addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-				addedDevice.add_widget(Button(text=self.applied_list[i],font_size=25, on_press=self.disconnect_device))
+				addedDevice.add_widget(Button(text=self.applied_list[i],font_size=10, on_press=self.disconnect_device))
 
 				self.ids.devicelisting.add_widget(addedDevice)
 		except ValueError:
@@ -132,20 +156,23 @@ class ConnectDevicesScreen(Screen):
 
 	#on press of scan button
 	def scan(self):
-		print("hello")
-		scannedItems = ['Something I found']
-		intended = None
 
-		services = bluetooth.find_service(address=intended)
-		if (len(services) == 0):
-			pass
-		for svc in services:
-		    testString = "" + ("Service Name: %s" % svc["name"])
-		    if "musicPi" in testString:
-				testString = svc["name"] + " " + svc["service-id"]
-				self.scan_list.append(testString)
+		try:
 
-		self.scan_list.append(scannedItems[0])
+			intended = None
+
+			services = bluetooth.find_service(address=intended)
+			if (len(services) == 0):
+				pass
+			for svc in services:
+		   		testString = "" + ("Service Name: %s" % svc["name"])
+		   		if "musicPi" in testString:
+					testString = svc["name"] + " " + svc["service-id"]
+					self.scan_list.append(testString)
+
+		except ValueError :
+			print('Error scanning bluetooth')
+
 		self.manager.current = 'loading_screen'
 		self.manager.current = 'connect_devices_screen_4'
 
@@ -166,7 +193,7 @@ class ConnectDevicesScreen(Screen):
 	def connect_device(self,instance):
 		try:
 			self.applied_list.append(instance.text)
-			for i in xrange(0,len(self.scan_list)):
+			for i in xrange(0,len(self.scan_list)-1):
 				if self.scan_list[i] == instance.text:
 					del self.scan_list[i]
 			connected_devices.append(instance.text)
@@ -421,7 +448,7 @@ class GroupTemplateScreen(Screen):
 			self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=15))
+			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=10))
 
 			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=15))
 			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=15))
@@ -430,7 +457,7 @@ class GroupTemplateScreen(Screen):
 			for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
 				addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
-				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=15,color=(0,0,0,1)))
+				addedGroup.add_widget(Label(text="Device " + ConnectDevicesScreen().applied_list[i],font_size=10,color=(0,0,0,1)))
 
 				switch=Switch(active=False,id=ConnectDevicesScreen().applied_list[i])
 				switch.bind(active=self.switch_on)
