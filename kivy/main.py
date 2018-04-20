@@ -1,3 +1,7 @@
+# this stops the red dot issue when right clicking
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+
 from kivy.app import App
 from kivy.factory import Factory
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
