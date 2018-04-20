@@ -31,7 +31,7 @@ class HomeScreen(Screen):
 		try:
 			if value is 1:
 				self.skipBuild = 'edit_timeline_screen_7'
-		except ValueError:
+		except Exception:
 				print('Invalid Value in skip_build_screen!')
 
 class RunScreen(Screen):
@@ -47,7 +47,7 @@ class RunScreen(Screen):
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
 
 
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 	def test_send(self, groupnumber):
 		filename = str(groupnumber) + ".soundclout"
@@ -90,7 +90,7 @@ class DeviceTesterScreen(Screen):
 
 				self.ids.devicetestlisting.add_widget(addedGroup)
 				self.deviceTestedValues.append(True)
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 	def switch_on(self,instance, value):
@@ -151,7 +151,7 @@ class ConnectDevicesScreen(Screen):
 				addedDevice.add_widget(Button(text=self.applied_list[i],font_size=10, on_press=self.disconnect_device))
 
 				self.ids.devicelisting.add_widget(addedDevice)
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 
@@ -171,7 +171,7 @@ class ConnectDevicesScreen(Screen):
 					testString = svc["name"] + " " + svc["service-id"]
 					self.scan_list.append(testString)
 
-		except ValueError :
+		except Exception :
 			print('Error scanning bluetooth')
 
 		self.manager.current = 'loading_screen'
@@ -187,7 +187,7 @@ class ConnectDevicesScreen(Screen):
 			self.manager.current = 'loading_screen'
 			self.manager.current = 'connect_devices_screen_4'
 
-		except ValueError:
+		except Exception:
 			print('Error in the disconnect_all function!')
 
 	#connect device when pressed
@@ -201,7 +201,7 @@ class ConnectDevicesScreen(Screen):
 			self.manager.current = 'loading_screen'
 			self.manager.current = 'connect_devices_screen_4'
 
-		except ValueError:
+		except Exception:
 			print('Error in the connect_device function!')
 
 	#disconnect device when pressed
@@ -223,7 +223,7 @@ class EditDeviceGroupsScreen(Screen):
 		Groups = []
 		loaded_config = []
 		group_index = 0
-	except ValueError:
+	except Exception:
 		print('Error in the EditDeviceGroupsScreen!')
 
 
@@ -239,7 +239,7 @@ class EditDeviceGroupsScreen(Screen):
 								   )
 				addedGroup.add_widget(addedButton)
 				self.ids.glayout2.add_widget(addedGroup)
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 	#on press, send group id to group template and transition to template screen
@@ -248,14 +248,14 @@ class EditDeviceGroupsScreen(Screen):
 			GroupTemplateScreen.currentGroupNo=int(instance.text[6])
 			print(GroupTemplateScreen.currentGroupNo)
 			self.manager.current = 'group_template_screen_11'
-		except ValueError:
+		except Exception:
 			print('Error in the press_btn function!')
 
 	def create_group(self):
 		try:
 			group = Group(self.manager.create_group_screen.ids.group_name.text, len(self.manager.groupList)+1, devList = [], groupParams = [])
 			self.manager.groupList.append(group)
-		except ValueError:
+		except Exception:
 			print('Error in the create_group function!')
 
 ## Save/Load
@@ -267,7 +267,7 @@ class EditDeviceGroupsScreen(Screen):
 			content = SaveDialogScreen(save=self.save, cancel=self.dismiss_popup)
 			self._popup = Popup(title="Save File", content=content, size_hint=(0.9,0.9))
 			self._popup.open()
-		except ValueError:
+		except Exception:
 			print('Error in the show_save function!')
 
 	def save(self, path, filename):
@@ -275,7 +275,7 @@ class EditDeviceGroupsScreen(Screen):
 			with open(os.path.join(path, filename), 'w') as stream:
 				stream.write(self.RecordConfiguration())
 			self.dismiss_popup()
-		except ValueError:
+		except Exception:
 			print('Error in the save function!')
 
 	def show_load(self):
@@ -284,7 +284,7 @@ class EditDeviceGroupsScreen(Screen):
 			self._popup = Popup(title="Load file", content=content,
 								size_hint=(0.9, 0.9))
 			self._popup.open()
-		except ValueError:
+		except Exception:
 			print('Error in the show_load function!')
 
 	def load(self, path, filename):
@@ -294,7 +294,7 @@ class EditDeviceGroupsScreen(Screen):
 				self.LoadConfiguration()
 				self.on_enter()
 			self.dismiss_popup()
-		except ValueError:
+		except Exception:
 			print('Error in the load function!')
 
 	#concatenates all groups in ScreenManager.groupList onto a string
@@ -313,7 +313,7 @@ class EditDeviceGroupsScreen(Screen):
 					s = s + self.manager.groupList[i].groupSettings[j] + ', '
 				s = s + '\n'
 			return s
-		except ValueError:
+		except Exception:
 			print('Error in the RecordConfiguration function!')
 
 	def LoadConfiguration(self):
@@ -325,7 +325,7 @@ class EditDeviceGroupsScreen(Screen):
 				group = Group(self.loaded_config[i],len(self.manager.groupList)+1,[],[])
 				self.manager.groupList.append(group)
 				pass
-		except ValueError:
+		except Exception:
 			print('Error in the LoadConfiguration function!')
 
 # could be fused with EditDeviceGroupsScreen
@@ -349,7 +349,7 @@ class EditTimelineScreen(Screen):
 		try:
 			if value is 1:
 				self.skipBuild = 'edit_timeline_screen_7'
-		except ValueError:
+		except Exception:
 			print('Error in the skip_build_screen function!')
 
 #	def on_enter(self):
@@ -366,13 +366,13 @@ class EditTimelineScreen(Screen):
 			for i in range(len(self.ids.glayout3.children)):
 				if button is self.ids.glayout3.children[i]:
 					return i
-		except ValueError:
+		except Exception:
 			print('Error in the findIndexOfSlot function!')
 
 	def removeSlot(self):
 		try:
 			self.ids.glayout3.remove_widget(self.ids.glayout3.children[1])
-		except ValueError:
+		except Exception:
 			print('Error in the removeSlot function!')
 
 	def addSlot(self):
@@ -382,13 +382,13 @@ class EditTimelineScreen(Screen):
 			print("Slot Number Updated")
 			addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 			return addedButton
-		except ValueError:
+		except Exception:
 			print('Error in the addSlot function!')
 
 	def goToSelectGroupScreen(self):
 		try:
 			self.manager.current = 'select_group_screen_8'
-		except ValueError:
+		except Exception:
 			print('Error in the goToSelectGroupScreen function!')
 
 class SelectGroupScreen(Screen):
@@ -409,7 +409,7 @@ class SelectGroupScreen(Screen):
 				addedGroup.add_widget(addedButton)
 				self.ids.glayout2.add_widget(addedGroup)
 			print(self.currentSlot)
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 	def setSlot(self, value):
@@ -464,7 +464,7 @@ class GroupTemplateScreen(Screen):
 				addedGroup.add_widget(switch)
 
 				self.ids.devicelisting.add_widget(addedGroup)
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 	def removeGroup(self):
@@ -472,7 +472,7 @@ class GroupTemplateScreen(Screen):
 			del self.manager.groupList[int(self.currentGroupNo)-1]
 			for i in range(self.currentGroupNo-1, len(self.manager.groupList), 1):
 				self.manager.groupList[i].index -= 1
-		except ValueError:
+		except Exception:
 			print('Error in the removeGroup function!')
 
 	#saving this for when Group names have to be deleted by name matching
@@ -481,7 +481,7 @@ class GroupTemplateScreen(Screen):
 			for i in range(0, len(EditDeviceGroupsScreen().Groups)):
 				if self.currentGroupNo == EditDeviceGroupsScreen().Groups[i][0]:
 					del (EditDeviceGroupsScreen.Groups[i])
-		except ValueError:
+		except Exception:
 			print('Error in the removeGroupMatching function!')
 
 	def switch_on(self,instance, value):
@@ -525,7 +525,7 @@ class EditGroupBehaviourScreen(Screen):
 
 				self.ids.triggerlisting.add_widget(addedGroup)
 				print addedGroup.id
-		except ValueError:
+		except Exception:
 			print('Error in the on_enter function!')
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
@@ -537,7 +537,7 @@ class EditGroupBehaviourScreen(Screen):
 						return
 			tempSettings = [self.groupNumber,self.slotNumber,0,0]
 			self.groupSettings.append(tempSettings)
-		except ValueError:
+		except Exception:
 			print('Error in the add_settings function!')
 
 	#finds and reads four tuple for timeline element to update slider position and switch position
@@ -571,7 +571,7 @@ class EditGroupBehaviourScreen(Screen):
 						a.Trigger()
 				j = timelineReader(self.groupSettings[i],1,self.eventlength,str(self.groupSettings[i][0]),len(self.manager.edit_timeline_screen.ids.glayout3.children))
 				j.MonthGroupBehavior()
-		except ValueError:
+		except Exception:
 			print('Error in the save_changes function!')
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
@@ -597,7 +597,7 @@ class EditGroupBehaviourScreen(Screen):
 			print 'new'
 			self.triggerSetting.append([str(self.groupNumber),str(instance.id),str(self.manager.edit_group_behaviour_screen.ids.triggerpercentinput.text)])
 			print self.triggerSetting
-		except ValueError:
+		except Exception:
 			print('Error in the apply_trigger function!')
 
 	def back_out(self):
