@@ -141,7 +141,6 @@ class ConnectDevicesScreen(Screen):
 			#Clear all widgets
 			self.ids.scanlisting.clear_widgets()
 			self.ids.devicelisting.clear_widgets()
-
 			for i in xrange(0,len(self.scan_list)):
 				addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
@@ -198,10 +197,9 @@ class ConnectDevicesScreen(Screen):
 	def connect_device(self,instance):
 		try:
 			self.applied_list.append(instance.text)
-			for i in xrange(0,len(self.scan_list)-1):
+			for i in xrange(0,len(self.scan_list)):
 				if self.scan_list[i] == instance.text:
 					del self.scan_list[i]
-
 			self.manager.current = 'loading_screen'
 			self.manager.current = 'connect_devices_screen_4'
 
@@ -211,6 +209,7 @@ class ConnectDevicesScreen(Screen):
 	#disconnect device when pressed
 	def disconnect_device(self,instance):
 		for i in xrange(0,len(self.applied_list)):
+			print(self.applied_list[i])
 			if self.applied_list[i] == instance.text:
 				del self.applied_list[i]
 
