@@ -1,16 +1,10 @@
-# file: rfcomm-pi-server.py
-# auth: Foster Williams
-# desc: simple rfcomm server that can operate the attached pi motor
+#This is a sequence tester for the SoudClout Project. The purpose of the soundclout project is to create music installations
+#This program simply tests the rfcommuication server running on the individual pis
 
 from bluetooth import *
 import re
 import os
 
-def run_seqence(sequence):
-    f = open('sequence.txt', 'w')
-    f.write(sequence)
-    f.close()
-    os.system('cyclerun.py')
 server_sock=BluetoothSocket( RFCOMM )
 server_sock.bind(("",PORT_ANY))
 server_sock.listen(1)
@@ -38,10 +32,9 @@ try:
         pork = ribs.split()
         beef =  pork[0]
         if beef == "turn":
-            print "Testing motor"
-            execfile("motorTest.py")
+            print "Successful test connection"
         if beef == "seqence":
-            runsequence(beef[2])
+            print(beef)
         if len(data) == 0: break
         print("received [%s]" % data)
 except IOError:
@@ -52,4 +45,3 @@ print("disconnected")
 client_sock.close()
 server_sock.close()
 print("all done")
-execfile('rfcomm-pi-server.py')

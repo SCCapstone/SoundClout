@@ -72,3 +72,5 @@ crashlytics-build.properties
 fabric.properties
 *.pyc
 *.soundclout
+*.soundclout
+kivy/save.txt

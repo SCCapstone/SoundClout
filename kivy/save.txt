@@ -4,6 +4,10 @@ OK
 OK
 
 
+<<<<<<< HEAD
 bells
+=======
+OK
+>>>>>>> master
 
 

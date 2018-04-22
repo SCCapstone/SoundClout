@@ -384,9 +384,10 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-			Label:
-				text: "Connected Devices"
-				font_size: 30
+			Button:
+				text: ""
+				font_size: 25
+				background_normal: "icons/soundcloutimage.png"
 
 <RunScreen>:
 	rows: 2
@@ -487,12 +488,13 @@
 			BoxLayout:
 				orientation: "vertical"
 				size_hint_y: None
-				height: 100
+				height: 50
 
 				Button:
 					text: "Test Device(s)"
 					font_size: 20
-					height: 100
+					height: 50
+					on_press: root.testdevices()
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -507,14 +509,14 @@
 				ScrollView:
 					do_scroll_x:False
 					do_scroll_Y:True
+
 					BoxLayout:
 						id: devicetestlisting
+						padding: 40
 						orientation: 'vertical'
-						spacing: 5
+						spacing: 10
 						size_hint_y: None
 						height: self.minimum_height
-
-
 
 <ConnectDevicesScreen>:
 	rows: 2
@@ -579,6 +581,7 @@
 					text: "Scan"
 					font_size: 20
 					height: 100
+					on_press: root.scan()
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -760,7 +763,6 @@
                         size_hint_y: None
                         height: self.minimum_height
 
-
 <CreateGroupScreen>
 	rows: 2
 	spacing: 10
@@ -813,15 +815,15 @@
 				height: 70
 				size_hint_y: None
 				Label:
-					text: 'Group Name'
+					text: 'Group Name:'
 					height: 50
 				TextInput:
 					spacing: 10
-					size_hint_x: None
+					size_hint_x: 0.4
 					size_hint_y: None
 					height: 50
 					size: self.size
-					text: 'OK'
+					text: 'New Group'
 					multiline: False
 					id: group_name
 
@@ -841,11 +843,9 @@
 				height: 50
 				pos_hint: {'center_x':.5, 'center_y': .5}
 				size: self.size
-				text: 'OK'
+				text: 'Ok'
 				on_release: root.manager.edit_device_groups_screen.create_group()
 				on_release: root.manager.current = 'group_template_screen_11'
-
-
 
 <BuildTimelineScreen>:
 	rows: 2
@@ -1115,7 +1115,6 @@
 						Label:
 							font_size: 20
 
-
 <SelectGroupScreen>:
 	rows: 2
 	spacing: 10
@@ -1359,11 +1358,12 @@
 								size: self.size
 
 						Label:
-							text: 'Trigger %: '
+							text: 'Trigger %'
 							font_size: 24
 
 						TextInput:
-							multiline:False 
+							padding: 10
+							multiline:False
 							id:triggerpercentinput
 
 						Label:
@@ -1372,13 +1372,13 @@
 
 						Slider:
 							min: 0
-							max: 1000
+							max: 10
 							value: 0
-							step: 10
+							step: 1
 							id:eventlengthinput
 
 						Label:
-							text: str(eventlengthinput.value) + ' bits'
+							text: str(eventlengthinput.value) + ' minutes'
 							font_size: 24
 
 					BoxLayout:
@@ -1408,7 +1408,118 @@
 										pos: self.pos
 										size: self.size
 
+<SaveDialogScreen>:
 
+	rows: 2
+	spacing: 10
+
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
+
+		TextInput:
+			id: text_input
+			text: ""
+			size_hint_y: None
+			height: 30
+			multiline: False
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Save"
+				on_release:root.save(filechooser.path, text_input.text)
+
+<LoadDialogScreen>:
+
+	rows: 2
+	spacing: 10
+
+	BoxLayout:
+
+		size: self.size
+		pos: self.pos
+		orientation: "vertical"
+		FileChooserListView:
+			id: filechooser
+			on_selection: text_input.text = self.selection and self.selection[0] or ''
+			path: root.wd
+
+		TextInput:
+			id: text_input
+			text: "savefile.txt"
+			size_hint_y: None
+			height: 30
+			multiline: False
+
+
+		BoxLayout:
+			size_hint_y: None
+			height: 30
+			Button:
+				text: "Cancel"
+				on_release: root.cancel()
+			Button:
+				text: "Load"
+				on_release: root.load(filechooser.path, filechooser.selection)
+<LoadingScreen>:
+	rows: 2
+	spacing: 10
+	canvas:
+		Color:
+			rgba: 1,1,1,1
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 50
+		spacing: 10
+		pos: root.x, (root.height-50)
+
+		# Make the background for the toolbar blue
+		canvas:
+			Color:
+				rgba: hex('#0099cc')
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		Button:
+			on_press: root.manager.current = 'homescreen_1'
+			background_normal: 'icons/home.png'
+			size_hint_x: None
+			width:50
+
+	BoxLayout:
+		size_hint_y: None
+		height: 500
+		spacing: 50
+		padding: 50
+		pos: root.x, (root.height-560)
+
+		BoxLayout:
+			orientation: "vertical"
+			spacing: 10
+			padding: 10
+			canvas:
+				Color:
+					rgba: hex('#0099cc')
+				Rectangle:
+					pos: self.pos
+					size: self.size
+			Label:
+				text: "Working..."
+				font_size: 30
 
 
 <SaveDialogScreen>:
@@ -1493,6 +1604,7 @@
 	select_group_screen: select_group_screen
 	device_template_screen: device_template_screen
 	group_template_screen: group_template_screen
+	loading_screen: loading_screen
 
 	HomeScreen:
 		id: home_screen
@@ -1562,4 +1674,8 @@
 	GroupTemplateScreen:
 		id: group_template_screen
 		name: 'group_template_screen_11'
+		manager: screen_manager
+	LoadingScreen:
+		id: loading_screen
+		name: 'loading_screen'
 		manager: screen_manager

@@ -1,3 +1,5 @@
+# auth: Foster Williams
+
 import RPi.GPIO as GPIO
 import time
 
@@ -21,4 +23,3 @@ print "testing off"
 GPIO.output(22, GPIO.LOW)
 GPIO.cleanup()
 exit()
-
