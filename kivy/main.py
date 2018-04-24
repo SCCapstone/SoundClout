@@ -255,11 +255,20 @@ class EditDeviceGroupsScreen(Screen):
 			print('Error in the press_btn function!')
 
 	def create_group(self):
-		try:
+
+		nameList = []
+
+		for i in xrange(0, len(self.manager.groupList)):
+			nameList.append(self.manager.groupList[i].name)
+
+		if self.manager.create_group_screen.ids.group_name.text not in nameList:
 			group = Group(self.manager.create_group_screen.ids.group_name.text, len(self.manager.groupList)+1, devList = [], groupParams = [])
 			self.manager.groupList.append(group)
-		except Exception:
-			print('Error in the create_group function!')
+
+		else:
+			print("No duplicate names")
+
+
 
 ## Save/Load
 	def dismiss_popup(self):
@@ -385,14 +394,41 @@ class EditTimelineScreen(Screen):
 			print('Error in the removeSlot function!')
 
 	def addSlot(self):
-		try:
-			addedButton = Button(text = "Slot " + str(len(self.ids.glayout3.children)+1), font_size = 20, size_hint_x = None, width = '200sp')
-			addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
-			print("Slot Number Updated")
-			addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
-			return addedButton
-		except Exception:
-			print('Error in the addSlot function!')
+
+		addedButton = Button(text = "Slot " + str(len(self.ids.glayout3.children)+1), font_size = 20, size_hint_x = None, width = '200sp')
+		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
+		print("Slot Number Updated")
+		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
+		return addedButton
+
+	def addSlot2(self):
+		slotNameList = []
+		for i in xrange(0, len(self.manager.slotList)):
+			slotNameList.append(self.manager.slotList[i].name)
+
+		name = "Slot "
+		addedButton = Button(text = self.checkName(name, 0, slotNameList), font_size = 20, size_hint_x = None, width = '200sp')
+		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
+		print("Slot Number Updated 2")
+		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
+		newSlot = Slot(self.checkName(name, 0, slotNameList))
+		self.manager.slotList.append(newSlot)
+		return addedButton
+
+
+	def checkName(self, aName, number, nameList):
+
+		if number is 0:
+			if aName not in nameList:
+				return aName
+			else:
+				return self.checkName(aName, (number+1), nameList)
+		else:
+			tempName = aName + str(number)
+			if tempName not in nameList:
+				return tempName
+			else:
+				return self.checkName(aName, number+1, nameList)
 
 	def goToSelectGroupScreen(self):
 		try:
@@ -633,6 +669,7 @@ class LoadDialogScreen(Screen):
 class Manager(ScreenManager):
 	#list of current groups
 	groupList = []
+	slotList = []
 
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
@@ -683,6 +720,14 @@ class Group():
 	def signalGroup(self):
 		pass
 		# TODO handle the event triggering
+class Slot():
+
+	def __init__(self, aName):
+		self.name = aName
+		self.sliderValue = 0
+
+
+
 class LoadingScreen(Screen):
 	def on_enter(self):
 		pass
