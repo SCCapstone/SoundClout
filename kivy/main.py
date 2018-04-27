@@ -256,17 +256,36 @@ class EditDeviceGroupsScreen(Screen):
 
 	def create_group(self):
 
-		nameList = []
-
+		groupNameList = []
 		for i in xrange(0, len(self.manager.groupList)):
-			nameList.append(self.manager.groupList[i].name)
+			groupNameList.append(self.manager.groupList[i].name)
 
-		if self.manager.create_group_screen.ids.group_name.text not in nameList:
-			group = Group(self.manager.create_group_screen.ids.group_name.text, len(self.manager.groupList)+1, devList = [], groupParams = [])
-			self.manager.groupList.append(group)
+		group = Group(self.checkName(self.manager.create_group_screen.ids.group_name.text,0,groupNameList), len(self.manager.groupList)+1, devList = [], groupParams = [])
+		self.manager.groupList.append(group)
 
+		for i in self.manager.slotList:
+			i.addGroup(group)
+
+
+
+	def checkName(self, aName, number, nameList):
+
+		if number is 0:
+			if aName not in nameList:
+				return aName
+			else:
+				return self.checkName(aName, (number+1), nameList)
 		else:
-			print("No duplicate names")
+			tempName = aName + str(number)
+			if tempName not in nameList:
+				return tempName
+			else:
+				return self.checkName(aName, number+1, nameList)
+
+	def matchGroup(self, aName):
+		for i in xrange(0, len(self.manager.groupList)):
+			if aName == self.manager.groupList[i].name:
+				return self.manager.groupList[i]
 
 
 
@@ -400,7 +419,7 @@ class EditTimelineScreen(Screen):
 		print("Slot Number Updated")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 		return addedButton
-
+##################################################
 	def addSlot2(self):
 		slotNameList = []
 		for i in xrange(0, len(self.manager.slotList)):
@@ -412,9 +431,10 @@ class EditTimelineScreen(Screen):
 		print("Slot Number Updated 2")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 		newSlot = Slot(self.checkName(name, 0, slotNameList))
+		newSlot.addGroupList(self.manager.groupList)
 		self.manager.slotList.append(newSlot)
 		return addedButton
-
+###################################################
 
 	def checkName(self, aName, number, nameList):
 
@@ -446,16 +466,21 @@ class SelectGroupScreen(Screen):
 			self.ids.glayout2.clear_widgets()
 			for i in xrange(0,len(self.manager.groupList)):
 				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
+				addedButton=Button(text="Group: " + self.manager.groupList[i].name + " Settings",font_size=25)
 				addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
 				addedButton.bind(on_press=self.press_btn)
 				addedButton.bind(on_release=lambda x:self.nav_to_group())
+				addedButton.bind(on_release=lambda x:self.setGroupInfo() )
 
 				addedGroup.add_widget(addedButton)
 				self.ids.glayout2.add_widget(addedGroup)
 			print(self.currentSlot)
 		except Exception:
 			print('Error in the on_enter function!')
+
+	def setGroupInfo(self,instance):
+		self.manager.group_template_screen.ids.groupNameLabel.text = instance.text[6:-9]
+		print instance.text[6:-9]
 
 	def setSlot(self, value):
 		print(value)
@@ -485,15 +510,15 @@ class GroupTemplateScreen(Screen):
 	def on_enter(self):
 		try:
 			#Clear all labels
-			self.ids.groupName.clear_widgets()
+			#self.ids.groupName.clear_widgets()
 			self.ids.devicesConnected.clear_widgets()
 
 
 			#Add back labels for the group and devices connectedf
-			self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
+			#self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=10))
+			#self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=10))
 
 			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=15))
 			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=15))
@@ -520,6 +545,11 @@ class GroupTemplateScreen(Screen):
 		except Exception:
 			print('Error in the removeGroup function!')
 
+	def removeGroup2(self, aGroup):
+
+		pass
+
+
 	#saving this for when Group names have to be deleted by name matching
 	def removeGroupMatching(self):
 		try:
@@ -542,7 +572,7 @@ class GroupTemplateScreen(Screen):
 class EditGroupBehaviourScreen(Screen):
 	groupNumber = 0
 	slotNumber = 0
-	switchActive = 0
+	switchActive = 0 #not used
 	sliderValue = 0
 	#groupSettings = [groupNumber-starting at 1,slotNumber-starting at 1,switchActive,sliderValue]
 	groupSettings = []
@@ -618,6 +648,9 @@ class EditGroupBehaviourScreen(Screen):
 				j.MonthGroupBehavior()
 		except Exception:
 			print('Error in the save_changes function!')
+
+	def save_changes2(self):
+		pass
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
@@ -724,8 +757,11 @@ class Slot():
 
 	def __init__(self, aName):
 		self.name = aName
-		self.sliderValue = 0
-
+		self.groupList = []
+	def addGroup(self, aGroup):
+		self.groupList.append(aGroup)
+	def addGroupList(self, aGroupList):
+		self.groupList = aGroupList
 
 
 class LoadingScreen(Screen):

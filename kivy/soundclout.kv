@@ -279,7 +279,7 @@
 							pos: self.pos
 							size: self.size
 
-					#Devices connected
+
 					BoxLayout:
 						id: groupName
 						orientation: "horizontal"
@@ -289,6 +289,13 @@
 							Rectangle:
 								pos: self.pos
 								size: self.size
+						Label
+							text: "Name:"
+							font_size: 30
+						Label:
+							id: groupNameLabel
+							text: "Test"
+							font_size: 30
 
 					#Devices connected
 					BoxLayout:
