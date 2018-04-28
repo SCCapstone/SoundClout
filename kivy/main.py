@@ -401,6 +401,12 @@ class SelectGroupScreen(Screen):
 	#Adds all the widgets from the group list
 	def on_enter(self):
 		try:
+			#Refreshing Current Slot Number
+			self.ids.slotnumber.clear_widgets()
+			self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
+			self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
+
+			#Refreshing Groups
 			self.ids.glayout2.clear_widgets()
 			#Display no groups 
 			if len(self.manager.groupList) == 0:

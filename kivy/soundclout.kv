@@ -1163,6 +1163,7 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
+					
 			BoxLayout:
 				orientation: "horizontal"
 				size_hint_y: 0.15
@@ -1171,23 +1172,44 @@
 						rgba: hex('#0099cc')
 					Rectangle:
 						pos: self.pos
-						size: self.size
+						size: self.size	
 
-				Button:
-					size_hint_x: None
-					size_hint_y: None
-					height: 50
-					width:100
-					text: 'Back'
-					on_release: root.manager.current = 'edit_timeline_screen_7'
+				BoxLayout:
+					orientation: "horizontal"
+					size_hint_y: 0.15
+					canvas:
+						Color:
+							rgba: hex('#0099cc')
+						Rectangle:
+							pos: self.pos
+							size: self.size
 
-				Button:
-					size_hint_x: None
-					size_hint_y: None
-					height: 50
-					width:100
-					text: 'Remove Slot'
-					on_release: root.manager.current = 'edit_timeline_screen_7'
+					Button:
+						size_hint_x: None
+						size_hint_y: None
+						height: 50
+						width:100
+						text: 'Back'
+						on_release: root.manager.current = 'edit_timeline_screen_7'
+
+					Button:
+						size_hint_x: None
+						size_hint_y: None
+						height: 50
+						width:100
+						text: 'Remove Slot'
+						on_release: root.manager.current = 'edit_timeline_screen_7'
+
+				BoxLayout:
+					id: slotnumber
+					orientation: "horizontal"
+					size_hint_y: 0.15
+					canvas:
+						Color:
+							rgba: hex('#0099cc')
+						Rectangle:
+							pos: self.pos
+							size: self.size
 
 
 			#Groups holder
