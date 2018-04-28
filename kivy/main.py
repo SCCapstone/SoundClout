@@ -236,7 +236,7 @@ class EditDeviceGroupsScreen(Screen):
 			for i in xrange(0,len(self.manager.groupList)):
 				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
 				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",
-								   font_size=10,
+								   font_size=20,
 								   id=self.manager.groupList[i].name,
 								   on_release=self.press_btn
 								   )
@@ -402,6 +402,13 @@ class SelectGroupScreen(Screen):
 	def on_enter(self):
 		try:
 			self.ids.glayout2.clear_widgets()
+			#Display no groups 
+			if len(self.manager.groupList) == 0:
+				addedGroup = BoxLayout(size_hint_y=None,height='375sp',orientation='horizontal')
+				addedGroup.add_widget(Label(text="No Groups Found",font_size=25,color=(0,0,0,1)))
+				self.ids.glayout2.add_widget(addedGroup)
+
+			#Display Groups
 			for i in xrange(0,len(self.manager.groupList)):
 				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
 				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
@@ -451,10 +458,10 @@ class GroupTemplateScreen(Screen):
 			self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=10))
+			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=20))
 
-			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=15))
-			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=15))
+			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
+			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=20))
 
 			self.ids.devicelisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
