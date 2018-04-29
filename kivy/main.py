@@ -51,8 +51,8 @@ class RunScreen(Screen):
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
 
 
-		except Exception:
-			print('Error in the on_enter function!')
+		except IndexError:
+			print('No slots created!')
 	def test_send(self, groupnumber):
 		filename = str(groupnumber) + ".soundclout"
 		sequencefile = open(filename,'r')
@@ -408,7 +408,7 @@ class SelectGroupScreen(Screen):
 
 			#Refreshing Groups
 			self.ids.glayout2.clear_widgets()
-			#Display no groups 
+			#Display no groups
 			if len(self.manager.groupList) == 0:
 				addedGroup = BoxLayout(size_hint_y=None,height='375sp',orientation='horizontal')
 				addedGroup.add_widget(Label(text="No Groups Found",font_size=25,color=(0,0,0,1)))
