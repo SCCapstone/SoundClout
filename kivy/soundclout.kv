@@ -234,7 +234,7 @@
 					text: 'Remove'
 
 					#have to change first arguement, for now assume switch is on
-					on_press: root.removeGroup()
+					on_press: root.removeGroup2()
 					on_release:root.manager.current = 'edit_device_groups_screen_5'
 
 			BoxLayout:
@@ -983,7 +983,7 @@
 					height: 50
 					width:100
 					text: 'Add Slot'
-					on_release: glayout3.add_widget(root.addSlot2(),len(glayout3.children))
+					on_release: glayout3.add_widget(root.addSlot2())
 					#on_release: self.text = "Pressed"
 
 			#Groups holder
@@ -1295,7 +1295,8 @@
 					height: 50
 					width:100
 					text: 'Save'
-					on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value),int(eventlengthinput.value))
+					#on_press: root.save_changes(root.manager.select_group_screen.currentSlot,int(1),int(slider_id.value),int(eventlengthinput.value))
+					on_release: root.save_changes2()
 					on_release: root.manager.current = 'select_group_screen_8'
 
 				BoxLayout:
@@ -1304,8 +1305,14 @@
 				BoxLayout:
 					size_hint_x: None
 					Label:
-						id: SlotNo
-						text: "Slot #"
+						id: SlotName
+						text: "Slot"
+
+				BoxLayout:
+					size_hint_x: None
+					Label:
+						id: GroupName
+						text: "Group"
 
 			BoxLayout:
 				orientation: "horizontal"
@@ -1341,11 +1348,11 @@
 								size: self.size
 
 						Label:
-							text: str(slider_id.value) + ' Events'
+							text: str(eventAmountSlider.value) + ' Events'
 							font_size: 24
 
 						Slider:
-							id: slider_id
+							id: eventAmountSlider
 							min: 0
 							max: 100
 							value: 0
@@ -1382,10 +1389,10 @@
 							max: 10
 							value: 0
 							step: 1
-							id:eventlengthinput
+							id:eventLengthSlider
 
 						Label:
-							text: str(eventlengthinput.value) + ' minutes'
+							text: str(eventLengthSlider.value) + ' minutes'
 							font_size: 24
 
 					BoxLayout:

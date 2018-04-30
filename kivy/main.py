@@ -231,24 +231,24 @@ class EditDeviceGroupsScreen(Screen):
 
 
 	def on_enter(self):
-		try:
-			self.ids.glayout2.clear_widgets()
-			for i in xrange(0,len(self.manager.groupList)):
-				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",
-								   font_size=10,
-								   id=self.manager.groupList[i].name,
-								   on_release=self.press_btn
-								   )
-				addedGroup.add_widget(addedButton)
-				self.ids.glayout2.add_widget(addedGroup)
-		except Exception:
-			print('Error in the on_enter function!')
+
+		self.ids.glayout2.clear_widgets()
+		for i in xrange(0,len(self.manager.groupList)):
+			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+			addedButton=Button(text="Group: " + self.manager.groupList[i].name + " Settings",
+							   font_size=10,
+							   id=self.manager.groupList[i].name,
+							   on_release=self.press_btn
+							   )
+			addedGroup.add_widget(addedButton)
+			self.ids.glayout2.add_widget(addedGroup)
+
+
 
 	#on press, send group id to group template and transition to template screen
 	def press_btn(self,instance):
 		try:
-			GroupTemplateScreen.currentGroupNo=int(instance.text[6])
+			self.manager.group_template_screen.ids.groupNameLabel.text = instance.text[7:-9]
 			print(GroupTemplateScreen.currentGroupNo)
 			self.manager.current = 'group_template_screen_11'
 		except Exception:
@@ -262,6 +262,7 @@ class EditDeviceGroupsScreen(Screen):
 
 		group = Group(self.checkName(self.manager.create_group_screen.ids.group_name.text,0,groupNameList), len(self.manager.groupList)+1, devList = [], groupParams = [])
 		self.manager.groupList.append(group)
+		self.manager.group_template_screen.ids.groupNameLabel.text = group.name
 
 		for i in self.manager.slotList:
 			i.addGroup(group)
@@ -282,10 +283,10 @@ class EditDeviceGroupsScreen(Screen):
 			else:
 				return self.checkName(aName, number+1, nameList)
 
-	def matchGroup(self, aName):
-		for i in xrange(0, len(self.manager.groupList)):
-			if aName == self.manager.groupList[i].name:
-				return self.manager.groupList[i]
+	def matchGroup(self, aGroupList,  aName):
+		for i in xrange(0, len(aGroupList)):
+			if aName == aGroupList[i].name:
+				return aGroupList[i]
 
 
 
@@ -430,8 +431,9 @@ class EditTimelineScreen(Screen):
 		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
 		print("Slot Number Updated 2")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
+		addedButton.bind(on_release=lambda x: self.manager.edit_group_behaviour_screen.setSlotName(addedButton.text))
 		newSlot = Slot(self.checkName(name, 0, slotNameList))
-		newSlot.addGroupList(self.manager.groupList)
+		newSlot.addGroupList(self.manager.groupList[:])
 		self.manager.slotList.append(newSlot)
 		return addedButton
 ###################################################
@@ -444,7 +446,7 @@ class EditTimelineScreen(Screen):
 			else:
 				return self.checkName(aName, (number+1), nameList)
 		else:
-			tempName = aName + str(number)
+			tempName = aName + '(' + str(number) + ')'
 			if tempName not in nameList:
 				return tempName
 			else:
@@ -462,25 +464,27 @@ class SelectGroupScreen(Screen):
 
 	#Adds all the widgets from the group list
 	def on_enter(self):
-		try:
-			self.ids.glayout2.clear_widgets()
-			for i in xrange(0,len(self.manager.groupList)):
-				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-				addedButton=Button(text="Group: " + self.manager.groupList[i].name + " Settings",font_size=25)
-				addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
-				addedButton.bind(on_press=self.press_btn)
-				addedButton.bind(on_release=lambda x:self.nav_to_group())
-				addedButton.bind(on_release=lambda x:self.setGroupInfo() )
 
-				addedGroup.add_widget(addedButton)
-				self.ids.glayout2.add_widget(addedGroup)
-			print(self.currentSlot)
-		except Exception:
-			print('Error in the on_enter function!')
+		self.ids.glayout2.clear_widgets()
+		for i in xrange(0,len(self.manager.groupList)):
+			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+			addedButton=Button(text="Group " + str(i+1) +  ": " + self.manager.groupList[i].name + " Settings",font_size=25,
+							   on_release=self.setGroup)
 
-	def setGroupInfo(self,instance):
-		self.manager.group_template_screen.ids.groupNameLabel.text = instance.text[6:-9]
-		print instance.text[6:-9]
+
+			#addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
+			#addedButton.bind(on_release=lambda x:self.manager.edit_group_behaviour_screen.setGroupName(addedButton.text[8:-8]))
+			#addedButton.bind(on_press=self.press_btn)
+			addedButton.bind(on_release=lambda x:self.nav_to_group())
+
+
+
+			addedGroup.add_widget(addedButton)
+			self.ids.glayout2.add_widget(addedGroup)
+		print(self.currentSlot)
+
+	def setGroup(self, instance):
+		self.manager.edit_group_behaviour_screen.setGroupName(instance.text[9:-9])
 
 	def setSlot(self, value):
 		print(value)
@@ -545,9 +549,10 @@ class GroupTemplateScreen(Screen):
 		except Exception:
 			print('Error in the removeGroup function!')
 
-	def removeGroup2(self, aGroup):
+	def removeGroup2(self):
 
-		pass
+		self.manager.groupList.remove(self.manager.edit_device_groups_screen.matchGroup(self.manager.groupList,self.ids.groupNameLabel.text))
+
 
 
 	#saving this for when Group names have to be deleted by name matching
@@ -585,23 +590,22 @@ class EditGroupBehaviourScreen(Screen):
 	eventLength = 0
 
 	def on_enter(self):
-		try:
-			self.ids.triggerlisting.clear_widgets()
-			self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot)
-			for i in xrange(0,len(self.manager.groupList)):
-				addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
-				addedGroup.add_widget(Label(text="Group " + str(self.manager.groupList[i].index),font_size=25,color=(0,0,0,1)))
+		self.ids.triggerlisting.clear_widgets()
+		#self.ids.SlotNo.text = "Slot " + str(self.manager.select_group_screen.currentSlot)
+		for i in xrange(0,len(self.manager.groupList)):
+			addedGroup = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal',id=str(self.manager.groupList[i].index))
 
-				button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger",size_hint_x=None,width=175)
-				button.bind(on_press=self.apply_trigger)
+			addedGroup.add_widget(Label(text="Group " + str(self.manager.groupList[i].name),font_size=25,color=(0,0,0,1)))
 
-				addedGroup.add_widget(button)
+			button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger",size_hint_x=None,width=175)
+			button.bind(on_press=self.apply_trigger)
 
-				self.ids.triggerlisting.add_widget(addedGroup)
-				print addedGroup.id
-		except Exception:
-			print('Error in the on_enter function!')
+			addedGroup.add_widget(button)
+
+			self.ids.triggerlisting.add_widget(addedGroup)
+			print addedGroup.id
+
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
@@ -650,7 +654,15 @@ class EditGroupBehaviourScreen(Screen):
 			print('Error in the save_changes function!')
 
 	def save_changes2(self):
-		pass
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventLength = self.ids.eventLengthSlider.value
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventAmount = int(self.ids.eventAmountSlider.value)
+
+
+	def setSlotName(self, name):
+		self.ids.SlotName.text = name
+	def setGroupName(self, name):
+		self.ids.GroupName.text = name
+		print(name)
 
 	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
@@ -721,6 +733,13 @@ class Manager(ScreenManager):
 	add_remove_device_selection_screen = ObjectProperty()
 	add_remove_device_info_screen = ObjectProperty()
 
+	def matchSlot(self, aName):
+		for i in xrange(0, len(self.slotList)):
+			if aName == self.slotList[i].name:
+				print( self.slotList[i].name)
+				return self.slotList[i]
+
+
 	def update(self):
 		self.connected_device_list._trigger_reset_populate()
 		self.current_screen.update()
@@ -748,6 +767,8 @@ class Group():
 		self.devList = devList
 		self.groupSettings = groupParams
 		self.index = index
+		self.eventLength = 0
+		self.eventAmount = 0
 
 
 	def signalGroup(self):
@@ -762,6 +783,13 @@ class Slot():
 		self.groupList.append(aGroup)
 	def addGroupList(self, aGroupList):
 		self.groupList = aGroupList
+
+	def matchGroup(self, aName):
+
+		for i in xrange(0, len(self.groupList)):
+			if aName == self.groupList[i].name:
+				print (self.groupList[i].name)
+				return self.groupList[i]
 
 
 class LoadingScreen(Screen):
