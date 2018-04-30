@@ -464,7 +464,7 @@ class GroupTemplateScreen(Screen):
 			self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=20))
+			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text))
 
 			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
 			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=20))
