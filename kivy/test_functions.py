@@ -10,6 +10,8 @@ from reroll import *
  # testing based on tests from https://github.com/KeyWeeUsr/KivyUnitTest/blob/master/kivyunittest/examples/test_text.py
 
 class FunctionTests(unittest.TestCase):
+	# these tests verify that the classes not from the main app file
+	# consume and reproduce example data as they are intended
     def test_timelinereader(self):
         newList=[0,1,1,0]
         j = timelineReader(newList,.2,.01,"group1",100)
@@ -42,30 +44,36 @@ main_path = op.dirname(op.dirname(op.abspath(__file__)))
 sys.path.append(main_path)
 
 
-#from main import Device
+# each of these classes imports a class from the main file for the soundclout
+# app and quickly verifies that each class (representing a screen in the app)
+# is able to be built and a dummy button appended to the screen
+# can be touched without throwing an error
 
 class TestDevice(unittest.TestCase):
    
     def pause(*args):
+    	# keep the window open for a discrete amount of time
         time.sleep(0.000001)
 
     def run_test(self, app, *args):
         Clock.schedule_interval(self.pause, 0.000001)
 
-        # Do something
+        # create a dummy button within the class
         app.my_button.dispatch('on_release')
+        # touch the button and verify that it has been touched
         self.assertEqual('Hello Test', app.my_button.text)
 
         app.stop()
 
     def test_file_screen(self):
-        
+        # call the screen we are testing
         app = Device()
+        # call the run_test method
         p = partial(self.run_test, app)
+        # only run one test
         Clock.schedule_once(p, .000001)
         app.__init__()
 
-#from main import HomeScreen
 
 class TestHomeScreen(unittest.TestCase):
    
@@ -88,7 +96,6 @@ class TestHomeScreen(unittest.TestCase):
         Clock.schedule_once(p, .000001)
         app.__init__()
 
-#from main import RunScreen
 
 class TestRunScreen(unittest.TestCase):
    
@@ -267,4 +274,7 @@ class TestEditGroupBehaviourScreen(unittest.TestCase):
 
 
 if __name__ == '__main__':
+	# this method goes through the classes
+	# and runs each function beginning with
+	# 'test_' as per kivy documentation
     unittest.main()

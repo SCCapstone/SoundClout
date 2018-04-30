@@ -1,3 +1,7 @@
+# This is the main file for the soundclout app. All of the classes that makeup the primary screens
+# and functionality of the application are located in this file and each screen can be
+# found by name.
+
 # this stops the red dot issue when right clicking
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
@@ -27,7 +31,7 @@ import bluetooth
 from bluetooth import *
 
 
-group = 0
+group = 0	# initialization of the app resets the group index
 class HomeScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 	#skips build option if already timeline is already built
@@ -77,6 +81,8 @@ class RunScreen(Screen):
 		sock.close()
 
 class DeviceTesterScreen(Screen):
+	# this screen allows the bluetooth connected devices to be tested to verify the connection is secure
+	# and the information strings are being correctly received
 	deviceTestedValues = []
 	def on_enter(self):
 
@@ -104,10 +110,14 @@ class DeviceTesterScreen(Screen):
 		print (instance.id)
 		print (value)
 	def testdevices(self):
+		# this function sends a dummy packet of data to the selected
+		# raspberry pi devices
 		print("working")
 		for x in xrange(0, len(ConnectDevicesScreen.applied_list)):
+			# for each connected device
 			if(self.deviceTestedValues[x]==True):
 				print("testing device")
+				# connect and send test data if the device is marked for testing
 				splitup = ConnectDevicesScreen.applied_list[x].split(' ')
 				addr = None
 				uuid = (splitup[1])
@@ -121,7 +131,7 @@ class DeviceTesterScreen(Screen):
 				print (uuid)
 				sock=BluetoothSocket( RFCOMM )
 				sock.connect((host, port))
-
+				# the dummy data packet to be sent
 				data = "turn on"
 
 				sock.send(data)
@@ -131,10 +141,11 @@ class DeviceTesterScreen(Screen):
 
 
 class ConnectDevicesScreen(Screen):
+	# this screen allows the user to scan for bluetooth enabled devices and to
+	# append the desired raspberry pis to the list of connected devices.
 
-	scan_list = []
-	applied_list =[]
-
+	scan_list = []	# the devices detected
+	applied_list =[]	# the devices connected
 
 	def on_enter(self):
 		try:
@@ -149,6 +160,7 @@ class ConnectDevicesScreen(Screen):
 				self.ids.scanlisting.add_widget(addedDevice)
 
 			for i in xrange(0,len(self.applied_list)):
+				# adds all of the connected devices to the display box in the screen
 				addedDevice = BoxLayout(size_hint_y=None,height='75sp',orientation='horizontal')
 
 				addedDevice.add_widget(Button(text=self.applied_list[i],font_size=10, on_press=self.disconnect_device))
@@ -164,11 +176,14 @@ class ConnectDevicesScreen(Screen):
 		try:
 
 			intended = None
-
+			# find bluetooth devices in range
 			services = bluetooth.find_service(address=intended)
 			if (len(services) == 0):
 				pass
 			for svc in services:
+				# loop through the list and only add
+				# configured raspberry pis to the list of valid scanned objects to
+				# be displayed to the user
 		   		testString = "" + ("Service Name: %s" % svc["name"])
 		   		if "musicPi" in testString:
 					testString = svc["name"] + " " + svc["service-id"]
@@ -184,6 +199,7 @@ class ConnectDevicesScreen(Screen):
 
 
 	def disconnect_all(self):
+		# this method clears out all of the connected devices in the list
 		try:
 
 			self.applied_list = []
@@ -196,7 +212,9 @@ class ConnectDevicesScreen(Screen):
 	#connect device when pressed
 	def connect_device(self,instance):
 		try:
+			# append selected device to connected list
 			self.applied_list.append(instance.text)
+			# remove from list of devices available for connection
 			for i in xrange(0,len(self.scan_list)):
 				if self.scan_list[i] == instance.text:
 					del self.scan_list[i]
@@ -261,7 +279,7 @@ class EditDeviceGroupsScreen(Screen):
 		except Exception:
 			print('Error in the create_group function!')
 
-## Save/Load
+## Save/Load functions for getting and saving device group configurations
 	def dismiss_popup(self):
 		self._popup.dismiss()
 
@@ -511,6 +529,11 @@ class GroupTemplateScreen(Screen):
 
 
 class EditGroupBehaviourScreen(Screen):
+	# this screen allows the slots and groups to be configured for running the
+	# art installation cycle once all devices are connected. 
+	# slots are units of time that apply the designated instructions for each group
+	# to that group while the slot is active. The next slot will automatically be executed after
+	# a set period of time
 	groupNumber = 0
 	slotNumber = 0
 	switchActive = 0
@@ -590,7 +613,7 @@ class EditGroupBehaviourScreen(Screen):
 		except Exception:
 			print('Error in the save_changes function!')
 
-	#need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
+	# TODO need to finish logic to detect position of switch and feed to four tuple. for now assume switch is active all the time
 	def switch_on(self, value):
 		if value is True:
 			print("Switch On")
