@@ -53,8 +53,8 @@ class RunScreen(Screen):
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
 
 
-		except Exception:
-			print('Error in the on_enter function!')
+		except IndexError:
+			print('No slots created!')
 	def test_send(self, groupnumber):
 		filename = str(groupnumber) + ".soundclout"
 		sequencefile = open(filename,'r')
@@ -233,19 +233,19 @@ class EditDeviceGroupsScreen(Screen):
 
 
 	def on_enter(self):
-
-		self.ids.glayout2.clear_widgets()
-		for i in xrange(0,len(self.manager.groupList)):
-			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-			addedButton=Button(text="Group: " + self.manager.groupList[i].name + " Settings",
-							   font_size=10,
-							   id=self.manager.groupList[i].name,
-							   on_release=self.press_btn
-							   )
-			addedGroup.add_widget(addedButton)
-			self.ids.glayout2.add_widget(addedGroup)
-
-
+		try:
+			self.ids.glayout2.clear_widgets()
+			for i in xrange(0,len(self.manager.groupList)):
+				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",
+								   font_size=20,
+								   id=self.manager.groupList[i].name,
+								   on_release=self.press_btn
+								   )
+				addedGroup.add_widget(addedButton)
+				self.ids.glayout2.add_widget(addedGroup)
+		except Exception:
+			print('Error in the on_enter function!')
 
 	#on press, send group id to group template and transition to template screen
 	def press_btn(self,instance):
@@ -468,6 +468,33 @@ class SelectGroupScreen(Screen):
 
 	#Adds all the widgets from the group list
 	def on_enter(self):
+		try:
+			#Refreshing Current Slot Number
+			self.ids.slotnumber.clear_widgets()
+			self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
+			self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
+
+			#Refreshing Groups
+			self.ids.glayout2.clear_widgets()
+			#Display no groups
+			if len(self.manager.groupList) == 0:
+				addedGroup = BoxLayout(size_hint_y=None,height='375sp',orientation='horizontal')
+				addedGroup.add_widget(Label(text="No Groups Found",font_size=25,color=(0,0,0,1)))
+				self.ids.glayout2.add_widget(addedGroup)
+
+			#Display Groups
+			for i in xrange(0,len(self.manager.groupList)):
+				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
+				addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
+				addedButton.bind(on_press=self.press_btn)
+				addedButton.bind(on_release=lambda x:self.nav_to_group())
+
+				addedGroup.add_widget(addedButton)
+				self.ids.glayout2.add_widget(addedGroup)
+			print(self.currentSlot)
+		except Exception:
+			print('Error in the on_enter function!')
 
 		self.ids.glayout2.clear_widgets()
 		for i in xrange(0,len(self.manager.groupList)):
@@ -528,10 +555,10 @@ class GroupTemplateScreen(Screen):
 			#self.ids.groupName.add_widget(Label(text="Name:",font_size=35))
 			#self.ids.groupName.add_widget(Label(text="Group " + str(self.currentGroupNo),font_size=35))
 			#NEEDS TO BE CHANGED TO DISPLAY ACTUAL GROUP DATA
-			#self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=10))
+			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=20))
 
-			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=15))
-			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=15))
+			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
+			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=20))
 
 			self.ids.devicelisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
