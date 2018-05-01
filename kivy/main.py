@@ -261,7 +261,7 @@ class EditDeviceGroupsScreen(Screen):
 		for i in xrange(0, len(self.manager.groupList)):
 			groupNameList.append(self.manager.groupList[i].name)
 
-		group = Group(self.checkName(self.manager.create_group_screen.ids.group_name.text,0,groupNameList), len(self.manager.groupList)+1, devList = [], groupParams = [])
+		group = Group(self.checkName(self.manager.create_group_screen.ids.group_name.text,0,groupNameList), len(self.manager.groupList)+1, devList = [], triggerList = [])
 		self.manager.groupList.append(group)
 		self.manager.group_template_screen.ids.groupNameLabel.text = group.name
 
@@ -601,11 +601,14 @@ class EditGroupBehaviourScreen(Screen):
 			addedGroup.add_widget(Label(text="Group " + str(self.manager.groupList[i].name),font_size=25,color=(0,0,0,1)))
 
 			button=Button(id=str(self.manager.groupList[i].index),text="Apply Trigger",size_hint_x=None,width=175)
-			button.bind(on_press=self.apply_trigger)
+			button.bind(on_press=self.add_trigger)
 
 			addedGroup.add_widget(button)
 
 			self.ids.triggerlisting.add_widget(addedGroup)
+
+
+
 			print addedGroup.id
 
 
@@ -674,23 +677,13 @@ class EditGroupBehaviourScreen(Screen):
 			print("Switch Off")
 
 	#apply trigger
-	def apply_trigger(self, instance):
-		try:
-			for i in xrange(0,len(self.triggerSetting)):
-				#remove self from if for strange error
-				if str(self.triggerSetting[i][0])==str(self.groupNumber) and str(self.triggerSetting[i][1])==str(instance.id):
-					#update trigger
-					self.triggerSetting[i][2]= str(self.manager.edit_group_behaviour_screen.ids.triggerpercentinput.text)
-					print 'update'
-					print self.triggerSetting
-					return
+	def add_trigger(self, instance):
+		groupName = instance.parent.children[1].text[6:]
 
-			#add new trigger
-			print 'new'
-			self.triggerSetting.append([str(self.groupNumber),str(instance.id),str(self.manager.edit_group_behaviour_screen.ids.triggerpercentinput.text)])
-			print self.triggerSetting
-		except Exception:
-			print('Error in the apply_trigger function!')
+		if  (0 <= float(self.ids.triggerpercentinput.text) <= 1):
+			trigger = (float(self.ids.triggerpercentinput.text), groupName)
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(groupName).triggerList.append(trigger)
+
 
 	def back_out(self):
 		pass
@@ -768,14 +761,18 @@ class Device():
 class Group():
 
 	#groupSettings = [groupNumber-starting at 1,slotNumber-starting at 1,switchActive,sliderValue]
-	def __init__(self,name,index, devList = [], groupParams = []):
+	def __init__(self,name,index, devList = [], triggerList = []):
 		self.name = name
 		self.devList = devList
-		self.groupSettings = groupParams
+		self.triggerList = triggerList
 		self.index = index
 		self.eventLength = 0
 		self.eventAmount = 0
 
+	def addDevice(aDevice):
+		self.devList.append(aDevice)
+	def addTrigger(aTrigger):
+		self.triggerList.append(aTrigger)
 
 	def signalGroup(self):
 		pass
