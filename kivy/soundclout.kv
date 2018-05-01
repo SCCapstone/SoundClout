@@ -957,13 +957,15 @@
 				Button:
 					text: 'Set Cycle Length'
 					font_size: 25
-					on_press: root.set_cycle_length()
+					on_press: root.manager.setTLlength( float(root.ids.cyclelength.text))
 
 				TextInput:
 					padding: 10
 					multiline:False
+					text: "1"
 					id: cyclelength
 					font_size: 25
+					on_text_validate: root.manager.setTLlength( float(self.text))
 
 <EditTimelineScreen>:
 	rows: 2
@@ -1052,19 +1054,7 @@
 							pos: self.pos
 							size: self.size
 
-				Label:
-					text: "Timeline Length:"
-					font_size: 20
 
-
-				TextInput:
-					size_hint_x: 0.15
-					spacing: 10
-					height: 50
-					multiline: False
-					id: TLlength
-					text: '1'
-					on_text_validate: root.manager.setTLlength( float(self.text))
 
 
 				#BoxLayout:
