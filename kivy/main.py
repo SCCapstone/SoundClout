@@ -263,7 +263,7 @@ class EditDeviceGroupsScreen(Screen):
 
 		group = Group(self.checkName(self.manager.create_group_screen.ids.group_name.text,0,groupNameList), len(self.manager.groupList)+1, devList = [], triggerList = [])
 		self.manager.groupList.append(group)
-		self.manager.group_template_screen.ids.groupNameLabel.text = group.name
+		#self.manager.group_template_screen.ids.groupNameLabel.text = group.name
 
 		for i in self.manager.slotList:
 			i.addGroup(group)
