@@ -468,33 +468,32 @@ class SelectGroupScreen(Screen):
 
 	#Adds all the widgets from the group list
 	def on_enter(self):
-		try:
-			#Refreshing Current Slot Number
-			self.ids.slotnumber.clear_widgets()
-			self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
-			self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
 
-			#Refreshing Groups
-			self.ids.glayout2.clear_widgets()
-			#Display no groups
-			if len(self.manager.groupList) == 0:
-				addedGroup = BoxLayout(size_hint_y=None,height='375sp',orientation='horizontal')
-				addedGroup.add_widget(Label(text="No Groups Found",font_size=25,color=(0,0,0,1)))
-				self.ids.glayout2.add_widget(addedGroup)
+		#Refreshing Current Slot Number
+		self.ids.slotnumber.clear_widgets()
+		self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
+		self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
 
-			#Display Groups
-			for i in xrange(0,len(self.manager.groupList)):
-				addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
-				addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
-				addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
-				addedButton.bind(on_press=self.press_btn)
-				addedButton.bind(on_release=lambda x:self.nav_to_group())
+		#Refreshing Groups
+		self.ids.glayout2.clear_widgets()
+		#Display no groups
+		if len(self.manager.groupList) == 0:
+			addedGroup = BoxLayout(size_hint_y=None,height='375sp',orientation='horizontal')
+			addedGroup.add_widget(Label(text="No Groups Found",font_size=25,color=(0,0,0,1)))
+			self.ids.glayout2.add_widget(addedGroup)
 
-				addedGroup.add_widget(addedButton)
-				self.ids.glayout2.add_widget(addedGroup)
-			print(self.currentSlot)
-		except Exception:
-			print('Error in the on_enter function!')
+		#Display Groups
+		for i in xrange(0,len(self.manager.groupList)):
+			addedGroup = BoxLayout(size_hint_y=None,height='120sp',orientation='horizontal')
+			addedButton=Button(text="Group " + str(self.manager.groupList[i].index) + ": " + self.manager.groupList[i].name + " Settings",font_size=25)
+			addedButton.bind(on_press=lambda x:self.group_modification(self.currentSlot))
+			addedButton.bind(on_press=self.press_btn)
+			addedButton.bind(on_release=lambda x:self.nav_to_group())
+
+			addedGroup.add_widget(addedButton)
+			self.ids.glayout2.add_widget(addedGroup)
+		print(self.currentSlot)
+
 
 		self.ids.glayout2.clear_widgets()
 		for i in xrange(0,len(self.manager.groupList)):
