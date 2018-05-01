@@ -22,6 +22,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle,InstructionGroup
 from kivy.uix.rst import RstDocument
+from kivy.clock import Clock
 from timelinereader import timelineReader
 import io
 import os, errno
@@ -43,7 +44,25 @@ class HomeScreen(Screen):
 				print('Invalid Value in skip_build_screen!')
 
 class RunScreen(Screen):
+	
+	#timer time(say it 10 times fast)
+	timerTimeSeconds = 0
+	timerTimeMinutes = 0
+	timerTimeHours = 0
+	timerTimeDays = 0
+
 	def on_enter(self):
+		
+		try:
+			#reset and call timer
+			self.timerTimeSeconds = 0
+			self.timerTimeMinutes = 0
+			self.timerTimeHours = 0
+			self.timerTimeDays = 0
+			self.timer()
+		except IndexError:
+			print('timer run error')
+
 		try:
 			grouplist=[]
 			#TODO get cyclelength from user
@@ -53,10 +72,9 @@ class RunScreen(Screen):
 				print("this is the number of slots "+ str(len(self.manager.edit_timeline_screen.ids.glayout3.children)))
 				self.test_send(x+1)
 			plot(cyclelength,len(self.manager.edit_timeline_screen.ids.glayout3.children),grouplist)
-
-
 		except IndexError:
 			print('No slots created!')
+
 	def test_send(self, groupnumber):
 		filename = str(groupnumber) + ".soundclout"
 		sequencefile = open(filename,'r')
@@ -79,6 +97,49 @@ class RunScreen(Screen):
 
 		sock.send(data)
 		sock.close()
+
+
+	#timer increment
+	def tick_tock(self, interval):
+		try:		
+			self.timerTimeSeconds += 1
+
+			#seconds reach 60
+			if self.timerTimeSeconds == 60:
+				self.timerTimeSeconds = 0
+				self.timerTimeMinutes += 1
+
+			#minutes reach 60
+			if self.timerTimeMinutes == 60:
+				self.timerTimeMinutes = 0
+				self.timerTimeHours += 1
+
+			#hours reach 24
+			if self.timerTimeHours == 24:
+				self.timerTimeHours = 0
+				self.timerTimeDays += 1
+
+			if self.timerTimeDays == 365:
+				self.timerTimeSeconds = 0
+				self.timerTimeMinutes = 0
+				self.timerTimeHours = 0
+				self.timerTimeDays = 0			
+
+			#Update GUI timer
+			self.ids.timer.clear_widgets()
+			self.ids.timer.add_widget(Label(size_hint_y=None,height=50,text='D:'+str(self.timerTimeDays)+' H:'+str(self.timerTimeHours)+' M:'+str(self.timerTimeMinutes)+' S:'+str(self.timerTimeSeconds),font_size=30))
+
+		except Exception:
+			print('Error in the tick_tock function!')
+
+	#runs timer on enter
+	def timer(self):
+		try:
+			Clock.unschedule(self.tick_tock)
+			Clock.schedule_interval(self.tick_tock, 1)
+		except Exception:
+			print('Error in the timer function!')
+
 
 class DeviceTesterScreen(Screen):
 	# this screen allows the bluetooth connected devices to be tested to verify the connection is secure
@@ -136,9 +197,6 @@ class DeviceTesterScreen(Screen):
 
 				sock.send(data)
 				sock.close()
-
-
-
 
 class ConnectDevicesScreen(Screen):
 	# this screen allows the user to scan for bluetooth enabled devices and to
@@ -233,7 +291,6 @@ class ConnectDevicesScreen(Screen):
 
 		self.manager.current = 'loading_screen'
 		self.manager.current = 'connect_devices_screen_4'
-
 
 class DeviceListButton(ListItemButton):
 	pass
@@ -354,16 +411,27 @@ class CreateGroupScreen(Screen):
 	pass
 
 class BuildTimelineScreen(Screen):
-	pass
+	
+	def set_cycle_length(self):
+		try:
+			EditGroupBehaviourScreen.cycleLength = self.manager.build_timeline_screen.ids.cyclelength.text
+		except Exception:
+			print('Error in the set_cycle_length function!')
+
 
 class EditTimelineScreen(Screen):
 
 	slots = []
-
 	skipBuild = 'build_timeline_screen_6'
 
 	def on_enter(self):
-		pass
+		try:
+			#Refreshing Current Slot Number
+			self.ids.cyclelengthnumber.clear_widgets()
+			self.ids.cyclelengthnumber.add_widget(Label(size_hint_y=None,height=50))
+			self.ids.cyclelengthnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=200,text='Cycle Length: ' + str(EditGroupBehaviourScreen.cycleLength),font_size=25))
+		except Exception:
+			print('Error in the on_enter function!')
 
 	#skips build option if already timeline is already built
 	def skip_build_screen(self,value):
@@ -548,6 +616,9 @@ class EditGroupBehaviourScreen(Screen):
 	#eventlength = length of events(int)
 	eventLength = 0
 
+	#cycleLength = length of events(int)
+	cycleLength = 0
+
 	def on_enter(self):
 		try:
 			self.ids.triggerlisting.clear_widgets()
@@ -642,7 +713,6 @@ class EditGroupBehaviourScreen(Screen):
 	def back_out(self):
 		pass
 
-
 class SaveDialogScreen(Screen):
 
 	save = ObjectProperty(None)
@@ -655,9 +725,6 @@ class LoadDialogScreen(Screen):
 	load = ObjectProperty(None)
 	cancel = ObjectProperty(None)
 	wd = os.getcwd()
-
-
-
 
 #manages screens
 class Manager(ScreenManager):
@@ -713,6 +780,7 @@ class Group():
 	def signalGroup(self):
 		pass
 		# TODO handle the event triggering
+
 class LoadingScreen(Screen):
 	def on_enter(self):
 		pass

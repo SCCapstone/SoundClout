@@ -435,9 +435,37 @@
 				Rectangle:
 					pos: self.pos
 					size: self.size
-			Label:
-				text: "Cycle Running"
-				font_size: 30
+
+			BoxLayout:
+				orientation: "horizontal"
+				size_hint_y: None
+				height: 50
+				canvas:
+					Color:
+						rgba: hex('#0099cc')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				Label:
+					text: "Cycle Running"
+					font_size: 30
+					size_y_hint: None		
+
+				BoxLayout:
+					id:timer
+			
+
+			BoxLayout:
+				size_hint_y: .5		
+				orientation: "horizontal"
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+				Image:
+					source: 'timeline.png'
 
 <DeviceTesterScreen>:
 	rows: 2
@@ -902,6 +930,30 @@
 				text: "Load Timeline"
 				font_size: 30
 
+			BoxLayout:
+				size_hint_y: None
+				height: 75
+				orientation: "horizontal"
+				spacing: 10
+				padding: 10
+				canvas:
+					Color:
+						rgba: hex('#ffffff')
+					Rectangle:
+						pos: self.pos
+						size: self.size
+
+				Button:
+					text: 'Set Cycle Length'
+					font_size: 25	
+					on_press: root.set_cycle_length()
+				
+				TextInput:
+					padding: 10
+					multiline:False
+					id: cyclelength
+					font_size: 25
+
 <EditTimelineScreen>:
 	rows: 2
 	spacing: 10
@@ -978,6 +1030,10 @@
 					text: 'Add Slot'
 					on_release: glayout3.add_widget(root.addSlot(),len(glayout3.children))
 					#on_release: self.text = "Pressed"
+
+				BoxLayout:
+					id: cyclelengthnumber
+					orientation: "horizontal"
 
 			#Groups holder
 			BoxLayout:
@@ -1098,12 +1154,6 @@
 
 				BoxLayout:
 					orientation: 'horizontal'
-					canvas:
-						Color:
-							rgba: hex('ffffff')
-						Rectangle:
-							pos: self.pos
-							size: self.size
 
 					BoxLayout:
 						canvas:
@@ -1493,6 +1543,7 @@
 			Button:
 				text: "Load"
 				on_release: root.load(filechooser.path, filechooser.selection)
+
 <LoadingScreen>:
 	rows: 2
 	spacing: 10
