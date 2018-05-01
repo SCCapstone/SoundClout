@@ -1067,9 +1067,9 @@
 					on_text_validate: root.manager.setTLlength( float(self.text))
 
 
-				BoxLayout:
-					id: cyclelengthnumber
-					orientation: "horizontal"
+				#BoxLayout:
+				#	id: cyclelengthnumber
+				#	orientation: "horizontal"
 
 			#Groups holder
 			BoxLayout:
@@ -1286,16 +1286,15 @@
 						text: 'Remove Slot'
 						on_release: root.manager.current = 'edit_timeline_screen_7'
 
-				BoxLayout:
-					id: slotnumber
-					orientation: "horizontal"
-					size_hint_y: 0.15
-					canvas:
-						Color:
-							rgba: hex('#0099cc')
-						Rectangle:
-							pos: self.pos
-							size: self.size
+#				BoxLayout:
+#					id: slotnumber
+#					orientation: "horizontal"
+#					size_hint_y: 0.15
+#						Color:
+#							rgba: hex('#0099cc')
+#						Rectangle:
+#							pos: self.pos
+#							size: self.size
 
 				BoxLayout:
 					orientation: "horizontal"
@@ -1309,7 +1308,7 @@
 				Label:
 					id: SlotName
 					text: "Slot"
-					font_size: 20
+					font_size: 0
 
 			#Groups holder
 			BoxLayout:
@@ -1421,6 +1420,7 @@
 					Label:
 						id: SlotName
 						text: "Slot"
+						font_size:0
 
 				BoxLayout:
 					size_hint_x: None
@@ -1493,21 +1493,6 @@
 							padding: 10
 							multiline:False
 							id:triggerpercentinput
-
-						Label:
-							text: 'Event length: '
-							font_size: 24
-
-						Slider:
-							min: 0
-							max: 100
-							value: 0
-							step: 1
-							id:eventLengthSlider
-
-						Label:
-							text: str(eventLengthSlider.value) + ' tenths of\n seconds'
-							font_size: 24
 
 					BoxLayout:
 						orientation: "vertical"

@@ -558,7 +558,7 @@ class GroupTemplateScreen(Screen):
 			self.ids.groupName.add_widget(Label(text=self.manager.create_group_screen.ids.group_name.text,font_size=20))
 
 			self.ids.devicesConnected.add_widget(Label(text="Status:",font_size=35))
-			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=20))
+			self.ids.devicesConnected.add_widget(Label(text=str(' Inactive'),font_size=35))
 
 			self.ids.devicelisting.clear_widgets()
 			for i in xrange(0,len(ConnectDevicesScreen().applied_list)):
@@ -767,14 +767,19 @@ class Manager(ScreenManager):
 	add_remove_device_info_screen = ObjectProperty()
 
 	def matchSlot(self, aName):
-		for i in xrange(0, len(self.slotList)):
-			if aName == self.slotList[i].name:
-				return self.slotList[i]
+		try:
+			for i in xrange(0, len(self.slotList)):
+				if aName == self.slotList[i].name:
+					return self.slotList[i]
+		except Exception:
+			print('Error in the matchSlot function!')
 
 	def makeTL(self):
-		TL = TLR(self.slotList, self.TLlength)
-		TL.makeTimeline()
-
+		try:
+			TL = TLR(self.slotList, self.TLlength)
+			TL.makeTimeline()
+		except Exception:
+			print('Error in the makeTL function!')
 
 
 	def update(self):
