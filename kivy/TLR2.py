@@ -7,10 +7,10 @@ from bitarray import bitarray
 import sys
 class TLR:
     def __init__(self,slotList, timelineLength):
-            self.slotList = slotList
+            self.slotList = slotList[:]
             #self.timelineLength = timelineLength #in hours
             if len(self.slotList) != 0:
-                print("Slot has at least 1 element")
+                #print("Slot has at least 1 element")
                 self.periodLength = int((timelineLength*36000)/len(self.slotList))
                 self.instructionStringLength = int(self.periodLength*len(slotList))
                 self.instructions = []

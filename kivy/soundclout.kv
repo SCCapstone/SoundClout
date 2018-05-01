@@ -963,6 +963,7 @@
 
 			BoxLayout:
 				orientation: "horizontal"
+				padding:10
 				size_hint_y: 0.15
 				canvas:
 					Color:
@@ -989,6 +990,30 @@
 					text: 'Add Slot'
 					on_release: glayout3.add_widget(root.addSlot2())
 					#on_release: self.text = "Pressed"
+				BoxLayout:
+					orientation: "horizontal"
+					size_hint_x: 1
+					canvas:
+						Color:
+							rgba: hex('#0099cc')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+
+				Label:
+					text: "Timeline Length:"
+					font_size: 20
+
+
+				TextInput:
+					size_hint_x: 0.15
+					spacing: 10
+					height: 50
+					multiline: False
+					id: TLlength
+					text: '1'
+					on_text_validate: root.manager.setTLlength( float(self.text))
+
 
 			#Groups holder
 			BoxLayout:
@@ -1198,8 +1223,22 @@
 					height: 50
 					width:100
 					text: 'Remove Slot'
+					on_release: root.removeSlot()
 					on_release: root.manager.current = 'edit_timeline_screen_7'
 
+				BoxLayout:
+					orientation: "horizontal"
+					size_hint_x: None
+					canvas:
+						Color:
+							rgba: hex('#0099cc')
+						Rectangle:
+							pos: self.pos
+							size: self.size
+				Label:
+					id: SlotName
+					text: "Slot"
+					font_size: 20
 
 			#Groups holder
 			BoxLayout:
