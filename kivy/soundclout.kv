@@ -336,6 +336,10 @@
 			background_normal: 'icons/home.png'
 			size_hint_x: None
 			width:50
+		Button:
+			text: "Test TL"
+			on_press: root.manager.makeTL()
+			size_hint_x: None
 
 	BoxLayout:
 		size_hint_y: None
@@ -1386,13 +1390,13 @@
 
 						Slider:
 							min: 0
-							max: 10
+							max: 100
 							value: 0
 							step: 1
 							id:eventLengthSlider
 
 						Label:
-							text: str(eventLengthSlider.value) + ' minutes'
+							text: str(eventLengthSlider.value) + ' tenths of\n seconds'
 							font_size: 24
 
 					BoxLayout:

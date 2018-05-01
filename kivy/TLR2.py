@@ -4,21 +4,26 @@ import io
 from random import randint
 from bitarray import bitarray
 import sys
-class timelineReader:
-    def __init__(self,slotList, timelineLength, eventLength):
+class TLR:
+    def __init__(self,slotList, timelineLength):
             self.slotList = slotList
-            self.eventLength = eventLength
             #self.timelineLength = timelineLength #in hours
-            if len(slotList) is not 0:
-                self.periodLength = int((timelineLength*36000)/len(slotList))
+            if len(self.slotList) != 0:
+                print("Slot has at least 1 element")
+                self.periodLength = int((timelineLength*36000)/len(self.slotList))
+                self.instructionStringLength = int(self.periodLength*len(slotList))
+                self.instructions = []
+                for i in xrange(len(self.slotList[0].groupList)):
+                    tmpinstructions = bitarray(self.instructionStringLength)
+                    tmpinstructions.setall(False)
+                    self.instructions.append(tmpinstructions)
             else:
                 self.periodLength = 0
-            self.instructionStringLength = int(self.periodLength*len(slotList))
-            self.instructions = []
-            for i in xrange(len(self.slotList[0].groupList)
-                tmpinstructions = bitarray(self.instructionStringLength)
-                tmpinstructions.setall(False)
-                self.instructions.append(tmpinstructions)
+
+
+
+
+
 
 
     def makeTimeline(self):
@@ -32,13 +37,16 @@ class timelineReader:
         # print(instructions)
         #
         # print(instructions.to01())
-        for i in xrange(self.slotList):
-            for j in xrange(self.slotList[i].groupList):
-                b = binarySequence(periodLength,self.slotList[i].groupList[j].eventLength, self.slotList[i].groupList[j].eventAmount)
+        print("Period Length" + str(self.periodLength))
+        for i in xrange(len(self.slotList)):
+            for j in xrange(len(self.slotList[i].groupList)):
+                b = binarySequence(self.periodLength,self.slotList[i].groupList[j].eventLength, self.slotList[i].groupList[j].eventAmount)
+                print("# of events" + str(self.slotList[i].groupList[j].eventAmount))
                 index = 0
                 start = self.periodLength*j
-                self.instructions[j][start:start+self.periodLength] = b.makeBinString()
+                self.instructions[j][start:start+self.periodLength] = bitarray(b.makeBinString())
 
+        print(self.instructions[0])
 
 
 
@@ -100,14 +108,9 @@ class binarySequence:
                     randString[eventPosition+y] = '1'
                 else:
                     break
-        return randString
+        return ''.join(randString)
 
 
 
 
 #TODO create reroll function. Have it be choice 0 or 1 but weighted
-
-
-#testing
-j = timelineReader([1],10)
-j.makeTimeline()

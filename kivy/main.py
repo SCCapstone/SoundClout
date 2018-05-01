@@ -19,6 +19,7 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle,InstructionGroup
 from kivy.uix.rst import RstDocument
 from timelinereader import timelineReader
+from TLR2 import TLR
 import io
 import os, errno
 from plot import *
@@ -249,7 +250,7 @@ class EditDeviceGroupsScreen(Screen):
 	def press_btn(self,instance):
 		try:
 			self.manager.group_template_screen.ids.groupNameLabel.text = instance.text[7:-9]
-			print(GroupTemplateScreen.currentGroupNo)
+			#print(GroupTemplateScreen.currentGroupNo)
 			self.manager.current = 'group_template_screen_11'
 		except Exception:
 			print('Error in the press_btn function!')
@@ -429,12 +430,13 @@ class EditTimelineScreen(Screen):
 		name = "Slot "
 		addedButton = Button(text = self.checkName(name, 0, slotNameList), font_size = 20, size_hint_x = None, width = '200sp')
 		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
-		print("Slot Number Updated 2")
+		#print("Slot Number Updated 2")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 		addedButton.bind(on_release=lambda x: self.manager.edit_group_behaviour_screen.setSlotName(addedButton.text))
 		newSlot = Slot(self.checkName(name, 0, slotNameList))
 		newSlot.addGroupList(self.manager.groupList[:])
 		self.manager.slotList.append(newSlot)
+		print("slotLost length" + str(len(self.manager.slotList)))
 		return addedButton
 ###################################################
 
@@ -654,7 +656,7 @@ class EditGroupBehaviourScreen(Screen):
 			print('Error in the save_changes function!')
 
 	def save_changes2(self):
-		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventLength = self.ids.eventLengthSlider.value
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventLength = int(self.ids.eventLengthSlider.value)
 		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventAmount = int(self.ids.eventAmountSlider.value)
 
 
@@ -736,8 +738,12 @@ class Manager(ScreenManager):
 	def matchSlot(self, aName):
 		for i in xrange(0, len(self.slotList)):
 			if aName == self.slotList[i].name:
-				print( self.slotList[i].name)
 				return self.slotList[i]
+
+	def makeTL(self):
+		TL = TLR(self.slotList, 0.2)
+		TL.makeTimeline()
+
 
 
 	def update(self):
@@ -788,7 +794,6 @@ class Slot():
 
 		for i in xrange(0, len(self.groupList)):
 			if aName == self.groupList[i].name:
-				print (self.groupList[i].name)
 				return self.groupList[i]
 
 
