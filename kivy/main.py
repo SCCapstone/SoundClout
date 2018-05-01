@@ -429,7 +429,7 @@ class EditTimelineScreen(Screen):
 
 		name = "Slot "
 		addedButton = Button(text = self.checkName(name, 0, slotNameList), font_size = 20, size_hint_x = None, width = '200sp')
-		addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
+		#addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
 		#print("Slot Number Updated 2")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
 		addedButton.bind(on_release=lambda x: self.manager.edit_group_behaviour_screen.setSlotName(addedButton.text))
@@ -734,7 +734,7 @@ class Manager(ScreenManager):
 				return self.slotList[i]
 
 	def makeTL(self):
-		TL = TLR(self.slotList, 0.2)
+		TL = TLR(self.slotList, 0.01)
 		TL.makeTimeline()
 
 
@@ -785,7 +785,7 @@ class Slot():
 	def addGroup(self, aGroup):
 		self.groupList.append(aGroup)
 	def addGroupList(self, aGroupList):
-		self.groupList = aGroupList
+		self.groupList = aGroupList[:]
 
 	def matchGroup(self, aName):
 

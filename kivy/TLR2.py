@@ -27,66 +27,57 @@ class TLR:
 
 
     def makeTimeline(self):
-        # s = '00101011'
-        # instructions = bitarray(s)
-        #
-        #
-        # print(instructions)
-        #
-        # instructions.setall(False)
-        # print(instructions)
-        #
-        # print(instructions.to01())
+
         print("Period Length" + str(self.periodLength))
         for i in xrange(len(self.slotList)):
+            print(self.slotList[i].name)
             for j in xrange(len(self.slotList[i].groupList)):
                 b = binarySequence(self.periodLength,self.slotList[i].groupList[j].eventLength, self.slotList[i].groupList[j].eventAmount)
                 print("# of events" + str(self.slotList[i].groupList[j].eventAmount))
                 index = 0
-                start = self.periodLength*j
+                start = self.periodLength*i
                 self.instructions[j][start:start+self.periodLength] = bitarray(b.makeBinString())
+                print(self.instructions[j])
+        self.apply_triggers()
+        #print(self.instructions[0])
 
-        print(self.instructions[0])
+    def apply_triggers(self):
+
+        for i in xrange(len(self.slotList)):
+            for j in xrange(len(self.slotList[i].groupList)):
+                start=self.periodLength*i
+                L = self.slotList[i].groupList[j].triggerList
+                for k in xrange(len(L)):
+                    index2 = self.matchGroupIndex(L[k][1])
+                    print(self.instructions[j])
+                    print(" Before trigger function")
+
+                    print(self.instructions[j][start:start+self.periodLength])
+                    self.trigger(L[k][0], self.instructions[j][start:start+self.periodLength], self.instructions[index2][start:start+self.periodLength])
+                    print(self.matchGroupIndex(L[k][1]))
+
+    def matchGroupIndex(self, aName):
+
+		for i in xrange(0, len(self.slotList[0].groupList)):
+			if aName == self.slotList[0].groupList[i].name:
+				return i
+
+
+    def trigger(self, chance, bArr1, bArr2):
+        print (chance)
+        print (bArr1)
+        print (bArr2)
+
+        for i in xrange(len(bArr1)):
+            if bArr1[i] == 1:
+                bArr2[i] = reroll(chance)
+
+                print(bArr2)
 
 
 
 
 
-
-    def MonthGroupBehavior(self):
-        #1 bit is 1/10th of a second
-        cycleLengthBits = self.cyclelength*36000 #converts cyclelength to bits and is calculated if cyclelength is given in hours
-        monthLength = int(cycleLengthBits/self.numberofslots)
-        eventLengthBits = int(self.eventLength*600)
-        print(eventLengthBits) #converts event length to bits and is calculated if eventlength is given in minutes
-        marker = self.settingsList[2] #switch active
-        numEvents = self.settingsList[3]
-        binaryString = '';
-        if marker==True:
-            p=binarySequence(monthLength,eventLengthBits,numEvents)
-            a = p.makeBinString()
-            open(self.groupname+".soundclout",'a').close()
-            file = open(self.groupname +".soundclout", "r+b")
-            #print((self.settingsList[1]-1)*monthLength)
-            file.seek((self.settingsList[1]-1)*monthLength)
-            file.write(''.join(a))
-            binaryString = ''.join(a)
-            #print("addding : " + binaryString)
-
-            file.close
-        if marker==False:
-            p=binarySequence(monthLength,eventLengthBits,0)
-            b = p.makeBinString()
-            open(self.groupname+".soundclout",'a').close()
-            file = open(self.groupname +".soundclout", "r+b")
-            print((self.settingsList[1]-1)*monthLength)
-            file.seek((self.settingsList[1]-1)*monthLength)
-            file.write(''.join(b))
-            binaryString = ''.join(b)
-            #print("addding : " + binaryString)
-
-            file.close
-        return binaryString
 
 class binarySequence:
     def __init__(self, timeLength, eventLength, eventAmount):
