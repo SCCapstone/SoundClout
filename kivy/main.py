@@ -698,7 +698,7 @@ class EditGroupBehaviourScreen(Screen):
 			print('Error in the save_changes function!')
 
 	def save_changes2(self):
-		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventLength = int(self.ids.eventLengthSlider.value)
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventLength = int(self.ids.eventlengthinput.value)
 		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).eventAmount = int(self.ids.eventAmountSlider.value)
 
 
