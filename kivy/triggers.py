@@ -21,8 +21,8 @@ class Trigger:
         for x in xrange(0,a):
             if tmp2[x] == "1":
                 newtemp[x]=str(reroll(self.percentage))
-        open(self.effectedgroup+".soundclout",'a').close()
-        file = open(self.effectedgroup+".soundclout", "r+b")
+        open(self.effectedgroup+"stuff.txt",'a').close()
+        file = open(+"stuff.txt", "r+b")
         file.seek((self.effectedslot-1)*monthLength)
         b=''.join(newtemp)
         file.write(''.join(b))

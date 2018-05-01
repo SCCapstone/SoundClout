@@ -2,6 +2,7 @@
 #if loop finds a 1 then devices randomly goes off in that time. need to translate
 import io
 from random import randint
+from reroll import reroll
 from bitarray import bitarray
 import sys
 class TLR:
@@ -39,22 +40,32 @@ class TLR:
                 self.instructions[j][start:start+self.periodLength] = bitarray(b.makeBinString())
                 print(self.instructions[j])
         self.apply_triggers()
+        self.writeToFile()
         #print(self.instructions[0])
 
     def apply_triggers(self):
+        print("Test1")
+        print(self.instructions[0])
 
         for i in xrange(len(self.slotList)):
             for j in xrange(len(self.slotList[i].groupList)):
                 start=self.periodLength*i
+
+
+
                 L = self.slotList[i].groupList[j].triggerList
                 for k in xrange(len(L)):
                     index2 = self.matchGroupIndex(L[k][1])
+
                     print(self.instructions[j])
+
+                    print(self.instructions[0])
                     print(" Before trigger function")
 
                     print(self.instructions[j][start:start+self.periodLength])
-                    self.trigger(L[k][0], self.instructions[j][start:start+self.periodLength], self.instructions[index2][start:start+self.periodLength])
-                    print(self.matchGroupIndex(L[k][1]))
+                    self.instructions[index2][start:start+self.periodLength] = self.trigger(L[k][0], self.instructions[j][start:start+self.periodLength], self.instructions[index2][start:start+self.periodLength])
+
+
 
     def matchGroupIndex(self, aName):
 
@@ -70,10 +81,18 @@ class TLR:
 
         for i in xrange(len(bArr1)):
             if bArr1[i] == 1:
-                bArr2[i] = reroll(chance)
+                bArr2[i] = reroll(int(chance*100))
 
                 print(bArr2)
+        return(bArr2)
 
+    def writeToFile(self):
+        file = open("save1.txt", "w+")
+        file.truncate()
+        print(len(self.instructions))
+        for i in xrange(len(self.instructions)):
+            file.write(self.instructions[i].to01() + '\n')
+        file.close()
 
 
 

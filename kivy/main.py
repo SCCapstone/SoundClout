@@ -612,6 +612,15 @@ class EditGroupBehaviourScreen(Screen):
 			print addedGroup.id
 
 
+	def add_trigger(self, instance):
+		groupName = instance.parent.children[1].text[6:]
+
+		if  (0 <= float(self.ids.triggerpercentinput.text) <= 1):
+			trigger = (float(self.ids.triggerpercentinput.text), groupName)
+
+		print("." + self.ids.GroupName.text + ".")
+		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).triggerList.append(trigger)
+
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
 	def add_settings(self):
 		try:
@@ -677,12 +686,7 @@ class EditGroupBehaviourScreen(Screen):
 			print("Switch Off")
 
 	#apply trigger
-	def add_trigger(self, instance):
-		groupName = instance.parent.children[1].text[6:]
 
-		if  (0 <= float(self.ids.triggerpercentinput.text) <= 1):
-			trigger = (float(self.ids.triggerpercentinput.text), groupName)
-		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(groupName).triggerList.append(trigger)
 
 
 	def back_out(self):
