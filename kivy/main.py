@@ -21,7 +21,6 @@ from kivy.uix.rst import RstDocument
 from timelinereader import timelineReader
 from TLR2 import TLR
 import io
-import copy
 import os, errno
 from plot import *
 import sys
@@ -305,12 +304,12 @@ class EditDeviceGroupsScreen(Screen):
 			print('Error in the show_save function!')
 
 	def save(self, path, filename):
-
-		with open(os.path.join(path, filename), 'w') as stream:
-			stream.write(self.RecordConfiguration())
-		self.dismiss_popup()
-
-		print('Error in the save function!')
+		try:
+			with open(os.path.join(path, filename), 'w') as stream:
+				stream.write(self.RecordConfiguration())
+			self.dismiss_popup()
+		except Exception:
+			print('Error in the save function!')
 
 	def show_load(self):
 		try:
@@ -333,22 +332,22 @@ class EditDeviceGroupsScreen(Screen):
 
 	#concatenates all groups in ScreenManager.groupList onto a string
 	def RecordConfiguration(self):
-
-		s = ""
-		for i in range(len(self.manager.groupList)):
-			s = s + self.manager.groupList[i].name
-			s = s + '\n'
-			for j in range(len(self.manager.groupList[i].devList)):
-				s = s + self.manager.groupList[i].devList[j].n + ', '
-				s = s + self.manager.groupList[i].devList[j].num + ', '
-				s = s + self.manager.groupList[i].devList[j].p + ', '
-			s = s + '\n'
-			for j in range(len(self.manager.groupList[i].groupSettings)):
-				s = s + self.manager.groupList[i].groupSettings[j] + ', '
-			s = s + '\n'
-		return s
-
-
+		try:
+			s = ""
+			for i in range(len(self.manager.groupList)):
+				s = s + self.manager.groupList[i].name
+				s = s + '\n'
+				for j in range(len(self.manager.groupList[i].devList)):
+					s = s + self.manager.groupList[i].devList[j].n + ', '
+					s = s + self.manager.groupList[i].devList[j].num + ', '
+					s = s + self.manager.groupList[i].devList[j].p + ', '
+				s = s + '\n'
+				for j in range(len(self.manager.groupList[i].groupSettings)):
+					s = s + self.manager.groupList[i].groupSettings[j] + ', '
+				s = s + '\n'
+			return s
+		except Exception:
+			print('Error in the RecordConfiguration function!')
 
 	def LoadConfiguration(self):
 		try:
@@ -376,7 +375,6 @@ class EditTimelineScreen(Screen):
 	skipBuild = 'build_timeline_screen_6'
 
 	def on_enter(self):
-
 		pass
 
 	#skips build option if already timeline is already built
@@ -434,11 +432,11 @@ class EditTimelineScreen(Screen):
 		#addedButton.bind(on_press=lambda x: self.manager.select_group_screen.setSlot(self.findIndexOfSlot(addedButton)+1))
 		#print("Slot Number Updated 2")
 		addedButton.bind(on_release=lambda x: self.goToSelectGroupScreen() )
-		addedButton.bind(on_release=lambda x: self.manager.select_group_screen.setSlotName(addedButton.text))
 		addedButton.bind(on_release=lambda x: self.manager.edit_group_behaviour_screen.setSlotName(addedButton.text))
 		newSlot = Slot(self.checkName(name, 0, slotNameList))
-		newSlot.addGroupList(copy.deepcopy(self.manager.groupList))
+		newSlot.addGroupList(self.manager.groupList[:])
 		self.manager.slotList.append(newSlot)
+		print("slotLost length" + str(len(self.manager.slotList)))
 		return addedButton
 ###################################################
 
@@ -470,9 +468,9 @@ class SelectGroupScreen(Screen):
 	def on_enter(self):
 
 		#Refreshing Current Slot Number
-		self.ids.slotnumber.clear_widgets()
-		self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
-		self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
+	#	self.ids.slotnumber.clear_widgets()
+	#	self.ids.slotnumber.add_widget(Label(size_hint_y=None,height=50))
+	#	self.ids.slotnumber.add_widget(Label(size_hint_x=None,size_hint_y=None,height=50,width=100,text='Slot ' + str(self.currentSlot),font_size=25))
 
 		#Refreshing Groups
 		self.ids.glayout2.clear_widgets()
@@ -511,16 +509,14 @@ class SelectGroupScreen(Screen):
 
 			addedGroup.add_widget(addedButton)
 			self.ids.glayout2.add_widget(addedGroup)
-
+		print(self.currentSlot)
 
 	def setGroup(self, instance):
 		self.manager.edit_group_behaviour_screen.setGroupName(instance.text[9:-9])
 
-	def setSlotName(self, name):
-		self.ids.SlotName.text = name
-
-	def removeSlot(self):
-		pass
+	def setSlot(self, value):
+		print(value)
+		self.currentSlot = value
 
 	def nav_to_group(self):
 		self.manager.current = 'edit_group_behaviour_screen_9'
@@ -648,6 +644,7 @@ class EditGroupBehaviourScreen(Screen):
 		if  (0 <= float(self.ids.triggerpercentinput.text) <= 1):
 			trigger = (float(self.ids.triggerpercentinput.text), groupName)
 
+		print("." + self.ids.GroupName.text + ".")
 		self.manager.matchSlot(self.ids.SlotName.text).matchGroup(self.ids.GroupName.text).triggerList.append(trigger)
 
 	#adds the four tuple to EditGroupBehaviourScreen.groupSettings list if it isnt present. it it already exist return with no change
@@ -743,10 +740,7 @@ class Manager(ScreenManager):
 	#list of current groups
 	groupList = []
 	slotList = []
-	TLlength = 0.02
-
-	def setTLlength(self, afloat):
-		self.TLlength = afloat
+	TLlength = 1
 
 	home_screen = ObjectProperty()
 	run_screen = ObjectProperty()
@@ -774,11 +768,12 @@ class Manager(ScreenManager):
 			print('Error in the matchSlot function!')
 
 	def makeTL(self):
-		try:
-			TL = TLR(self.slotList, self.TLlength)
-			TL.makeTimeline()
-		except Exception:
-			print('Error in the makeTL function!')
+		TL = TLR(self.slotList, self.TLlength)
+		TL.makeTimeline()
+
+	def setTLlength(self, afloat):
+		self.TLlength = afloat
+
 
 
 	def update(self):
